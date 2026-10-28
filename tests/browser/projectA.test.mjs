@@ -11,6 +11,7 @@ const pages = new Map([
     ['/no-je.html', buildPage({ je: false })],
     ['/signed-out.html', buildPage({ userId: null })],
     ['/je-late.html', buildPage({ jeLate: true })],
+    ['/router.html', buildPage({ router: true })],
     // Counts watchers registered by projectA.js itself (stack-attributed), to prove one set.
     ['/twice.html', buildPage({ injectTwice: 2, extra: `
         window.__ours = { listeners: 0, observers: 0 };
@@ -241,5 +242,46 @@ test('the script exposes nothing but a frozen version/problems object', async ()
         version: window.ProjectA.version,
     }));
     assert.deepEqual(r, { keys: ['problems', 'version'], frozen: true, version: '0.1.0.0-test' });
+    await page.close();
+});
+
+// Regression: on a live Jellyfin 12.4 server, Jellyfin's "Page not found" showed on top of
+// ours, because the button changed location.hash (which the router reacts to) and because the
+// router renders its not-found page for #/social on a direct visit. The router stub in
+// harness.mjs behaves the same way.
+const visiblePages = (page) => page.evaluate(() =>
+    [...document.querySelectorAll('.mainAnimatedPage')].filter((p) => !p.classList.contains('hide')).map((p) => p.id));
+
+test('Jellyfin router: the button opens our page without the router reacting', async () => {
+    const { page } = await open(browser, `${server.url}/router.html`);
+    await page.click('#projectA-feed-button');
+    await settle(page, 300);
+    assert.equal(await page.evaluate(() => location.hash), '#/social');
+    assert.equal(await page.evaluate(() => window.__routerRenders), 0, 'navigated without a hash change the router sees');
+    assert.deepEqual(await visiblePages(page), ['projectA-social-page']);
+    await page.close();
+});
+
+test('Jellyfin router: a direct visit to #/social shows only our page, not "Page not found"', async () => {
+    const { page } = await open(browser, `${server.url}/router.html#/social`);
+    await settle(page, 400);
+    assert.deepEqual(await visiblePages(page), ['projectA-social-page']);
+    await page.close();
+});
+
+test('Jellyfin router: typing #/social after load shows only our page', async () => {
+    const { page } = await open(browser, `${server.url}/router.html`);
+    await page.evaluate(() => { location.hash = '#/social'; });
+    await settle(page, 400);
+    assert.deepEqual(await visiblePages(page), ['projectA-social-page']);
+    await page.close();
+});
+
+test('Jellyfin router: leaving restores Jellyfin\'s page and leaves nothing we hid hidden', async () => {
+    const { page } = await open(browser, `${server.url}/router.html#/social`);
+    await settle(page, 400);
+    await page.evaluate(() => { location.hash = '#/home'; });
+    await settle(page, 600);
+    assert.deepEqual(await visiblePages(page), ['indexPage']);
     await page.close();
 });

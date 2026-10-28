@@ -73,7 +73,38 @@ const jeFeatures = (nativeHtml) => `
  * @param {number} [o.injectTwice=0] extra copies of Project A's script tag
  * @param {string} [o.extra=''] extra script run before Project A loads
  */
-export function buildPage({ je = true, userId = 'user-1', jeLate = false, injectTwice = 0, extra = '' } = {}) {
+// Behaves like Jellyfin 12's router as seen on a live 12.4 server: it reacts to hash changes
+// (not to pushState) and renders its own "Page not found" page for routes it doesn't know,
+// such as #/social. Known routes here: #/home (and empty).
+const routerStub = `
+(function () {
+  const pages = document.querySelector('.mainAnimatedPages');
+  function render() {
+    const known = location.hash === '' || location.hash === '#/home' || location.hash === '#/';
+    const home = document.getElementById('indexPage');
+    let notFound = document.getElementById('notFoundPage');
+    if (known) {
+      if (notFound) notFound.remove();
+      home.classList.remove('hide');
+    } else {
+      home.classList.add('hide');
+      if (!notFound) {
+        notFound = document.createElement('div');
+        notFound.id = 'notFoundPage';
+        notFound.className = 'page mainAnimatedPage';
+        notFound.innerHTML = '<h1>Page not found</h1>';
+        // The real router renders asynchronously, after hash listeners have run.
+        setTimeout(() => pages.appendChild(notFound), 30);
+      }
+    }
+  }
+  window.addEventListener('hashchange', render);
+  window.__routerRenders = 0;
+  window.addEventListener('hashchange', () => window.__routerRenders++);
+  render();
+})();`;
+
+export function buildPage({ je = true, userId = 'user-1', jeLate = false, injectTwice = 0, extra = '', router = false } = {}) {
     const jeBlock = `<script>${jeStubs}</script><script>${files.jeHeaderActions}</script><script>${jeFeatures(files.jeNative)}</script>`;
     const ours = '<script src="/client/projectA.js" version="0.1.0.0-test" defer></script>';
     return `<!doctype html>
@@ -84,6 +115,7 @@ ${files.header}
 <div class="mainAnimatedPages skinBody">
   <div id="indexPage" class="page homePage libraryPage mainAnimatedPage"><h2 class="sectionTitle">Home</h2></div>
 </div>
+${router ? `<script>${routerStub}</script>` : ''}
 <script>
 window.__user = ${JSON.stringify(userId)};
 window.ApiClient = { getCurrentUserId: () => window.__user };

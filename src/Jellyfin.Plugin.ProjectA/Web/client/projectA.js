@@ -121,11 +121,12 @@
         button.appendChild(icon);
 
         button.addEventListener('click', function () {
-            if (window.location.hash !== ROUTE) {
-                window.location.hash = ROUTE;
-            } else {
-                showPage();
+            // pushState, not location.hash: Jellyfin's router reacts to hash changes and would
+            // render its own "Page not found" for #/social on top of ours.
+            if (!isOurRoute()) {
+                history.pushState({ projectA: true }, '', ROUTE);
             }
+            showPage();
         });
         return button;
     }
@@ -229,6 +230,22 @@
         document.title = LABEL;
     }
 
+    /**
+     * While our route is showing, hide any other page that becomes visible. On a direct
+     * visit (bookmark, refresh, pasted link) Jellyfin's router renders its "Page not found"
+     * page for #/social shortly after we show ours; this keeps it hidden. Only runs for our
+     * route, so the router's next page after leaving is never touched.
+     */
+    function keepOtherPagesHidden() {
+        if (!state.pageVisible || !isOurRoute()) {
+            return;
+        }
+        const others = document.querySelectorAll('.mainAnimatedPage:not(.hide):not(#' + PAGE_ID + ')');
+        for (let i = 0; i < others.length; i++) {
+            others[i].classList.add('hide');
+        }
+    }
+
     function hidePage() {
         if (!state.pageVisible) {
             return;
@@ -308,6 +325,7 @@
             } else if (isOurRoute() && !state.pageVisible) {
                 showPage();
             }
+            keepOtherPagesHidden();
         } catch (e) {
             reportProblem('tick', e);
         }
