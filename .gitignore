@@ -1,0 +1,30 @@
+# Build output
+bin/
+obj/
+artifacts/
+dist/
+*.zip
+
+# IDEs and OS
+.vs/
+.vscode/
+.idea/
+*.user
+.DS_Store
+Thumbs.db
+
+# Node tooling
+node_modules/
+
+# Never commit secrets or server-specific data.
+# Local settings for verify scripts (server URL, test tokens, API keys) live here:
+.env
+.env.*
+*.local.*
+verify.local.*
+secrets/
+# Header markup captured from the live server (may contain user ids):
+captures/
+*.db
+*.db-wal
+*.db-shm
