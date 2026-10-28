@@ -1,5 +1,5 @@
 {
-  "passed": 60,
+  "passed": 100,
   "failed": 0,
   "results": [
     {
@@ -299,6 +299,206 @@
     },
     {
       "check": "posts: author is the caller",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "posts: response fields are PascalCase as the page expects",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "posts: another user sees it in the feed",
+      "ok": true,
+      "detail": "200 [1]"
+    },
+    {
+      "check": "posts: another user can't delete it (CanDelete false)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "posts: another user's delete is refused (403)",
+      "ok": true,
+      "detail": "403"
+    },
+    {
+      "check": "posts: still there after the refused delete; admin may delete (CanDelete true)",
+      "ok": true,
+      "detail": "[1]"
+    },
+    {
+      "check": "posts: control characters refused (400 body_invalid)",
+      "ok": true,
+      "detail": "400 {'error': 'body_invalid'}"
+    },
+    {
+      "check": "posts: empty body refused (400 body_required)",
+      "ok": true,
+      "detail": "400 {'error': 'body_required'}"
+    },
+    {
+      "check": "posts: 4,001 characters refused (400 body_too_long)",
+      "ok": true,
+      "detail": "400 {'error': 'body_too_long'}"
+    },
+    {
+      "check": "posts: non-JSON body refused (415)",
+      "ok": true,
+      "detail": "415"
+    },
+    {
+      "check": "posts: oversized request refused (413)",
+      "ok": true,
+      "detail": "413"
+    },
+    {
+      "check": "posts: malformed JSON refused (400)",
+      "ok": true,
+      "detail": "400"
+    },
+    {
+      "check": "posts: bad paging refused (400): /Social/Feed?limit=0",
+      "ok": true,
+      "detail": "400"
+    },
+    {
+      "check": "posts: bad paging refused (400): /Social/Feed?limit=51",
+      "ok": true,
+      "detail": "400"
+    },
+    {
+      "check": "posts: bad paging refused (400): /Social/Feed?before=-1",
+      "ok": true,
+      "detail": "400"
+    },
+    {
+      "check": "posts: bad paging refused (400): /Social/Feed?before=abc",
+      "ok": true,
+      "detail": "400"
+    },
+    {
+      "check": "posts: bad paging refused (400): /Social/Feed?limit=1e9",
+      "ok": true,
+      "detail": "400"
+    },
+    {
+      "check": "posts: none of the refused requests stored anything",
+      "ok": true,
+      "detail": "[1]"
+    },
+    {
+      "check": "posts: ci-alice not hidden, ci-hidden hidden (policy set)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "posts: hidden and soon-disabled users can post",
+      "ok": true,
+      "detail": "201 201"
+    },
+    {
+      "check": "posts: ci-carol disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "posts: setting off (default): login-screen-hidden authors show, disabled ones don't",
+      "ok": true,
+      "detail": "[2, 1]"
+    },
+    {
+      "check": "posts: admins see everyone, disabled authors included",
+      "ok": true,
+      "detail": "[3, 2, 1]"
+    },
+    {
+      "check": "posts: 'hide posts by hidden users' setting saved",
+      "ok": true,
+      "detail": "204"
+    },
+    {
+      "check": "posts: setting on: hidden authors left out for ordinary users",
+      "ok": true,
+      "detail": "[1]"
+    },
+    {
+      "check": "posts: setting on: a hidden author still sees their own post",
+      "ok": true,
+      "detail": "[2, 1]"
+    },
+    {
+      "check": "posts: setting on: admins still see everyone",
+      "ok": true,
+      "detail": "[3, 2, 1]"
+    },
+    {
+      "check": "posts: paging with NextBefore returns the next page without repeats",
+      "ok": true,
+      "detail": "[3, 2] [1] None"
+    },
+    {
+      "check": "posts: an admin can delete anyone's post (204)",
+      "ok": true,
+      "detail": "204"
+    },
+    {
+      "check": "posts: the author can delete their own post (204)",
+      "ok": true,
+      "detail": "204"
+    },
+    {
+      "check": "posts: deleting it again is 404",
+      "ok": true,
+      "detail": "404"
+    },
+    {
+      "check": "posts: deleted posts leave the feed",
+      "ok": true,
+      "detail": "[2, 1]"
+    },
+    {
+      "check": "posts: 10 posts a minute allowed",
+      "ok": true,
+      "detail": "[201, 201, 201, 201, 201, 201, 201, 201]"
+    },
+    {
+      "check": "posts: the 11th within a minute gets 429 with Retry-After",
+      "ok": true,
+      "detail": "429 60"
+    },
+    {
+      "check": "emergency switch: page served without our tag",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "emergency switch: Jellyfin Enhanced unaffected",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "emergency switch: shown in health",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "emergency switch off again: tag back",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "verify-auth.sh (VERIFY.md step 8) exits cleanly",
+      "ok": true,
+      "detail": "exit 0"
+    },
+    {
+      "check": "verify-auth.sh reports what VERIFY.md promises",
+      "ok": true,
+      "detail": "Result: 17 passed, 0 failed. (expected 17)"
+    },
+    {
+      "check": "verify-auth.sh output holds no password, token or key",
       "ok": true,
       "detail": ""
     }

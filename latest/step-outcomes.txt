@@ -2,5 +2,5 @@ build=success
 unit=success
 browser=success
 package=success
-live=failure
-ui=skipped
+live=success
+ui=success
