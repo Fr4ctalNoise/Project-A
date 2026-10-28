@@ -37,6 +37,13 @@ The current state of the work, kept up to date with every commit. Read this firs
 
 ## Open questions
 
-- Michael asked (2026-10-28): (a) a GitHub repo for je-review-notifier with an Unraid template
-  (image built by Actions to GHCR); (b) a seasonal theme plugin as a separate repo/plugin rather
-  than part of Project A. Recommended both; waiting for his go-ahead.
+- None.
+
+## Related projects (parked; Project A comes first)
+
+- **Project Modular Bot** (working name; formerly je-review-notifier, still that name in code and
+  in the design doc): own repo + Unraid template, then the 2.3.0 health watch that calls
+  `GET /Social/Health`. Plan: https://claude.ai/artifact/HXpzXuQ12K3kDsXRrv951v
+- **Project Themes**: the seasonal theme CSS as its own Jellyfin plugin and repo. Project A uses its
+  variables (`--hw-score`, `data-label`, SCROLL FADE) with fallbacks so it works without it.
+  Plan: https://claude.ai/artifact/RzK4fCZtFomGqNK7u4ChWx
