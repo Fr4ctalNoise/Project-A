@@ -89,19 +89,29 @@ public sealed class SocialStore
             var stamp = DateTimeOffset.UtcNow.ToString("O", CultureInfo.InvariantCulture);
 
             using var connection = Open();
-            using (var write = connection.CreateCommand())
-            {
-                write.CommandText = "INSERT INTO health_probe (id, checked_at) VALUES (1, $stamp) "
-                    + "ON CONFLICT(id) DO UPDATE SET checked_at = excluded.checked_at;";
-                write.Parameters.AddWithValue("$stamp", stamp);
-                write.ExecuteNonQuery();
-            }
 
+            // Write and read back inside one transaction, so a concurrent check (the notifier
+            // bot and an admin at the same moment) can't overwrite the probe in between.
             string? readBack;
-            using (var read = connection.CreateCommand())
+            using (var transaction = connection.BeginTransaction())
             {
-                read.CommandText = "SELECT checked_at FROM health_probe WHERE id = 1;";
-                readBack = read.ExecuteScalar() as string;
+                using (var write = connection.CreateCommand())
+                {
+                    write.Transaction = transaction;
+                    write.CommandText = "INSERT INTO health_probe (id, checked_at) VALUES (1, $stamp) "
+                        + "ON CONFLICT(id) DO UPDATE SET checked_at = excluded.checked_at;";
+                    write.Parameters.AddWithValue("$stamp", stamp);
+                    write.ExecuteNonQuery();
+                }
+
+                using (var read = connection.CreateCommand())
+                {
+                    read.Transaction = transaction;
+                    read.CommandText = "SELECT checked_at FROM health_probe WHERE id = 1;";
+                    readBack = read.ExecuteScalar() as string;
+                }
+
+                transaction.Commit();
             }
 
             var version = ReadSchemaVersion(connection);
