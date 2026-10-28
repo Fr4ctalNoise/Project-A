@@ -31,7 +31,7 @@ PASS GET /Social/Health as user -> 403  (got 403)
 PASS GET /Social/Health as admin -> 200  (got 200)
 PASS script served as JavaScript with nosniff  (application/javascript; charset=utf-8)
 PASS script contains no data, only code
-PASS health: database ok  ({"version": "0.1.0.0", "databaseok": true, "schemaversion": 1, "scriptinjectedsincestart": true, "scriptinjectiondisabled": false})
+PASS health: database ok  ({"version": "0.1.0.0", "databaseok": true, "schemaversion": 2, "scriptinjectedsincestart": true, "scriptinjectiondisabled": false})
 PASS health: script injected since start
 PASS health: holds no user data  (databaseok,schemaversion,scriptinjectedsincestart,scriptinjectiondisabled,version)
 PASS social.db created in plugins/configurations/ProjectA/

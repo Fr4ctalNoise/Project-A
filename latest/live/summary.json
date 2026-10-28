@@ -170,7 +170,7 @@
     {
       "check": "health: database ok",
       "ok": true,
-      "detail": "{\"version\": \"0.1.0.0\", \"databaseok\": true, \"schemaversion\": 1, \"scriptinjectedsincestart\": true, \"scriptinjectiondisabled\": false}"
+      "detail": "{\"version\": \"0.1.0.0\", \"databaseok\": true, \"schemaversion\": 2, \"scriptinjectedsincestart\": true, \"scriptinjectiondisabled\": false}"
     },
     {
       "check": "health: script injected since start",

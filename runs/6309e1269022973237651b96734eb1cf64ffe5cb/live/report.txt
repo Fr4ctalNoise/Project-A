@@ -1,0 +1,44 @@
+PASS pulled the Jellyfin image  (jellyfin/jellyfin:12.4)
+PASS image identity recorded  (jellyfin/jellyfin@sha256:fea863d0cd9ec445985d9c75fc6ed64e38a1d2766cf0c250a33d553f4fc1b771)
+PASS server started  (12.4.0)
+PASS wizard completed  (204)
+PASS admin signed in
+PASS disabled a user (token taken while enabled)  (204)
+PASS deleted a user (token taken before deletion)  (204)
+PASS API key created
+PASS library 'Movies' created  (204)
+PASS library 'Shows' created  (204)
+PASS library 'Anime Series' created  (204)
+PASS library 'Anime Movies' created  (204)
+PASS Project A loaded and Active  ({"Name": "Project A", "Version": "0.1.0.0", "Status": "Active"})
+PASS Jellyfin Enhanced loaded and Active  ({"Version": "12.14.0.0", "Status": "Active"})
+PASS server's SQLite libraries recorded (information)  ("SQLitePCLRaw.bundle_e_sqlite3/2.1.13" "SQLitePCLRaw.core/2.1.13" "SQLitePCLRaw.lib.e_sqlite3/2.1.13")
+PASS web page served  (200)
+PASS our script tag injected exactly once  (1)
+PASS Jellyfin Enhanced's tag still present exactly once  (1)
+PASS our tag is before </body>
+PASS GET /Social/script as no token -> 200 (anonymous)  (got 200)
+PASS GET /Social/script as disabled user -> 200 (anonymous)  (got 200)
+PASS GET /Social/script as deleted user -> 200 (anonymous)  (got 200)
+PASS GET /Social/script as API key -> 200 (anonymous)  (got 200)
+PASS GET /Social/script as user -> 200 (anonymous)  (got 200)
+PASS GET /Social/script as admin -> 200 (anonymous)  (got 200)
+PASS GET /Social/Health as no token -> 401  (got 401)
+PASS GET /Social/Health as disabled user -> 401 or 403  (got 401)
+PASS GET /Social/Health as deleted user -> 401 or 403  (got 401)
+PASS GET /Social/Health as API key -> 200  (got 200)
+PASS GET /Social/Health as user -> 403  (got 403)
+PASS GET /Social/Health as admin -> 200  (got 200)
+PASS script served as JavaScript with nosniff  (application/javascript; charset=utf-8)
+PASS script contains no data, only code
+PASS health: database ok  ({"version": "0.1.0.0", "databaseok": true, "schemaversion": 2, "scriptinjectedsincestart": true, "scriptinjectiondisabled": false})
+PASS health: script injected since start
+PASS health: holds no user data  (databaseok,schemaversion,scriptinjectedsincestart,scriptinjectiondisabled,version)
+PASS social.db created in plugins/configurations/ProjectA/
+PASS emergency switch: page served without our tag
+PASS emergency switch: Jellyfin Enhanced unaffected
+PASS emergency switch: shown in health
+PASS emergency switch off again: tag back
+PASS verify-auth.sh (VERIFY.md step 8) exits cleanly  (exit 0)
+PASS verify-auth.sh reports what VERIFY.md promises  (Result: 5 passed, 0 failed.)
+PASS verify-auth.sh output holds no password, token or key

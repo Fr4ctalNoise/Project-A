@@ -2,28 +2,28 @@
 > test
 > node --test --test-concurrency=1 --test-reporter=spec "*.test.mjs"
 
-✔ with Jellyfin Enhanced, the button joins its group and shows at full width (15140.851725ms)
-✔ narrow window: the button folds into More and is listed there as "Activity Feed" (1912.045338ms)
-✔ clicking the button shows the placeholder page and hides the current page (1563.719293ms)
-✔ leaving the page by Jellyfin navigation (pushState, no event) restores the previous page (1847.380647ms)
-✔ the location watcher only runs while the page is showing (2103.265717ms)
-✔ only #/social and #/social?… are our route (3881.286327ms)
-✔ without Jellyfin Enhanced, the button goes into the header's own button box (1216.896181ms)
-✔ signed out: no button, and #/social does not show the page (1540.864917ms)
-✔ signing out while on the page removes the page and the button (1586.38323ms)
-✔ switching user: the button comes back for the new user (1540.007182ms)
-✔ Jellyfin Enhanced loading after Project A: the button moves into its group (2082.876422ms)
-✔ script tag injected three times: runs once (one observer, two listeners), one button (1216.238133ms)
-✔ a Jellyfin Enhanced change that breaks getTray: fallback placement, one warning, no errors (1217.504905ms)
-✔ never puts the button inside another plugin's link or button (1216.544046ms)
-✔ a burst of 2,000 DOM changes costs at most a pass per frame, with no tray calls once placed (1230.952483ms)
-✔ the script exposes nothing but a frozen version/problems object (1219.004756ms)
-✔ Jellyfin router: the button opens our page without the router reacting (1567.256323ms)
-✔ Jellyfin router: a direct visit to #/social shows only our page, not "Page not found" (1431.708879ms)
-✔ Jellyfin router: typing #/social after load shows only our page (1650.721579ms)
-✔ Jellyfin router: leaving restores Jellyfin's page and leaves nothing we hid hidden (2065.892806ms)
-✔ switching user while on the page: the previous user's page is removed, not reused (1674.072887ms)
-✔ hostile URLs never become markup or script (2963.837543ms)
+✔ with Jellyfin Enhanced, the button joins its group and shows at full width (8553.194953ms)
+✔ narrow window: the button folds into More and is listed there as "Activity Feed" (1965.240909ms)
+✔ clicking the button shows the placeholder page and hides the current page (1531.218895ms)
+✔ leaving the page by Jellyfin navigation (pushState, no event) restores the previous page (1809.825796ms)
+✔ the location watcher only runs while the page is showing (2090.274417ms)
+✔ only #/social and #/social?… are our route (3865.572053ms)
+✔ without Jellyfin Enhanced, the button goes into the header's own button box (1184.411571ms)
+✔ signed out: no button, and #/social does not show the page (1520.950041ms)
+✔ signing out while on the page removes the page and the button (1534.215172ms)
+✔ switching user: the button comes back for the new user (1527.943606ms)
+✔ Jellyfin Enhanced loading after Project A: the button moves into its group (2065.749956ms)
+✔ script tag injected three times: runs once (one observer, two listeners), one button (1199.862225ms)
+✔ a Jellyfin Enhanced change that breaks getTray: fallback placement, one warning, no errors (1200.248297ms)
+✔ never puts the button inside another plugin's link or button (1199.718697ms)
+✔ a burst of 2,000 DOM changes costs at most a pass per frame, with no tray calls once placed (1215.248096ms)
+✔ the script exposes nothing but a frozen version/problems object (1200.808994ms)
+✔ Jellyfin router: the button opens our page without the router reacting (1533.536589ms)
+✔ Jellyfin router: a direct visit to #/social shows only our page, not "Page not found" (1399.742498ms)
+✔ Jellyfin router: typing #/social after load shows only our page (1632.860989ms)
+✔ Jellyfin router: leaving restores Jellyfin's page and leaves nothing we hid hidden (2033.204887ms)
+✔ switching user while on the page: the previous user's page is removed, not reused (1641.303675ms)
+✔ hostile URLs never become markup or script (2923.279512ms)
 ℹ tests 22
 ℹ suites 0
 ℹ pass 22
@@ -31,4 +31,4 @@
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 52242.024282
+ℹ duration_ms 45070.419998

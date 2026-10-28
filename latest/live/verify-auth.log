@@ -20,7 +20,7 @@ Checking every endpoint...
   PASS  GET /Social/Health, ordinary user              403
 
 Health check (as the API key):
-{"Version":"0.1.0.0","DatabaseOk":true,"SchemaVersion":1,"ScriptInjectedSinceStart":true,"ScriptInjectionDisabled":false}
+{"Version":"0.1.0.0","DatabaseOk":true,"SchemaVersion":2,"ScriptInjectedSinceStart":true,"ScriptInjectionDisabled":false}
 
 Signing the test sessions out...
 
