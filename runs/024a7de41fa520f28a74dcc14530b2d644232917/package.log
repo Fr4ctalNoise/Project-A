@@ -1,4 +1,4 @@
-project-a_0.1.0.0.zip  md5 73734d4dd2bafb740cf7b5a4e0d6fd29
+project-a_0.1.0.0.zip  md5 248d69f2ab6218afaba89a12137918b1
   Jellyfin.Plugin.ProjectA.dll
   LICENSE
   THIRD_PARTY_NOTICES.md
@@ -7,4 +7,4 @@ project-a_0.1.0.0.zip  md5 73734d4dd2bafb740cf7b5a4e0d6fd29
   licenses/StarTrack-MIT.txt
   licenses/markdown-it-MIT.txt
   meta.json
-project-a_0.1.0.0_source.zip  (50 files under src/)
+project-a_0.1.0.0_source.zip  (67 files under src/)
