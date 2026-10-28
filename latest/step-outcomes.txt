@@ -1,6 +1,6 @@
 build=success
-unit=failure
-browser=skipped
-package=skipped
-live=skipped
+unit=success
+browser=success
+package=success
+live=failure
 ui=skipped
