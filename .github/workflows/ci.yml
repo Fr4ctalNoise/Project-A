@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
-# Builds and tests every push. On a version tag (v0.1.0.0) it also publishes a release and adds
-# it to manifest.json, the catalog Jellyfin reads.
+# Builds and tests every push. A release (zip, GitHub release, manifest.json entry for Jellyfin's
+# catalog) is published either on a version tag (v0.1.0.0) or by running this workflow by hand
+# on main with "release" ticked (Actions > CI > Run workflow): GitHub then creates the tag itself.
+# Either way every check must pass first.
 #
 # Test results are written to the ci-results branch (latest/ and runs/<commit>/) because the
 # full Actions logs aren't readable from the assistant's workspace. Nothing secret is written
@@ -15,6 +17,11 @@ on:
     tags: ['v*']
   pull_request:
   workflow_dispatch:
+    inputs:
+      release:
+        description: "Publish a release of the version in Directory.Build.props (main only)"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -161,7 +168,9 @@ jobs:
           git push origin HEAD:refs/heads/ci-results
 
   release:
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: >-
+      startsWith(github.ref, 'refs/tags/v') ||
+      (github.event_name == 'workflow_dispatch' && inputs.release && github.ref == 'refs/heads/main')
     needs: build-test
     runs-on: ubuntu-24.04
     permissions:
@@ -180,8 +189,11 @@ jobs:
       - name: Check the tag matches the version
         run: |
           version=$(grep -oP '(?<=<Version>)[0-9.]+(?=</Version>)' Directory.Build.props)
-          test "v$version" = "$GITHUB_REF_NAME" || { echo "Tag $GITHUB_REF_NAME does not match version $version"; exit 1; }
+          if [ "$GITHUB_REF_TYPE" = tag ]; then
+            test "v$version" = "$GITHUB_REF_NAME" || { echo "Tag $GITHUB_REF_NAME does not match version $version"; exit 1; }
+          fi
           echo "VERSION=$version" >> "$GITHUB_ENV"
+          echo "TAG=v$version" >> "$GITHUB_ENV"
 
       - name: Create the GitHub release
         env:
@@ -190,7 +202,9 @@ jobs:
           python3 - <<'EOF' > notes.md
           import json; print(json.load(open("dist/manifest-entry.json"))["changelog"])
           EOF
-          gh release create "$GITHUB_REF_NAME" --title "Project A $VERSION" --notes-file notes.md \
+          # --target: for a hand-started release GitHub creates the tag on the tested commit.
+          # Fails (and stops here) if this version was already released.
+          gh release create "$TAG" --target "$GITHUB_SHA" --title "Project A $VERSION" --notes-file notes.md \
             "dist/project-a_${VERSION}.zip" "dist/project-a_${VERSION}_source.zip"
 
       - name: Add the release to manifest.json
