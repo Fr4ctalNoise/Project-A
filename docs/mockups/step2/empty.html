@@ -1,0 +1,14 @@
+<!-- SPDX-License-Identifier: GPL-3.0-only
+     Mockup: the feed with no posts yet. -->
+<div class="verticalSection projectA-feed">
+  <h2 class="sectionTitle sectionTitle-cards">Activity Feed</h2>
+  <form class="projectA-panel projectA-composer">
+    <textarea is="emby-textarea" class="emby-textarea" rows="3" maxlength="4000" placeholder="Share something with the server&#8230; markdown works"></textarea>
+    <div class="projectA-composer-bar">
+      <span class="projectA-hint"><code>**bold**</code> <code>*italic*</code> <code>[link](https://&#8230;)</code> <code>&gt; quote</code></span>
+      <span class="projectA-count">0 / 4000</span>
+      <button is="emby-button" type="submit" class="raised button-submit emby-button" disabled><span>Post</span></button>
+    </div>
+  </form>
+  <div class="projectA-panel projectA-empty"><span class="material-icons" aria-hidden="true">dynamic_feed</span>Nothing here yet. Be the first to post.</div>
+</div>

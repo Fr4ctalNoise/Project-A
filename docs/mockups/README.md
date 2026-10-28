@@ -33,8 +33,22 @@ Gathered 2026-10-28 (part 2a).
 watched, image and review posts) is the full picture; step 2 draws only what step 2 builds:
 the composer, text posts, delete, "load more" and the empty state.
 
-## Next (part 2b)
+## Step 2 mockup (part 2b, 2026-10-28): waiting for Michael's review
 
-`docs/mockups/step2-feed.html`: the captured page with our page area filled with the composer
-and sample posts, styled by the captured stylesheets plus the theme, rendered with headless
-Chrome at 1600 px and 390 px wide. Sample names are invented; avatars are initials.
+- `step2/feed.html`, `step2/empty.html`: the proposed page markup (what part 3 will build with
+  DOM methods). `step2/feed.css`: the proposed styles, theme tokens with plain fallbacks.
+- Screenshots: `step2/step2-feed-desktop.png` (1600 px), `step2/step2-feed-phone.png` (390 px),
+  `step2/step2-empty-desktop.png`.
+- Re-render (needs the theme CSS and the capture from ci-results):
+
+  ```bash
+  cd <scratch dir> && npm i material-icons@1.13.12 @fontsource/creepster@5.1.0 @fontsource/nosifer@5.1.0 \
+      @fontsource/oswald@5.1.0 @fontsource/noto-sans@5.1.0 @fontsource/noto-color-emoji@5.1.0
+  git -C <repo> show origin/ci-results:latest/live-ui/capture-social-page.html > capture.html
+  node <repo>/docs/mockups/render.mjs capture.html <theme.css> node_modules out \
+      <repo>/docs/mockups/step2/feed.html <repo>/docs/mockups/step2/feed.css step2-feed
+  ```
+
+**Limits (not verified):** the phone shot uses the desktop capture with `layout-mobile` switched
+on, so the header is the desktop header squeezed (the real phone app collapses it); only the feed
+area is the proposal. Fonts come from npm copies of the same families the theme loads from Google.
