@@ -53,6 +53,11 @@ drawings made for the mockup (`avatar-cat.svg`, `avatar-ghost.svg`).
 Jellyfin 12 stores profile pictures as uploaded (no resize, no crop, no size limit in
 `ImageController.PostUserImage` beyond the server's request cap), and can serve a resized copy,
 so the page asks for about 300 x 400 (sharp on high-DPI) and crops to fill with `object-fit`.
+Variant 2 (Michael, 2026-10-28): no box around the picture, fitted whole (`object-fit: contain`)
+so cut-out figures with transparent backgrounds aren't trimmed; name with tags on the top row,
+time under it: `step2/feed-portrait2.*`, `step2/step2-feed-portrait2-desktop.png`
+(`avatar-cutout.svg` is an original transparent-background drawing). Transparency survives only
+if the page asks Jellyfin for PNG or WebP, never JPEG. Open: who sets tags (see HANDOFF).
 Jellyfin caps every `form` at 54em, so the composer sets `max-width: none` (needed in part 3).
 
 

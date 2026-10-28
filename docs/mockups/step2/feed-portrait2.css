@@ -1,0 +1,112 @@
+/* SPDX-License-Identifier: GPL-3.0-only
+   Project A feed styles: PROPOSAL for step 2 (mockup). Part 3 ships the approved version.
+   Colours, radii and fonts come only from the theme's --t-* settings (Project Themes) and
+   Jellyfin's own tokens, each with a plain fallback, so the page also works with no theme. */
+
+.projectA-feed { max-width: 760px; margin: 0 auto; padding-bottom: 3em; }
+
+.projectA-panel {
+  background: var(--t-panel-bg, rgb(255 255 255 / 0.04));
+  border: var(--t-panel-border, 1px solid rgb(255 255 255 / 0.1));
+  border-radius: var(--t-radius, 12px);
+  box-shadow: var(--t-panel-shadow, none);
+  -webkit-backdrop-filter: blur(var(--t-blur, 0px));
+  backdrop-filter: blur(var(--t-blur, 0px));
+  padding: 1em 1.1em;
+  margin-bottom: var(--t-gap, 14px);
+}
+
+/* Composer. Jellyfin caps every form at 54em; the composer follows the feed's width instead. */
+.projectA-composer { max-width: none; }
+.projectA-composer textarea { width: 100%; box-sizing: border-box; min-height: 5.2em; resize: vertical; font-family: inherit; font-size: 1em; line-height: 1.5; }
+.projectA-composer .button-submit:disabled { opacity: 0.45; filter: grayscale(0.4); cursor: default; }
+.projectA-composer-bar { display: flex; align-items: center; gap: 1em; margin-top: 0.6em; }
+.projectA-hint { flex: 1; font-size: 0.85em; color: var(--t-text-soft, rgb(255 255 255 / 0.6)); }
+.projectA-hint code { font-size: 0.95em; }
+.projectA-count { font-size: 0.85em; color: var(--t-text-soft, rgb(255 255 255 / 0.6)); font-variant-numeric: tabular-nums; }
+.projectA-count.projectA-over { color: rgb(var(--t-bad-rgb, 244 67 54)); font-weight: 700; }
+.projectA-composer .button-submit { margin: 0; width: auto; padding: 0.55em 1.6em; }
+
+/* A post */
+.projectA-post-head { display: flex; align-items: center; gap: 0.7em; margin-bottom: 0.6em; }
+.projectA-avatar {
+  width: 2.4em; height: 2.4em; border-radius: 50%; flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--t-chip-bg, rgb(255 255 255 / 0.1));
+  border: 1px solid var(--t-chip-border, rgb(255 255 255 / 0.2));
+  color: var(--t-accent-soft, inherit); font-size: 1.45em; object-fit: cover;
+}
+.projectA-who { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
+.projectA-author {
+  font-family: var(--t-font-label, inherit); font-weight: var(--t-label-weight, 600);
+  letter-spacing: var(--t-label-spacing, 0); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.projectA-when { font-size: 0.82em; color: var(--t-text-soft, rgb(255 255 255 / 0.6)); }
+/* "More options" (⋯): actions such as Delete live in its menu, so they can't be hit by accident.
+   Shown only when the viewer has an action (CanDelete), never as a dead button. */
+.projectA-post-menu { color: var(--t-text-soft, inherit); opacity: 0.75; }
+.projectA-post-menu:hover, .projectA-post-menu[aria-expanded="true"] { color: var(--t-text, inherit); opacity: 1; }
+
+/* Rendered markdown: user text is isolated so right-to-left text can't flip the layout. */
+.projectA-body { unicode-bidi: isolate; overflow-wrap: anywhere; line-height: 1.55; }
+.projectA-body > :first-child { margin-top: 0; }
+.projectA-body > :last-child { margin-bottom: 0; }
+.projectA-body p, .projectA-body ul, .projectA-body ol, .projectA-body blockquote, .projectA-body pre { margin: 0 0 0.7em; }
+.projectA-body a { color: var(--t-accent-soft, var(--jf-palette-primary-main, #00a4dc)); }
+.projectA-body blockquote { border-left: 3px solid var(--t-accent2, rgb(255 255 255 / 0.3)); padding-left: 0.8em; color: var(--t-text-soft, inherit); }
+.projectA-body code { background: var(--t-fill, rgb(255 255 255 / 0.07)); border-radius: 4px; padding: 0.1em 0.35em; font-size: 0.92em; }
+.projectA-body.projectA-collapsed { max-height: 9.5em; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent); mask-image: linear-gradient(to bottom, #000 70%, transparent); }
+.projectA-more-text { background: none; border: 0; padding: 0.4em 0 0; color: var(--t-accent-soft, var(--jf-palette-primary-main, #00a4dc)); cursor: pointer; font: inherit; font-size: 0.9em; }
+
+/* Load more / empty */
+.projectA-load { display: block; margin: 1em auto 0; }
+.projectA-empty { text-align: center; color: var(--t-text-soft, rgb(255 255 255 / 0.6)); padding: 2.2em 1em; }
+.projectA-empty .material-icons { font-size: 2.6em; display: block; margin-bottom: 0.3em; opacity: 0.7; }
+
+/* Phones */
+.layout-mobile .projectA-panel { padding: 0.85em 0.9em; }
+.layout-mobile .projectA-hint { display: none; }
+.layout-mobile .projectA-count { margin-left: auto; }
+.layout-mobile .projectA-avatar { width: 2.1em; height: 2.1em; font-size: 1.2em; }
+
+/* VARIANT: side column (forum style). Desktop only; phones keep the compact head row. */
+.projectA-post--side { display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 1.1em; }
+.projectA-side { display: flex; flex-direction: column; align-items: center; gap: 0.5em; text-align: center;
+  border-right: 1px solid var(--t-line-faint, rgb(255 255 255 / 0.09)); padding-right: 1.1em; }
+.projectA-post--side .projectA-avatar { width: 6.5em; height: 6.5em; border-radius: var(--t-radius-sm, 10px); font-size: 3.4em; }
+.projectA-post--side .projectA-side .projectA-avatar { font-size: 3.4em; width: 1.9em; height: 1.9em; }
+.projectA-post--side .projectA-author { max-width: 100%; }
+.projectA-post-top { display: flex; align-items: center; justify-content: space-between; min-height: 2em; margin-bottom: 0.4em; }
+.layout-mobile .projectA-post--side { display: block; }
+.layout-mobile .projectA-side { flex-direction: row; border: 0; padding: 0; margin-bottom: 0.4em; }
+.layout-mobile .projectA-post--side .projectA-side .projectA-avatar { font-size: 1.2em; width: 2.1em; height: 2.1em; border-radius: 50%; }
+
+/* VARIANT: 150x200 portrait (Michael's reference size). Feed widened to keep text width. */
+.projectA-feed:has(.projectA-post--side) { max-width: 880px; }
+.projectA-post--side { grid-template-columns: 150px minmax(0, 1fr); }
+.projectA-post--side .projectA-side .projectA-avatar { width: 150px; height: 200px; font-size: 72px; border-radius: var(--t-radius-sm, 10px); }
+img.projectA-avatar { object-fit: cover; object-position: center top; display: block; }
+.projectA-side { padding-right: 1.1em; }
+
+/* VARIANT 2: no box around the picture; fitted whole so cut-out figures (transparent PNG or
+   WebP) aren't trimmed. The default "person" icon also loses its box. */
+.projectA-post--side .projectA-side { border-right: 0; padding-right: 0; justify-content: flex-start; }
+.projectA-post--side .projectA-side .projectA-avatar { background: none; border: 0; border-radius: 0; box-shadow: none; }
+.projectA-post--side img.projectA-avatar { object-fit: contain; object-position: center top; }
+.projectA-post--side span.projectA-avatar { color: var(--t-text-soft, rgb(255 255 255 / 0.5)); }
+
+/* Name and tags on the top row, time under them, menu on the right. */
+.projectA-post-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; column-gap: 0.5em; }
+.projectA-namerow { grid-column: 1; grid-row: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 0.4em 0.5em; }
+.projectA-post-top .projectA-post-menu { grid-column: 2; grid-row: 1; }
+.projectA-post-top .projectA-when { grid-column: 1; grid-row: 2; margin-top: 0.15em; }
+.projectA-post--side .projectA-author { font-size: 1.1em; }
+.projectA-tag {
+  font-size: 0.72em; line-height: 1; padding: 0.35em 0.7em; border-radius: 999px; white-space: nowrap;
+  background: var(--t-chip-bg, rgb(255 255 255 / 0.08)); border: 1px solid var(--t-chip-border, rgb(255 255 255 / 0.2));
+  color: var(--t-chip-text, inherit); font-family: var(--t-font-label, inherit); letter-spacing: var(--t-label-spacing, 0);
+  text-transform: var(--t-label-case, none);
+}
+.projectA-tag--role { background: rgb(var(--t-accent-rgb, 0 164 220) / 0.18); border-color: var(--t-accent, #00a4dc); }
+.layout-mobile .projectA-post--side .projectA-side .projectA-avatar { border-radius: 50%; }

@@ -1,0 +1,52 @@
+<!-- SPDX-License-Identifier: GPL-3.0-only
+     Mockup VARIANT (step 2): 150x200 portrait with no box, fitted whole; name and tags on the top row. Avatars are original drawings made for this mockup (avatar-cutout.svg has a transparent background; avatar-ghost.svg has its own). Invented names; avatars are Jellyfin's
+     own default (the "person" icon). Bodies show what markdown-it + DOMPurify would produce. -->
+<div class="verticalSection projectA-feed">
+  <h2 class="sectionTitle sectionTitle-cards">Activity Feed</h2>
+
+  <form class="projectA-panel projectA-composer">
+    <textarea is="emby-textarea" class="emby-textarea" rows="3" maxlength="4000" placeholder="Share something with the server&#8230; markdown works"></textarea>
+    <div class="projectA-composer-bar">
+      <span class="projectA-hint"><code>**bold**</code> <code>*italic*</code> <code>[link](https://&#8230;)</code> <code>&gt; quote</code></span>
+      <span class="projectA-count">0 / 4000</span>
+      <button is="emby-button" type="submit" class="raised button-submit emby-button" disabled><span>Post</span></button>
+    </div>
+  </form>
+
+  <div class="projectA-posts">
+    <article class="projectA-panel projectA-post projectA-post--side">
+      <aside class="projectA-side"><img class="projectA-avatar" alt="" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%20400%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22l%22%20cx%3D%220.5%22%20cy%3D%220.5%22%20r%3D%220.5%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ffe08a%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23ff7518%22%20stop-opacity%3D%220%22/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath%20d%3D%22M80%20395%20C70%20300%2095%20215%20150%20200%20C205%20215%20230%20300%20220%20395%20Z%22%20fill%3D%22%234b2a7a%22/%3E%3Cpath%20d%3D%22M150%20200%20L120%20395%20L180%20395%20Z%22%20fill%3D%22%233a1f61%22/%3E%3Cpath%20d%3D%22M95%20150%20C95%2090%20205%2090%20205%20150%20C205%20205%20175%20225%20150%20225%20C125%20225%2095%20205%2095%20150%20Z%22%20fill%3D%22%234b2a7a%22/%3E%3Cellipse%20cx%3D%22150%22%20cy%3D%22160%22%20rx%3D%2238%22%20ry%3D%2244%22%20fill%3D%22%23f3d9c4%22/%3E%3Cpath%20d%3D%22M112%20150%20C115%20115%20185%20115%20188%20150%20C175%20130%20125%20130%20112%20150%20Z%22%20fill%3D%22%232a1640%22/%3E%3Ccircle%20cx%3D%22136%22%20cy%3D%22165%22%20r%3D%225%22%20fill%3D%22%232a1640%22/%3E%3Ccircle%20cx%3D%22164%22%20cy%3D%22165%22%20r%3D%225%22%20fill%3D%22%232a1640%22/%3E%3Cpath%20d%3D%22M140%20185%20Q150%20192%20160%20185%22%20stroke%3D%22%23c0605a%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22/%3E%3Cpath%20d%3D%22M118%2092%20L150%2020%20L182%2092%20Z%22%20fill%3D%22%232a1640%22/%3E%3Cellipse%20cx%3D%22150%22%20cy%3D%2295%22%20rx%3D%2270%22%20ry%3D%2212%22%20fill%3D%22%232a1640%22/%3E%3Ccircle%20cx%3D%22232%22%20cy%3D%22300%22%20r%3D%2240%22%20fill%3D%22url%28%23l%29%22/%3E%3Crect%20x%3D%22220%22%20y%3D%22285%22%20width%3D%2224%22%20height%3D%2230%22%20rx%3D%226%22%20fill%3D%22%23ffb347%22%20stroke%3D%22%232a1640%22%20stroke-width%3D%223%22/%3E%3Cpath%20d%3D%22M232%20285%20L232%20255%22%20stroke%3D%22%232a1640%22%20stroke-width%3D%223%22/%3E%3Cpath%20d%3D%22M195%20270%20C210%20262%20222%20258%20232%20255%22%20stroke%3D%22%234b2a7a%22%20stroke-width%3D%2216%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E"></aside>
+      <div class="projectA-main">
+      <div class="projectA-post-top"><span class="projectA-namerow"><span class="projectA-author">Mika</span><span class="projectA-tag projectA-tag--role">Admin</span><span class="projectA-tag">Movie night host</span></span><time class="projectA-when">5 min ago</time><button is="paper-icon-button-light" class="paper-icon-button-light projectA-post-menu" title="More options" aria-haspopup="menu"><span class="material-icons" aria-hidden="true">more_horiz</span></button></div>
+      <div class="projectA-body"><p>Movie night in the theatre room on <strong>Friday at 8</strong>. Bring snacks 🎃</p></div>
+    </div>
+    </article>
+
+    <article class="projectA-panel projectA-post projectA-post--side">
+      <aside class="projectA-side"><img class="projectA-avatar" alt="" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%20400%22%3E%3Crect%20width%3D%22300%22%20height%3D%22400%22%20fill%3D%22%231d2b3a%22/%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2270%22%20r%3D%223%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%2250%22%20r%3D%222%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%22200%22%20cy%3D%22120%22%20r%3D%222.5%22%20fill%3D%22%23fff%22/%3E%3Cpath%20d%3D%22M70%20360%20L70%20190%20C70%20120%20105%2090%20150%2090%20C195%2090%20230%20120%20230%20190%20L230%20360%20L205%20335%20L180%20360%20L150%20335%20L120%20360%20L95%20335%20Z%22%20fill%3D%22%23eef3ff%22/%3E%3Cellipse%20cx%3D%22122%22%20cy%3D%22190%22%20rx%3D%2213%22%20ry%3D%2218%22%20fill%3D%22%231d2b3a%22/%3E%3Cellipse%20cx%3D%22178%22%20cy%3D%22190%22%20rx%3D%2213%22%20ry%3D%2218%22%20fill%3D%22%231d2b3a%22/%3E%3Cellipse%20cx%3D%22150%22%20cy%3D%22245%22%20rx%3D%2216%22%20ry%3D%2211%22%20fill%3D%22%231d2b3a%22/%3E%3C/svg%3E"></aside>
+      <div class="projectA-main">
+      <div class="projectA-post-top"><span class="projectA-namerow"><span class="projectA-author">Rowan</span><span class="projectA-tag">Horror fan</span></span><time class="projectA-when">2 h ago</time></div>
+      <div class="projectA-body"><p>My rewatch list for October:</p><ul><li><em>something slow and creepy</em></li><li><strong>the new season everyone is talking about</strong></li><li>one comfort show to recover</li></ul><p>Taking requests, or see <a href="https://example.com" target="_blank" rel="noopener noreferrer">my list</a>.</p></div>
+    </div>
+    </article>
+
+    <article class="projectA-panel projectA-post projectA-post--side">
+      <aside class="projectA-side"><span class="projectA-avatar material-icons" aria-hidden="true">person</span></aside>
+      <div class="projectA-main">
+      <div class="projectA-post-top"><span class="projectA-namerow"><span class="projectA-author">Sam</span></span><time class="projectA-when">Yesterday</time></div>
+      <div class="projectA-body projectA-collapsed"><p>Long one, sorry. I finally sorted out the subtitles problem on the living room TV. The short version: the app was picking the forced track because the default flag was set on the wrong stream, so every episode started with signs-only subtitles and nothing else.</p><p>If yours does the same, open the episode, choose the subtitle menu, and pick the full track once; the server remembers the choice per series after that. Took me three evenings to work out, so hopefully this saves someone the trouble.</p><p>Also: the new intro skipping is great.</p></div>
+      <button class="projectA-more-text" type="button">Show more</button>
+    </div>
+    </article>
+
+    <article class="projectA-panel projectA-post projectA-post--side">
+      <aside class="projectA-side"><img class="projectA-avatar" alt="" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20300%20400%22%3E%3Crect%20width%3D%22300%22%20height%3D%22400%22%20fill%3D%22%231d2b3a%22/%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2270%22%20r%3D%223%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%22240%22%20cy%3D%2250%22%20r%3D%222%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%22200%22%20cy%3D%22120%22%20r%3D%222.5%22%20fill%3D%22%23fff%22/%3E%3Cpath%20d%3D%22M70%20360%20L70%20190%20C70%20120%20105%2090%20150%2090%20C195%2090%20230%20120%20230%20190%20L230%20360%20L205%20335%20L180%20360%20L150%20335%20L120%20360%20L95%20335%20Z%22%20fill%3D%22%23eef3ff%22/%3E%3Cellipse%20cx%3D%22122%22%20cy%3D%22190%22%20rx%3D%2213%22%20ry%3D%2218%22%20fill%3D%22%231d2b3a%22/%3E%3Cellipse%20cx%3D%22178%22%20cy%3D%22190%22%20rx%3D%2213%22%20ry%3D%2218%22%20fill%3D%22%231d2b3a%22/%3E%3Cellipse%20cx%3D%22150%22%20cy%3D%22245%22%20rx%3D%2216%22%20ry%3D%2211%22%20fill%3D%22%231d2b3a%22/%3E%3C/svg%3E"></aside>
+      <div class="projectA-main">
+      <div class="projectA-post-top"><span class="projectA-namerow"><span class="projectA-author">Rowan</span><span class="projectA-tag">Horror fan</span></span><time class="projectA-when">Oct 24</time></div>
+      <div class="projectA-body"><blockquote><p>Don't forget to rate what you watch</p></blockquote><p>Tip: press <code>Ctrl+F5</code> if the feed button doesn't show after an update.</p></div>
+    </div>
+    </article>
+  </div>
+
+  <button is="emby-button" type="button" class="raised emby-button projectA-load"><span>Load more</span></button>
+</div>
