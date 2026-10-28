@@ -51,12 +51,14 @@ class Server:
     def __init__(self, base):
         self.base = base.rstrip("/")
 
-    def call(self, method, path, token=None, body=None, device="anon", raw=False):
+    def call(self, method, path, token=None, body=None, device="anon", raw=False, data=None, content_type=None):
+        """body: sent as JSON. data + content_type: sent as given (for malformed-request checks)."""
         headers = {"Authorization": CLIENT.format(device) + (f', Token="{token}"' if token else "")}
-        data = None
         if body is not None:
             data = json.dumps(body).encode()
             headers["Content-Type"] = "application/json"
+        elif content_type:
+            headers["Content-Type"] = content_type
         req = urllib.request.Request(self.base + path, data=data, method=method, headers=headers)
         try:
             with urllib.request.urlopen(req, timeout=60) as r:
@@ -296,6 +298,9 @@ def run_checks(srv, args, config, out):
     check("health: holds no user data", isinstance(health, dict) and set(health) <= {"version", "databaseok", "databaseproblem", "schemaversion", "scriptinjectedsincestart", "scriptinjectiondisabled"}, ",".join(sorted(health)) if isinstance(health, dict) else "")
     db = config / "plugins" / "configurations" / "ProjectA" / "social.db"
     check("social.db created in plugins/configurations/ProjectA/", db.is_file())
+    check("health: schema 2 (text posts)", isinstance(health, dict) and health.get("schemaversion") == 2, str(health.get("schemaversion") if isinstance(health, dict) else None))
+
+    run_post_checks(srv, admin, user, user_id, new_user, out)
 
     # Emergency switch.
     s, _, conf = srv.call("GET", f"/Plugins/{PLUGIN_GUID}/Configuration", token=admin)
@@ -322,6 +327,113 @@ def run_checks(srv, args, config, out):
             sys.exit("--creds must be outside the published results folder")
         creds.write_text(json.dumps({"base": srv.base, "user": "ci-alice", "password": user_pw}), encoding="utf-8")
         os.chmod(creds, 0o600)
+
+
+def run_post_checks(srv, admin, alice, alice_id, new_user, out):
+    """
+    Build step 2 on the real server: posting, the feed, who may delete, which authors show,
+    input checks and the rate limit, all through Jellyfin's real pipeline (routing, JSON,
+    sign-in, request limits).
+    """
+    def feed(token, **query):
+        qs = urllib.parse.urlencode(query)
+        s, _, body = srv.call("GET", "/Social/Feed" + (f"?{qs}" if qs else ""), token=token)
+        return s, lowered(body) if isinstance(body, dict) else body
+
+    def post(token, text):
+        s, headers, body = srv.call("POST", "/Social/Posts", token=token, body={"Body": text})
+        return s, {k.lower(): v for k, v in headers.items()}, lowered(body) if isinstance(body, dict) else body
+
+    def ids(page):
+        return [lowered(p)["id"] for p in page.get("posts", [])] if isinstance(page, dict) else None
+
+    def set_policy(user_id, **changes):
+        _, _, u = srv.call("GET", f"/Users/{user_id}", token=admin)
+        policy = u["Policy"]
+        policy.update(changes)
+        s, _, _ = srv.call("POST", f"/Users/{user_id}/Policy", token=admin, body=policy)
+        return s in (200, 204)
+
+    s, page = feed(admin)
+    check("posts: feed starts empty (the sign-in matrix created nothing)", s == 200 and ids(page) == [], f"{s} {ids(page)}")
+
+    s, _, created = post(alice, "Hello from CI with **markdown** and <b>html</b> 🎃")
+    ok = s == 201 and isinstance(created, dict)
+    check("posts: create returns 201 with the post", ok, f"{s} {created if not ok else ''}")
+    if not ok:
+        return
+    first = created["id"]
+    check("posts: body stored exactly as sent (markdown, not HTML)", created.get("body") == "Hello from CI with **markdown** and <b>html</b> 🎃")
+    check("posts: author is the caller", str(created.get("authorid", "")).replace("-", "") == alice_id.replace("-", "") and created.get("authorname") == "ci-alice")
+    check("posts: response fields are PascalCase as the page expects",
+          {"Id", "AuthorId", "AuthorName", "AuthorHasImage", "Kind", "Body", "CreatedAt", "CanDelete"} <= set(srv.call("GET", "/Social/Feed", token=alice)[2]["Posts"][0]))
+
+    bob, bob_id, _ = new_user("ci-bob")
+    s, page = feed(bob)
+    check("posts: another user sees it in the feed", s == 200 and ids(page) == [first], f"{s} {ids(page)}")
+    check("posts: another user can't delete it (CanDelete false)", lowered(page["posts"][0]).get("candelete") is False)
+    s, _, _ = srv.call("DELETE", f"/Social/Posts/{first}", token=bob)
+    check("posts: another user's delete is refused (403)", s == 403, str(s))
+    s, page = feed(admin)
+    check("posts: still there after the refused delete; admin may delete (CanDelete true)",
+          ids(page) == [first] and lowered(page["posts"][0]).get("candelete") is True, f"{ids(page)}")
+
+    # Input checks through the real JSON pipeline.
+    s, _, body = post(alice, "nul \u0000 inside")
+    check("posts: control characters refused (400 body_invalid)", s == 400 and isinstance(body, dict) and body.get("error") == "body_invalid", f"{s} {body}")
+    s, _, body = post(alice, "   ")
+    check("posts: empty body refused (400 body_required)", s == 400 and isinstance(body, dict) and body.get("error") == "body_required", f"{s} {body}")
+    s, _, body = post(alice, "x" * 4001)
+    check("posts: 4,001 characters refused (400 body_too_long)", s == 400 and isinstance(body, dict) and body.get("error") == "body_too_long", f"{s} {body}")
+    s, _, _ = srv.call("POST", "/Social/Posts", token=alice, data=b"Body=hi", content_type="text/plain")
+    check("posts: non-JSON body refused (415)", s == 415, str(s))
+    s, _, _ = srv.call("POST", "/Social/Posts", token=alice, data=json.dumps({"Body": "y" * 200_000}).encode(), content_type="application/json")
+    check("posts: oversized request refused (413)", s == 413, str(s))
+    s, _, _ = srv.call("POST", "/Social/Posts", token=alice, data=b"{not json", content_type="application/json")
+    check("posts: malformed JSON refused (400)", s == 400, str(s))
+    for bad in ("/Social/Feed?limit=0", "/Social/Feed?limit=51", "/Social/Feed?before=-1", "/Social/Feed?before=abc", "/Social/Feed?limit=1e9"):
+        s, _, _ = srv.call("GET", bad, token=alice)
+        check(f"posts: bad paging refused (400): {bad}", s == 400, str(s))
+    s, page = feed(admin)
+    check("posts: none of the refused requests stored anything", ids(page) == [first], f"{ids(page)}")
+
+    # Who shows in the feed: hidden and disabled authors only to admins.
+    hidden, hidden_id, _ = new_user("ci-hidden")
+    s, _, h = post(hidden, "posted by a hidden user")
+    carol, carol_id, _ = new_user("ci-carol")
+    s2, _, c = post(carol, "posted before being disabled")
+    check("posts: hidden and soon-disabled users can post", s == 201 and s2 == 201, f"{s} {s2}")
+    check("posts: set ci-hidden hidden and ci-carol disabled", set_policy(hidden_id, IsHidden=True) and set_policy(carol_id, IsDisabled=True))
+    s, page = feed(bob)
+    check("posts: hidden and disabled authors left out for ordinary users", ids(page) == [first], f"{ids(page)}")
+    s, page = feed(admin)
+    check("posts: admins still see them", ids(page) == [c["id"], h["id"], first], f"{ids(page)}")
+
+    # Paging through the real API.
+    s, p1 = feed(admin, limit=2)
+    s2, p2 = feed(admin, limit=2, before=p1.get("nextbefore"))
+    check("posts: paging with NextBefore returns the next page without repeats",
+          ids(p1) + ids(p2) == [c["id"], h["id"], first] and p2.get("nextbefore") is None, f"{ids(p1)} {ids(p2)} {p2.get('nextbefore')}")
+
+    # Deleting.
+    s, _, _ = srv.call("DELETE", f"/Social/Posts/{c['id']}", token=admin)
+    check("posts: an admin can delete anyone's post (204)", s == 204, str(s))
+    s, _, extra = post(alice, "to be deleted by its author")
+    s, _, _ = srv.call("DELETE", f"/Social/Posts/{extra['id']}", token=alice)
+    check("posts: the author can delete their own post (204)", s == 204, str(s))
+    s, _, _ = srv.call("DELETE", f"/Social/Posts/{extra['id']}", token=alice)
+    check("posts: deleting it again is 404", s == 404, str(s))
+    s, page = feed(admin)
+    check("posts: deleted posts leave the feed", ids(page) == [h["id"], first], f"{ids(page)}")
+
+    # Rate limit: ci-alice has made 2 posts this minute; 8 more fit, the 11th is refused.
+    statuses = [post(alice, f"burst {i}")[0] for i in range(8)]
+    s, headers, body = post(alice, "one too many")
+    check("posts: 10 posts a minute allowed", statuses == [201] * 8, str(statuses))
+    check("posts: the 11th within a minute gets 429 with Retry-After", s == 429 and headers.get("retry-after") == "60", f"{s} {headers.get('retry-after')}")
+
+    _, _, sample = srv.call("GET", "/Social/Feed?limit=3", token=bob)
+    (out / "feed-sample.json").write_text(json.dumps(sample, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def run_verify_auth_script(srv, admin, user_name, user_pw, api_key, out):

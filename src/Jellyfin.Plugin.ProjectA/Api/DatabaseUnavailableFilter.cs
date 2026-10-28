@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (c) 2026 Fr4ctalNoise and Project A contributors.
 
-using System.IO;
 using Jellyfin.Plugin.ProjectA.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +14,9 @@ namespace Jellyfin.Plugin.ProjectA.Api;
 /// Turns a database failure in any Project A endpoint into a fixed 503 answer
 /// <c>{"Error":"database_unavailable","Problem":"locked"}</c>. The page shows a "try again"
 /// message; the details (which may include file paths) go only to Jellyfin's log.
-/// Other exceptions are left alone for Jellyfin's own handling.
+/// Also answers ASP.NET's own request errors (an oversized body while reading the JSON) with
+/// their real status, 413, instead of letting Jellyfin's exception handler turn them into 500.
+/// Everything else is left alone for Jellyfin's handling.
 /// </summary>
 public sealed class DatabaseUnavailableFilter : IExceptionFilter
 {
@@ -31,12 +32,23 @@ public sealed class DatabaseUnavailableFilter : IExceptionFilter
     /// <inheritdoc />
     public void OnException(ExceptionContext context)
     {
-        if (context.Exception is not (SqliteException or IOException))
+        string problem;
+        switch (context.Exception)
         {
-            return;
+            case StoreUnavailableException unavailable:
+                problem = unavailable.Problem;
+                break;
+            case SqliteException:
+                problem = SocialStore.Classify(context.Exception);
+                break;
+            case BadHttpRequestException bad:
+                context.Result = new StatusCodeResult(bad.StatusCode);
+                context.ExceptionHandled = true;
+                return;
+            default:
+                return;
         }
 
-        var problem = SocialStore.Classify(context.Exception);
         _logger.LogWarning(context.Exception, "Project A: database error ({Problem}) in {Path}", problem, context.HttpContext.Request.Path);
         context.Result = new ObjectResult(new ErrorResponse("database_unavailable", problem))
         {

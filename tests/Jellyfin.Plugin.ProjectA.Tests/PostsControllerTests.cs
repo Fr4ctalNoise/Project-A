@@ -342,21 +342,61 @@ public sealed class PostsControllerTests : IDisposable
     }
 
     [Fact]
-    public void Other_errors_are_left_to_jellyfin()
+    public void Store_unavailable_becomes_503_with_its_problem_code()
     {
-        var filter = new DatabaseUnavailableFilter(NullLogger<DatabaseUnavailableFilter>.Instance);
-        var context = new ExceptionContext(
-            new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor()),
-            new List<IFilterMetadata>())
-        {
-            Exception = new InvalidOperationException("boom"),
-        };
-
-        filter.OnException(context);
-
-        Assert.Null(context.Result);
-        Assert.False(context.ExceptionHandled);
+        var context = FilterContext(new StoreUnavailableException("not_writable", new IOException("/config/... is read-only")));
+        new DatabaseUnavailableFilter(NullLogger<DatabaseUnavailableFilter>.Instance).OnException(context);
+        var result = Assert.IsType<ObjectResult>(context.Result);
+        Assert.Equal(503, result.StatusCode);
+        Assert.Equal(new ErrorResponse("database_unavailable", "not_writable"), result.Value);
     }
+
+    /// <summary>
+    /// ASP.NET reports an oversized request body as BadHttpRequestException, which is an
+    /// IOException. It must come back as 413, not as a database fault or a 500.
+    /// </summary>
+    [Fact]
+    public void An_oversized_request_is_413_not_a_database_fault()
+    {
+        var context = FilterContext(new BadHttpRequestException("Request body too large.", 413));
+        new DatabaseUnavailableFilter(NullLogger<DatabaseUnavailableFilter>.Instance).OnException(context);
+        Assert.Equal(413, Assert.IsType<StatusCodeResult>(context.Result).StatusCode);
+    }
+
+    [Fact]
+    public void Other_exceptions_are_left_to_jellyfin()
+    {
+        foreach (var ex in new Exception[]
+        {
+            new InvalidOperationException("boom"),
+            new IOException("client disconnected"),
+        })
+        {
+            var context = FilterContext(ex);
+            new DatabaseUnavailableFilter(NullLogger<DatabaseUnavailableFilter>.Instance).OnException(context);
+            Assert.Null(context.Result);
+            Assert.False(context.ExceptionHandled);
+        }
+    }
+
+    [Fact]
+    public void A_database_folder_that_cannot_be_created_is_reported_as_unavailable_not_as_an_io_error()
+    {
+        var blocker = Path.Combine(_dir, "blocker");
+        Directory.CreateDirectory(_dir);
+        File.WriteAllText(blocker, "a file where the folder should be");
+        var store = new PostStore(new SocialStore(Path.Combine(blocker, "sub", SocialStore.FileName), NullLogger<SocialStore>.Instance));
+
+        var ex = Assert.Throws<StoreUnavailableException>(() => store.Get(1));
+        Assert.Equal("not_writable", ex.Problem);
+    }
+
+    private static ExceptionContext FilterContext(Exception ex) => new(
+        new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor()),
+        new List<IFilterMetadata>())
+    {
+        Exception = ex,
+    };
 
     private sealed class FixedClock : TimeProvider
     {

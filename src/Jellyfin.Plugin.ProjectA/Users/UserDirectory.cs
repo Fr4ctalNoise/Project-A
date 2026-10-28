@@ -50,7 +50,7 @@ public sealed class JellyfinUserDirectory : IUserDirectory
     public IReadOnlyDictionary<Guid, AuthorInfo> VisibleAuthors(bool viewerIsAdministrator)
     {
         var result = new Dictionary<Guid, AuthorInfo>();
-        foreach (var user in _userManager.Users)
+        foreach (var user in _userManager.GetUsers())
         {
             if (!viewerIsAdministrator
                 && (user.HasPermission(PermissionKind.IsDisabled) || user.HasPermission(PermissionKind.IsHidden)))

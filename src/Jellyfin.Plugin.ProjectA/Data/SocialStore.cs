@@ -185,15 +185,31 @@ public sealed class SocialStore
 
     /// <summary>
     /// Opens a connection to an up-to-date database (creating or upgrading it first if
-    /// needed). The caller disposes it. Throws <see cref="SqliteException"/> or
-    /// <see cref="IOException"/> on database problems; endpoints turn those into a fixed
-    /// 503 answer.
+    /// needed). The caller disposes it. Database problems surface as
+    /// <see cref="SqliteException"/> or <see cref="StoreUnavailableException"/>, which
+    /// endpoints turn into a fixed 503 answer.
     /// </summary>
+    /// <remarks>
+    /// File-system errors are wrapped rather than passed on as <see cref="IOException"/>,
+    /// because ASP.NET also uses IOException for request problems (an oversized body, a
+    /// dropped connection) that must not be reported as a database fault.
+    /// </remarks>
     /// <returns>An open connection.</returns>
     internal SqliteConnection OpenReady()
     {
-        EnsureInitialized();
-        return Open();
+        try
+        {
+            EnsureInitialized();
+            return Open();
+        }
+        catch (NewerSchemaException ex)
+        {
+            throw new StoreUnavailableException("newer_schema", ex);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            throw new StoreUnavailableException(Classify(ex), ex);
+        }
     }
 
     private SqliteConnection Open()
@@ -307,6 +323,7 @@ public sealed class SocialStore
     }
 
     /// <summary>Thrown when the file was created by a newer Project A; it is then left untouched.</summary>
+    /// <remarks>Endpoints see it as <see cref="StoreUnavailableException"/> with problem <c>newer_schema</c>.</remarks>
     private sealed class NewerSchemaException : Exception
     {
         public NewerSchemaException(int foundVersion)
@@ -317,4 +334,23 @@ public sealed class SocialStore
 
         public int FoundVersion { get; }
     }
+}
+
+/// <summary>
+/// The database can't be used right now (folder not writable, disk full, file from a newer
+/// Project A). Carries a fixed problem code from <see cref="SocialStore.Classify"/>, never a path.
+/// </summary>
+public sealed class StoreUnavailableException : Exception
+{
+    /// <summary>Initializes a new instance of the <see cref="StoreUnavailableException"/> class.</summary>
+    /// <param name="problem">Fixed problem code.</param>
+    /// <param name="inner">The underlying error (logged, never sent to the browser).</param>
+    public StoreUnavailableException(string problem, Exception inner)
+        : base("Project A's database is unavailable: " + problem, inner)
+    {
+        Problem = problem;
+    }
+
+    /// <summary>Gets the fixed problem code.</summary>
+    public string Problem { get; }
 }
