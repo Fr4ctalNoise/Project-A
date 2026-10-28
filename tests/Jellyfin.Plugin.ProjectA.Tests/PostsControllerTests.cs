@@ -134,16 +134,20 @@ public sealed class PostsControllerTests : IDisposable
         {
             "nul\0inside", "bell\u0007", "escape \u001b[31m red", "c1 \u0085 control", "del \u007f",
             "lone high \ud800 surrogate", "lone low \udc00 surrogate", "ends with high \ud83c",
-            "reversed pair \udc00\ud800", "vertical tab\u000b", "form feed\u000c",
+            "reversed pair \udc00\ud800", "vertical\u000btab", "form\u000cfeed",
         };
 
-        foreach (var body in cases)
+        for (var i = 0; i < cases.Length; i++)
         {
-            var bad = Assert.IsType<BadRequestObjectResult>(As(Alice).CreatePost(new CreatePostRequest(body)).Result);
-            Assert.Equal(PostInput.BodyInvalid, ErrorCode(bad));
+            var result = As(Alice).CreatePost(new CreatePostRequest(cases[i])).Result;
+            Assert.True(result is BadRequestObjectResult, $"case {i} was not refused");
+            Assert.Equal(PostInput.BodyInvalid, ErrorCode(result));
         }
 
-        Assert.Empty(Feed(Alice).Posts);
+        // At the very ends, vertical tab and form feed are whitespace and simply trimmed away.
+        Assert.Equal("edge", _posts.Get(Create(Alice, "\u000bedge\u000c"))!.Body);
+
+        Assert.Single(Feed(Alice).Posts); // only the trimmed "edge" post
     }
 
     [Fact]
