@@ -1,0 +1,5 @@
+PASS signed out: no Activity Feed button on the login page
+PASS signed out: #/social shows no Project A page
+FAIL UI test ran to completion  (Waiting for selector `#txtManualName` failed)
+
+2 passed, 1 failed

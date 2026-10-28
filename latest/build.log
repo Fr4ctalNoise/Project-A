@@ -1,9 +1,9 @@
   Determining projects to restore...
-  Restored /home/runner/work/Project-A/Project-A/src/Jellyfin.Plugin.ProjectA/Jellyfin.Plugin.ProjectA.csproj (in 2.28 sec).
+  Restored /home/runner/work/Project-A/Project-A/src/Jellyfin.Plugin.ProjectA/Jellyfin.Plugin.ProjectA.csproj (in 1.68 sec).
   Jellyfin.Plugin.ProjectA -> /home/runner/work/Project-A/Project-A/src/Jellyfin.Plugin.ProjectA/bin/Release/net10.0/Jellyfin.Plugin.ProjectA.dll
 
 Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:05.55
+Time Elapsed 00:00:05.07
