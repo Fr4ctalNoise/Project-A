@@ -1,0 +1,11 @@
+PASS signed out: no Activity Feed button on the login page
+PASS signed out: #/social shows no Project A page
+PASS login form shown
+PASS signed in: Activity Feed button appears
+PASS button is inside Jellyfin Enhanced's group  ({"parent":"je-header-buttons-group","overflowed":false,"label":"Activity Feed","icon":"dynamic_feed"})
+PASS button label and icon
+PASS full width: button visible (not folded)
+FAIL narrow: button folds into More
+FAIL UI test ran to completion  (Node is either not clickable or not an Element)
+
+7 passed, 2 failed
