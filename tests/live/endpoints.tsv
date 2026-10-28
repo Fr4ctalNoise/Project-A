@@ -1,0 +1,4 @@
+# Project A endpoints, read by verify-auth.sh. Kept in step with the code by EndpointAccessTests.
+# method	path	anonymous	allowApiKey	adminOnly
+GET	/Social/script	yes	no	no
+GET	/Social/Health	no	yes	yes

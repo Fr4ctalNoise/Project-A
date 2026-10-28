@@ -118,6 +118,32 @@ public class EndpointAccessTests
     }
 
     /// <summary>
+    /// The list verify-auth.sh uses on your server must match the code, or a new endpoint
+    /// would go untested there. To update: copy the "expected" lines from the failure message.
+    /// </summary>
+    [Fact]
+    public void Server_test_endpoint_list_matches_the_code()
+    {
+        var dir = new DirectoryInfo(AppContext.BaseDirectory);
+        while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "Directory.Build.props")))
+        {
+            dir = dir.Parent;
+        }
+
+        Assert.NotNull(dir);
+        static string YesNo(bool b) => b ? "yes" : "no";
+        var expected = Discover()
+            .Select(e => $"{e.Method}\t{e.Path}\t{YesNo(e.Anonymous)}\t{YesNo(e.AllowApiKey)}\t{YesNo(e.AdminOnly)}")
+            .OrderBy(l => l, StringComparer.Ordinal)
+            .ToList();
+        var actual = File.ReadAllLines(Path.Combine(dir.FullName, "tests", "live", "endpoints.tsv"))
+            .Where(l => l.Length > 0 && !l.StartsWith('#'))
+            .OrderBy(l => l, StringComparer.Ordinal)
+            .ToList();
+        Assert.True(expected.SequenceEqual(actual), "tests/live/endpoints.tsv is out of date. Expected lines:\n" + string.Join('\n', expected));
+    }
+
+    /// <summary>
     /// Writes the endpoint list for the live-server test when PROJECTA_ENDPOINTS_OUT is set
     /// (CI sets it). Always runs, so the list can't drift from the code.
     /// </summary>

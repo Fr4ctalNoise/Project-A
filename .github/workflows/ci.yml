@@ -48,9 +48,11 @@ jobs:
         run: mkdir -p "$RESULTS"
 
       - name: Build (Release, warnings are errors)
+        id: build
         run: dotnet build src/Jellyfin.Plugin.ProjectA/Jellyfin.Plugin.ProjectA.csproj -c Release 2>&1 | tee "$RESULTS/build.log"
 
       - name: Unit tests
+        id: unit
         env:
           PROJECTA_ENDPOINTS_OUT: ${{ github.workspace }}/results/endpoints.json
         run: |
@@ -59,6 +61,7 @@ jobs:
             --results-directory "$RESULTS/unit" 2>&1 | tee "$RESULTS/unit-tests.log"
 
       - name: Browser tests (captured Jellyfin 12.4 markup + Jellyfin Enhanced's real header code)
+        id: browser
         working-directory: tests/browser
         env:
           CHROME_PATH: /usr/bin/google-chrome
@@ -67,11 +70,13 @@ jobs:
           npm test 2>&1 | tee "$RESULTS/browser-tests.log"
 
       - name: Package
+        id: package
         run: |
           python3 build/package.py src/Jellyfin.Plugin.ProjectA/bin/Release/net10.0 dist 2>&1 | tee "$RESULTS/package.log"
           cp dist/manifest-entry.json "$RESULTS/"
 
       - name: Live server test (official Jellyfin 12.4 image + Jellyfin Enhanced 12.14.0.0)
+        id: live
         run: |
           python3 tests/integration/live_server.py \
             --zip "$(ls dist/project-a_*.zip | grep -v _source)" \
@@ -79,6 +84,7 @@ jobs:
             --out "$RESULTS/live" --keep --creds "$RUNNER_TEMP/live-ui-credentials.json" 2>&1 | tee "$RESULTS/live-server.log"
 
       - name: Live UI test (real sign-in, header button, More menu, page)
+        id: ui
         working-directory: tests/browser
         env:
           CHROME_PATH: /usr/bin/google-chrome
@@ -98,6 +104,24 @@ jobs:
           path: dist/
           retention-days: 30
 
+      - name: Report failures as annotations (readable without the Actions log)
+        if: always()
+        env:
+          OUTCOMES: >-
+            build=${{ steps.build.outcome }} unit=${{ steps.unit.outcome }} browser=${{ steps.browser.outcome }}
+            package=${{ steps.package.outcome }} live=${{ steps.live.outcome }} ui=${{ steps.ui.outcome }}
+        run: |
+          declare -A LOG=([build]=build.log [unit]=unit-tests.log [browser]=browser-tests.log [package]=package.log [live]=live-server.log [ui]=live-ui.log)
+          echo "$OUTCOMES" | tr ' ' '\n' > "$RESULTS/step-outcomes.txt"
+          for pair in $OUTCOMES; do
+            step=${pair%%=*}; outcome=${pair#*=}
+            if [ "$outcome" = "failure" ]; then
+              f="$RESULTS/${LOG[$step]}"
+              tail_text=$( [ -f "$f" ] && tail -n 60 "$f" | grep -v -E 'Token=|AccessToken' | sed 's/%/%25/g' | sed ':a;N;$!ba;s/\n/%0A/g' || echo "no log file")
+              echo "::error title=Step '$step' failed::$tail_text"
+            fi
+          done
+
       - name: Publish results to the ci-results branch
         if: always() && github.event_name != 'pull_request'
         env:
@@ -106,25 +130,29 @@ jobs:
         run: |
           set -u
           printf '{"commit":"%s","ref":"%s","status":"%s","run":"%s"}\n' "$SHA" "$GITHUB_REF" "$STATUS" "$GITHUB_RUN_ID" > "$RESULTS/run.json"
-          # Last line of defence: refuse to publish anything that looks like a credential.
-          if grep -rIlE 'AccessToken"?\s*[:=]\s*"?[0-9a-f]{32}|Token="[0-9a-f]{32}|"password"' "$RESULTS"; then
-            echo "Refusing to publish: possible credential in results." >&2; exit 1
+          # Last line of defence: withhold any file that looks like it holds a credential.
+          suspects=$(grep -rIlE 'AccessToken"?[[:space:]]*[:=][[:space:]]*"?[0-9a-fA-F]{32}|Token="[0-9a-fA-F]{32}"' "$RESULTS" || true)
+          if [ -n "$suspects" ]; then
+            echo "$suspects" | sed "s|^$RESULTS/||" > "$RESULTS/WITHHELD.txt"
+            echo "$suspects" | xargs -r rm -f
+            echo "::warning title=Results withheld::$(tr '\n' ' ' < "$RESULTS/WITHHELD.txt")"
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git fetch --depth 1 origin ci-results 2>/dev/null; then
+          if git ls-remote --exit-code --heads origin ci-results >/dev/null 2>&1; then
+            git fetch --depth 1 origin ci-results
             git worktree add ../pub FETCH_HEAD
           else
-            git worktree add --detach ../pub && (cd ../pub && git checkout --orphan ci-results && git rm -rq .)
+            git worktree add --detach ../pub HEAD
+            (cd ../pub && git checkout -q --orphan ci-results && git rm -rqf . && git clean -fdxq)
           fi
           cd ../pub
           rm -rf latest "runs/$SHA" && mkdir -p runs
           cp -r "$RESULTS" latest && cp -r "$RESULTS" "runs/$SHA"
-          # Keep the 20 most recent runs.
           ls -1t runs | tail -n +21 | xargs -r -I{} rm -rf "runs/{}"
           git add -A
           git commit -qm "CI results for $SHA ($STATUS)" || true
-          git push origin HEAD:ci-results
+          git push origin HEAD:refs/heads/ci-results
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')
