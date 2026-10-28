@@ -7,8 +7,9 @@ The current state of the work, kept up to date with every commit. Read this firs
 
 ## Where things stand
 
-- **Step:** 1 of 7, the Spike (design doc build order), version 0.1.0.0. **Released** (see below).
-- **`main`** (`1c0ed8a`): the Spike is built. CI against a real Jellyfin 12.4 server with
+- **Step:** 2 of 7, text posts, on `wip/step2-text-posts` (details below). `main` holds the
+  released 0.1.0.0 (the Spike) plus doc updates.
+- **Spike history:** the Spike was built on `main`. CI against a real Jellyfin 12.4 server with
   Jellyfin Enhanced 12.14.0.0 passes build, unit tests, browser tests, packaging and the live
   checks (plugin Active, script injected once, the full sign-in matrix, database created, emergency
   switch). The real-browser UI test found one bug: opening the page left Jellyfin's
