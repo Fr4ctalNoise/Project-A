@@ -3,7 +3,7 @@
 The current state of the work, kept up to date with every commit. Read this first
 (see `docs/PRINCIPLES.md`, session rules).
 
-**Updated:** 2026-10-28 01:40 MDT
+**Updated:** 2026-10-28 01:55 MDT
 
 ## Where things stand
 
@@ -20,9 +20,10 @@ The current state of the work, kept up to date with every commit. Read this firs
 
 ## Next step
 
-1. Part C (release): CI now also runs `tests/live/verify-auth.sh` exactly as `VERIFY.md` step 8
-   tells Michael to. When CI is green, tag `v0.1.0.0` (the release job builds the zip, creates
-   the GitHub release and adds it to `manifest.json`), then hand over `VERIFY.md`.
+1. `v0.1.0.0` tagged: the tag's CI run repeats every check, then builds the zip, creates the
+   GitHub release and adds it to `manifest.json`. Confirm the release exists, then Michael installs
+   and runs `VERIFY.md`. (CI already runs `verify-auth.sh` as VERIFY.md step 8 does: 5/5.)
+2. After Michael's VERIFY.md results: build step 2 (text posts) per the design doc.
 
 ## Open questions
 

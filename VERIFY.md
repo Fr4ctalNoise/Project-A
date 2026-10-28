@@ -127,7 +127,8 @@ The script asks for each password and the API key at **hidden** prompts. It neve
 a command, a file or on screen. Calls run inside the container with `curl`.
 
 **Expect:** `Result: 5 passed, 0 failed.`, and a health check line like
-`{"Version":"0.1.0.0","DatabaseOk":true,"DatabaseProblem":null,"SchemaVersion":1,"ScriptInjectedSinceStart":true,"ScriptInjectionDisabled":false}`.
+`{"Version":"0.1.0.0","DatabaseOk":true,"SchemaVersion":1,"ScriptInjectedSinceStart":true,"ScriptInjectionDisabled":false}`
+(the exact line CI got from a real Jellyfin 12.4).
 
 **Safe to send:** the whole output. It lists endpoint paths, status codes and the health line,
 with no tokens, passwords or user data.
