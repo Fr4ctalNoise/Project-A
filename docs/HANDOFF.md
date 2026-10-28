@@ -3,7 +3,7 @@
 The current state of the work, kept up to date with every commit. Read this first
 (see `docs/PRINCIPLES.md`, session rules).
 
-**Updated:** 2026-10-28 01:45 MDT
+**Updated:** 2026-10-28 02:25 MDT
 
 ## Where things stand
 
@@ -26,17 +26,25 @@ The current state of the work, kept up to date with every commit. Read this firs
 ## In progress: step 2, text posts (branch `wip/step2-text-posts`)
 
 Split into three parts (sized 2026-10-28):
-- **Part 1, server side** (no visuals, CI tests all of it):
-  - **1a (done, CI green on `6309e12`):** schema v2 (`social_posts`, upgrade from v1 in place) and
-    `Data/PostStore.cs` (create with a 10-a-minute limit in one write transaction, feed newest
-    first filtered by allowed authors in SQL, soft delete). Tests: `PostStoreTests.cs`.
-  - **1b (pushed, waiting on CI):** `POST /Social/Posts`, `DELETE /Social/Posts/{id}` (author or admin), `GET /Social/Feed`
-    (`before`, `limit`); user directory (hidden/disabled/deleted authors left out for non-admins);
-    input validation (`Api/PostInput.cs`); database errors become a fixed 503
-    (`Api/DatabaseUnavailableFilter.cs`). The endpoint list now uses sample ids (0) and a 6th
-    column (`allowed`: `200` or `any`), so the sign-in tests create and delete nothing.
-    **At release:** VERIFY.md step 8's expected line becomes `Result: 17 passed, 0 failed.`
-  - **1c:** live checks on real Jellyfin 12.4 in CI.
+- **Part 1, server side: DONE.** CI fully green on `c9e6df7` (155 unit tests, 100 live checks
+  on real Jellyfin 12.4, verify-auth.sh 17/17). Pieces:
+  - Schema v2 (`social_posts`, upgrade from v1 in place) and `Data/PostStore.cs` (create with a
+    10-a-minute limit in one write transaction, feed filtered by allowed authors in SQL, soft delete).
+  - `Api/PostsController.cs`: `POST /Social/Posts` (201; 400 `body_required|body_too_long|body_invalid`;
+    429 + Retry-After 60; 413 over 64 KB; 415 non-JSON), `DELETE /Social/Posts/{id}` (204; 403 not
+    author/admin; 404), `GET /Social/Feed?before=&limit=` (PascalCase JSON: `Posts[]` with `Id,
+    AuthorId, AuthorName, AuthorHasImage, Kind, Body, CreatedAt, CanDelete`, and `NextBefore`).
+    A real sample: ci-results `latest/live/feed-sample.json`.
+  - `Users/UserDirectory.cs`: `AuthorVisibility.CanSee` is the one rule: admins see all, authors
+    see their own, disabled authors hidden, login-screen-hidden authors hidden only if the new
+    setting `HidePostsFromHiddenUsers` is on (default off; decided by Michael 2026-10-28 after the
+    live test showed Jellyfin hides every new user by default).
+  - `Api/DatabaseUnavailableFilter.cs`: database faults → 503 `database_unavailable` + code;
+    oversized body → 413 (not Jellyfin's 500).
+  - Sign-in tests use sample ids (`endpoints.tsv` 6th column). **At release:** VERIFY.md step 8
+    expects `Result: 17 passed, 0 failed.`, and VERIFY.md gains the new setting.
+  - Accepted: deleting someone else's post says 403, a missing one 404 (reveals only that an id
+    exists; ids are sequential anyway).
 - **Part 2:** mockup of feed + composer for Michael's review.
 - **Part 3:** the page, browser tests, release 0.2.0.0.
 
@@ -44,7 +52,10 @@ Not in step 2 (per design doc): editing (step 10), mute (step 3), images (step 7
 
 ## Next step
 
-1. Finish part 1 on the wip branch (exact next piece: whichever of 1a/1b/1c above isn't marked done).
+1. Part 2: mockup of the feed and composer, rendered from real captured Jellyfin 12.4 markup and
+   Michael's theme CSS, for his review before any page code. Page notes: render `Body` with
+   markdown-it (html off) + DOMPurify into DOM nodes (the repo test bans innerHTML), author names
+   via textContent, avatars from `/Users/{id}/Images/Primary` only when `AuthorHasImage`.
 2. Michael still has to run `VERIFY.md` for 0.1.0.0 on his server when he can.
 
 ## Pending small items
