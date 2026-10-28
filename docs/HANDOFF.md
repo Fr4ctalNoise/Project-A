@@ -45,14 +45,20 @@ Split into three parts (sized 2026-10-28):
     expects `Result: 17 passed, 0 failed.`, and VERIFY.md gains the new setting.
   - Accepted: deleting someone else's post says 403, a missing one 404 (reveals only that an id
     exists; ids are sequential anyway).
-- **Part 2:** mockup of feed + composer for Michael's review.
+- **Part 2, mockup** (in pieces; Michael is low on usage: stop after each):
+  - **2a (done):** material listed in `docs/mockups/README.md`; the live UI test now also saves
+    the real page DOM (`latest/live-ui/capture-social-page.html`).
+  - **2b (next):** feed mockup (composer, text posts, delete, load more, empty state) at 1600 px
+    and 390 px, from the captured markup/styles + Michael's theme CSS (attached in chat, not in repo).
+  - **2c:** error/limit messages, delete confirmation, admin vs user view.
+  - **2d:** Michael's review and changes.
 - **Part 3:** the page, browser tests, release 0.2.0.0.
 
 Not in step 2 (per design doc): editing (step 10), mute (step 3), images (step 7).
 
 ## Next step
 
-1. Part 2: mockup of the feed and composer, rendered from real captured Jellyfin 12.4 markup and
+1. Part 2b (see above): mockup of the feed and composer, rendered from real captured Jellyfin 12.4 markup and
    Michael's theme CSS, for his review before any page code. Page notes: render `Body` with
    markdown-it (html off) + DOMPurify into DOM nodes (the repo test bans innerHTML), author names
    via textContent, avatars from `/Users/{id}/Images/Primary` only when `AuthorHasImage`.

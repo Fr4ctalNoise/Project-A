@@ -116,6 +116,17 @@ try {
     await wait(800);
     await shot(page, '4-social-page');
 
+    // Markup capture for mockups (design work renders from real Jellyfin markup, not
+    // hand-built copies). The whole document while #/social shows: header, our page and the
+    // hidden home page beside it. Scripts are stripped; the DOM holds no tokens (those live in
+    // localStorage, which is not part of the DOM).
+    const dom = await page.evaluate(() => {
+        const copy = document.documentElement.cloneNode(true);
+        copy.querySelectorAll('script, noscript').forEach((e) => e.remove());
+        return '<!doctype html>\n' + copy.outerHTML;
+    });
+    fs.writeFileSync(path.join(outDir, 'capture-social-page.html'), dom);
+
     await page.evaluate(() => { location.hash = '#/home'; });
     await wait(2000);
     const back = await page.evaluate(() => ({
