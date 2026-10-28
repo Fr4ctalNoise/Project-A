@@ -171,17 +171,20 @@ public sealed class SocialStore
             }
 
             using var connection = Open();
+
+            // Check the schema before changing anything: a file from a newer Project A must
+            // be left exactly as it is (switching to WAL below rewrites the file header).
+            var found = ReadSchemaVersion(connection);
+            if (found > CurrentSchemaVersion)
+            {
+                throw new NewerSchemaException(found);
+            }
+
             using (var wal = connection.CreateCommand())
             {
                 // WAL: readers don't block the writer. Persistent per file, so set once.
                 wal.CommandText = "PRAGMA journal_mode = WAL;";
                 wal.ExecuteNonQuery();
-            }
-
-            var found = ReadSchemaVersion(connection);
-            if (found > CurrentSchemaVersion)
-            {
-                throw new NewerSchemaException(found);
             }
 
             using (var transaction = connection.BeginTransaction())
