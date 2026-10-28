@@ -48,7 +48,7 @@ Split into three parts (sized 2026-10-28):
 - **Part 2, mockup** (in pieces; Michael is low on usage: stop after each):
   - **2a (done):** material listed in `docs/mockups/README.md`; the live UI test now also saves
     the real page DOM (`latest/live-ui/capture-social-page.html`).
-  - **2b (done, waiting for Michael's review):** feed mockup (composer, text posts, delete, load more, empty state) at 1600 px
+  - **2b (done, reviewed):** 760 px and Show more approved; paging becomes automatic on scroll (see `docs/mockups/README.md`). Feed mockup (composer, text posts, delete, load more, empty state) at 1600 px
     and 390 px, from the captured markup/styles + Michael's theme CSS (attached in chat, not in repo).
   - **2c:** error/limit messages, delete confirmation, admin vs user view.
   - **2d:** Michael's review and changes.

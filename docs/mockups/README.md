@@ -33,7 +33,15 @@ Gathered 2026-10-28 (part 2a).
 watched, image and review posts) is the full picture; step 2 draws only what step 2 builds:
 the composer, text posts, delete, "load more" and the empty state.
 
-## Step 2 mockup (part 2b, 2026-10-28): waiting for Michael's review
+## Step 2 mockup (part 2b, 2026-10-28)
+
+**Michael's review (2026-10-28):** 760 px column: approved (one CSS value, easy to change
+later). "Show more" fold for long posts: approved. Paging: load automatically while scrolling
+instead of a "Load more" button (part 3: an IntersectionObserver near the end of the list; the
+button stays only as a fallback if a load fails, and the end of the feed says "You're all caught
+up"). Watched, review and image posts get their own mockups with steps 4, 5 and 7, matching the
+design doc's full-feed mockup.
+
 
 - `step2/feed.html`, `step2/empty.html`: the proposed page markup (what part 3 will build with
   DOM methods). `step2/feed.css`: the proposed styles, theme tokens with plain fallbacks.
