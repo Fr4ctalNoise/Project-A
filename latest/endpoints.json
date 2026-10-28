@@ -1,0 +1,47 @@
+[
+  {
+    "Name": "PostsController.GetFeed",
+    "Method": "GET",
+    "Path": "/Social/Feed",
+    "Anonymous": false,
+    "AllowApiKey": false,
+    "AdminOnly": false,
+    "AnyStatusWhenAllowed": false
+  },
+  {
+    "Name": "PostsController.CreatePost",
+    "Method": "POST",
+    "Path": "/Social/Posts",
+    "Anonymous": false,
+    "AllowApiKey": false,
+    "AdminOnly": false,
+    "AnyStatusWhenAllowed": true
+  },
+  {
+    "Name": "PostsController.DeletePost",
+    "Method": "DELETE",
+    "Path": "/Social/Posts/0",
+    "Anonymous": false,
+    "AllowApiKey": false,
+    "AdminOnly": false,
+    "AnyStatusWhenAllowed": true
+  },
+  {
+    "Name": "SocialController.GetScript",
+    "Method": "GET",
+    "Path": "/Social/script",
+    "Anonymous": true,
+    "AllowApiKey": false,
+    "AdminOnly": false,
+    "AnyStatusWhenAllowed": false
+  },
+  {
+    "Name": "SocialController.GetHealth",
+    "Method": "GET",
+    "Path": "/Social/Health",
+    "Anonymous": false,
+    "AllowApiKey": true,
+    "AdminOnly": true,
+    "AnyStatusWhenAllowed": false
+  }
+]
