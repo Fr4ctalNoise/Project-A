@@ -1,0 +1,169 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Builds and tests every push. On a version tag (v0.1.0.0) it also publishes a release and adds
+# it to manifest.json, the catalog Jellyfin reads.
+#
+# Test results are written to the ci-results branch (latest/ and runs/<commit>/) because the
+# full Actions logs aren't readable from the assistant's workspace. Nothing secret is written
+# there: every account and key in the live test belongs to a throwaway server that is deleted
+# after the run, and the one sign-in the UI test needs is kept outside the results folder.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    permissions:
+      contents: write   # only to publish the ci-results branch
+    env:
+      DOTNET_NOLOGO: '1'
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      RESULTS: ${{ github.workspace }}/results
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: '10.0.x'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Prepare results folder
+        run: mkdir -p "$RESULTS"
+
+      - name: Build (Release, warnings are errors)
+        run: dotnet build src/Jellyfin.Plugin.ProjectA/Jellyfin.Plugin.ProjectA.csproj -c Release 2>&1 | tee "$RESULTS/build.log"
+
+      - name: Unit tests
+        env:
+          PROJECTA_ENDPOINTS_OUT: ${{ github.workspace }}/results/endpoints.json
+        run: |
+          dotnet test tests/Jellyfin.Plugin.ProjectA.Tests -c Release \
+            --logger "trx;LogFileName=unit.trx" --logger "console;verbosity=normal" \
+            --results-directory "$RESULTS/unit" 2>&1 | tee "$RESULTS/unit-tests.log"
+
+      - name: Browser tests (captured Jellyfin 12.4 markup + Jellyfin Enhanced's real header code)
+        working-directory: tests/browser
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: |
+          npm ci --no-audit --no-fund --omit=optional
+          npm test 2>&1 | tee "$RESULTS/browser-tests.log"
+
+      - name: Package
+        run: |
+          python3 build/package.py src/Jellyfin.Plugin.ProjectA/bin/Release/net10.0 dist 2>&1 | tee "$RESULTS/package.log"
+          cp dist/manifest-entry.json "$RESULTS/"
+
+      - name: Live server test (official Jellyfin 12.4 image + Jellyfin Enhanced 12.14.0.0)
+        run: |
+          python3 tests/integration/live_server.py \
+            --zip "$(ls dist/project-a_*.zip | grep -v _source)" \
+            --endpoints "$RESULTS/endpoints.json" \
+            --out "$RESULTS/live" --keep --creds "$RUNNER_TEMP/live-ui-credentials.json" 2>&1 | tee "$RESULTS/live-server.log"
+
+      - name: Live UI test (real sign-in, header button, More menu, page)
+        working-directory: tests/browser
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: node ../integration/live_ui.mjs "$RUNNER_TEMP/live-ui-credentials.json" "$RESULTS/live-ui" 2>&1 | tee "$RESULTS/live-ui.log"
+
+      - name: Stop the test server
+        if: always()
+        run: |
+          docker rm -f projecta-live >/dev/null 2>&1 || true
+          rm -f "$RUNNER_TEMP/live-ui-credentials.json"
+
+      - name: Upload release files
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 30
+
+      - name: Publish results to the ci-results branch
+        if: always() && github.event_name != 'pull_request'
+        env:
+          SHA: ${{ github.sha }}
+          STATUS: ${{ job.status }}
+        run: |
+          set -u
+          printf '{"commit":"%s","ref":"%s","status":"%s","run":"%s"}\n' "$SHA" "$GITHUB_REF" "$STATUS" "$GITHUB_RUN_ID" > "$RESULTS/run.json"
+          # Last line of defence: refuse to publish anything that looks like a credential.
+          if grep -rIlE 'AccessToken"?\s*[:=]\s*"?[0-9a-f]{32}|Token="[0-9a-f]{32}|"password"' "$RESULTS"; then
+            echo "Refusing to publish: possible credential in results." >&2; exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch --depth 1 origin ci-results 2>/dev/null; then
+            git worktree add ../pub FETCH_HEAD
+          else
+            git worktree add --detach ../pub && (cd ../pub && git checkout --orphan ci-results && git rm -rq .)
+          fi
+          cd ../pub
+          rm -rf latest "runs/$SHA" && mkdir -p runs
+          cp -r "$RESULTS" latest && cp -r "$RESULTS" "runs/$SHA"
+          # Keep the 20 most recent runs.
+          ls -1t runs | tail -n +21 | xargs -r -I{} rm -rf "runs/{}"
+          git add -A
+          git commit -qm "CI results for $SHA ($STATUS)" || true
+          git push origin HEAD:ci-results
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build-test
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write   # create the release and update manifest.json
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Check the tag matches the version
+        run: |
+          version=$(grep -oP '(?<=<Version>)[0-9.]+(?=</Version>)' Directory.Build.props)
+          test "v$version" = "$GITHUB_REF_NAME" || { echo "Tag $GITHUB_REF_NAME does not match version $version"; exit 1; }
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'EOF' > notes.md
+          import json; print(json.load(open("dist/manifest-entry.json"))["changelog"])
+          EOF
+          gh release create "$GITHUB_REF_NAME" --title "Project A $VERSION" --notes-file notes.md \
+            "dist/project-a_${VERSION}.zip" "dist/project-a_${VERSION}_source.zip"
+
+      - name: Add the release to manifest.json
+        run: |
+          python3 build/update_manifest.py dist/manifest-entry.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add manifest.json
+          git commit -m "Catalog: add Project A $VERSION"
+          git push origin HEAD:main

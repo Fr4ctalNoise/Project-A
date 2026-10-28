@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- SPDX-License-Identifier: GPL-3.0-only -->
+
+  <PropertyGroup>
+    <RootNamespace>Jellyfin.Plugin.ProjectA</RootNamespace>
+    <AssemblyName>Jellyfin.Plugin.ProjectA</AssemblyName>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Only our own DLL goes into the plugin folder; see the PackageReference notes below. -->
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- ASP.NET Core (controllers, middleware) comes with the .NET runtime Jellyfin runs on. -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Provided by the Jellyfin server at runtime; never shipped. -->
+    <PackageReference Include="Jellyfin.Controller" Version="$(JellyfinPackageVersion)" PrivateAssets="all">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="Jellyfin.Model" Version="$(JellyfinPackageVersion)" PrivateAssets="all">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <!--
+      SQLite: compiled against, but the server's own copy is used at runtime.
+      Jellyfin loads each plugin in its own load context and falls back to the
+      server's assemblies for anything not in the plugin folder
+      (Emby.Server.Implementations/Plugins/PluginLoadContext.cs). The server has
+      already loaded and initialised SQLite for its own database, so shipping a
+      second copy could only conflict with it. A build test fails if any SQLite
+      file ends up in the release zip.
+    -->
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="$(SqlitePackageVersion)" PrivateAssets="all">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Configuration\configPage.html" LogicalName="Jellyfin.Plugin.ProjectA.Configuration.configPage.html" />
+    <EmbeddedResource Include="Web\client\projectA.js" LogicalName="Jellyfin.Plugin.ProjectA.Web.client.projectA.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Jellyfin.Plugin.ProjectA.Tests" />
+  </ItemGroup>
+</Project>

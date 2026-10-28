@@ -28,3 +28,7 @@ captures/
 *.db
 *.db-wal
 *.db-shm
+
+# Python bytecode
+__pycache__/
+*.pyc

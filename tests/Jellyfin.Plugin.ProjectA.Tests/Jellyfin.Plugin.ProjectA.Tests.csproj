@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- SPDX-License-Identifier: GPL-3.0-only -->
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!-- Test method names describe behaviour in words; underscores are intended. -->
+    <NoWarn>$(NoWarn);CA1707</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Unlike the plugin, tests run outside Jellyfin, so they need the real runtime assemblies. -->
+    <PackageReference Include="Jellyfin.Controller" Version="$(JellyfinPackageVersion)" />
+    <PackageReference Include="Jellyfin.Model" Version="$(JellyfinPackageVersion)" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="$(SqlitePackageVersion)" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="10.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+    <PackageReference Include="xunit" Version="2.*" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.*" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Jellyfin.Plugin.ProjectA\Jellyfin.Plugin.ProjectA.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Fixtures\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

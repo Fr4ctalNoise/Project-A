@@ -1,0 +1,59 @@
+<!-- SPDX-License-Identifier: GPL-3.0-only -->
+<!-- Project A settings page (Dashboard > Plugins > Project A). Admin-only: Jellyfin serves plugin pages inside the dashboard. -->
+<div id="projectAConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-checkbox">
+    <div data-role="content">
+        <div class="content-primary">
+            <form id="projectAConfigForm">
+                <div class="verticalSection">
+                    <h2 class="sectionTitle">Project A</h2>
+                    <p>The social feed is in development. This page will gain settings as features arrive.</p>
+                </div>
+
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label class="emby-checkbox-label">
+                        <input id="disableScriptInjection" name="disableScriptInjection" type="checkbox" is="emby-checkbox" />
+                        <span>Turn off Project A in the web interface</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">
+                        Emergency switch. Jellyfin's web page is served without Project A's script, so its button and page disappear.
+                        Takes effect on the next page load (press Ctrl+F5).
+                    </div>
+                </div>
+
+                <div>
+                    <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+                        <span>Save</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        (function () {
+            'use strict';
+            var pluginId = '0fe4dc69-b52d-40bc-ad8d-ff518bad55a3';
+            var page = document.querySelector('#projectAConfigPage');
+
+            page.addEventListener('pageshow', function () {
+                Dashboard.showLoadingMsg();
+                ApiClient.getPluginConfiguration(pluginId).then(function (config) {
+                    page.querySelector('#disableScriptInjection').checked = config.DisableScriptInjection === true;
+                    Dashboard.hideLoadingMsg();
+                });
+            });
+
+            page.querySelector('#projectAConfigForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                Dashboard.showLoadingMsg();
+                ApiClient.getPluginConfiguration(pluginId).then(function (config) {
+                    config.DisableScriptInjection = page.querySelector('#disableScriptInjection').checked;
+                    ApiClient.updatePluginConfiguration(pluginId, config).then(function (result) {
+                        Dashboard.processPluginConfigurationUpdateResult(result);
+                    });
+                });
+                return false;
+            });
+        })();
+    </script>
+</div>
