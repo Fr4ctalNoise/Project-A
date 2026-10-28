@@ -34,6 +34,8 @@ import zipfile
 JE_MANIFEST = "https://raw.githubusercontent.com/n00bcodr/jellyfin-plugins/main/manifest.json"
 JE_VERSION = "12.14.0.0"
 PLUGIN_GUID = "0fe4dc69-b52d-40bc-ad8d-ff518bad55a3"
+CONTAINER = "projecta-live"
+REPO = pathlib.Path(__file__).resolve().parents[2]
 CLIENT = 'MediaBrowser Client="ProjectA-CI", Device="ci", DeviceId="ci-{}", Version="1.0"'
 
 results = []
@@ -126,7 +128,7 @@ def main():
     for p in work.rglob("*"):
         os.chmod(p, 0o777 if p.is_dir() else 0o666)
 
-    name = "projecta-live"
+    name = CONTAINER
     docker("rm", "-f", name, check_ok=False)
     image = None
     for candidate in [args.image, args.image + ".0"]:
@@ -299,6 +301,8 @@ def run_checks(srv, args, config, out):
     _, _, page = srv.call("GET", "/web/", raw=True)
     check("emergency switch off again: tag back", page.decode("utf-8", "replace").count("../Social/script?v=") == 1)
 
+    run_verify_auth_script(srv, admin, "ci-alice", user_pw, api_key, out)
+
     # Credentials for the UI test (throwaway server only), never printed.
     if args.creds:
         creds = pathlib.Path(args.creds).resolve()
@@ -306,6 +310,51 @@ def run_checks(srv, args, config, out):
             sys.exit("--creds must be outside the published results folder")
         creds.write_text(json.dumps({"base": srv.base, "user": "ci-alice", "password": user_pw}), encoding="utf-8")
         os.chmod(creds, 0o600)
+
+
+def run_verify_auth_script(srv, admin, user_name, user_pw, api_key, out):
+    """
+    Runs tests/live/verify-auth.sh exactly as VERIFY.md step 8 tells Michael to, so the
+    script he runs on his server is itself tested against a real Jellyfin first. Answers its
+    prompts in order (ordinary user, throwaway user, Enter after disabling it, API key),
+    disables the throwaway user at the pause, then checks the result line VERIFY.md promises
+    and that no password, token or key appears in the output.
+    """
+    script = REPO / "tests" / "live" / "verify-auth.sh"
+    endpoints = REPO / "tests" / "live" / "endpoints.tsv"
+    throwaway, throwaway_pw = "ci-script-disabled", secrets.token_urlsafe(18)
+    srv.call("POST", "/Users/New", token=admin, body={"Name": throwaway, "Password": throwaway_pw})
+    _, _, users = srv.call("GET", "/Users", token=admin)
+    throwaway_id = next(u["Id"] for u in users if u["Name"] == throwaway)
+
+    proc = subprocess.Popen(["bash", str(script), str(endpoints)], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                            stderr=subprocess.STDOUT, text=True, env={**os.environ, "CONTAINER": CONTAINER})
+    output = []
+    try:
+        proc.stdin.write(f"{user_name}\n{user_pw}\n{throwaway}\n{throwaway_pw}\n")
+        proc.stdin.flush()
+        for line in proc.stdout:  # wait for the script's pause, as Michael would
+            output.append(line)
+            if "Now, in Jellyfin" in line:
+                break
+        _, _, u = srv.call("GET", f"/Users/{throwaway_id}", token=admin)
+        policy = u["Policy"]
+        policy["IsDisabled"] = True
+        srv.call("POST", f"/Users/{throwaway_id}/Policy", token=admin, body=policy)
+        proc.stdin.write(f"\n{api_key}\n")
+        proc.stdin.close()
+    except BrokenPipeError:
+        pass  # the script stopped early; its output says why
+    output.append(proc.stdout.read())
+    proc.wait(timeout=180)
+    text = "".join(output)
+    (out / "verify-auth.log").write_text(text, encoding="utf-8")
+
+    result = next((l.strip() for l in text.splitlines() if l.startswith("Result:")), "no result line")
+    check("verify-auth.sh (VERIFY.md step 8) exits cleanly", proc.returncode == 0, f"exit {proc.returncode}")
+    check("verify-auth.sh reports what VERIFY.md promises", result == "Result: 5 passed, 0 failed.", result)
+    check("verify-auth.sh output holds no password, token or key",
+          not any(secret in text for secret in (user_pw, throwaway_pw, api_key)))
 
 
 if __name__ == "__main__":

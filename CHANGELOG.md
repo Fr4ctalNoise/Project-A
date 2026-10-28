@@ -17,8 +17,12 @@ page, it can write its own database, and nothing in it is reachable without sign
 - **Health check** `GET /Social/Health` for administrators and API keys: version, database state,
   whether the script is being injected. No user data.
 - **Access gate** on every endpoint except the script: signed-in, existing, enabled users only;
-  API keys refused except on the health check. Jellyfin's own check lets API keys and disabled
-  accounts through; this closes both.
+  API keys refused except on the health check. Jellyfin 12.4 already refuses disabled accounts
+  at sign-in (401), and the gate checks again in case that ever changes; Jellyfin treats API keys
+  as unrestricted administrators, and the gate is what refuses them.
+- **Page behaviour** tested on a real Jellyfin 12.4 in a real browser: opening the feed hides
+  Jellyfin's page (including its "Page not found" on a direct visit or refresh), leaving restores
+  it, and the page is discarded on sign-out or when a different user signs in.
 - **Emergency switch** in Dashboard → Plugins → Project A: turns off the script injection.
 - Never updates itself (`autoUpdate: false`).
 

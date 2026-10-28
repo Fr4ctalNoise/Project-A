@@ -3,7 +3,7 @@
 The current state of the work, kept up to date with every commit. Read this first
 (see `docs/PRINCIPLES.md`, session rules).
 
-**Updated:** 2026-10-28 01:30 MDT
+**Updated:** 2026-10-28 01:40 MDT
 
 ## Where things stand
 
@@ -20,7 +20,9 @@ The current state of the work, kept up to date with every commit. Read this firs
 
 ## Next step
 
-1. Release 0.1.0.0 and hand over `VERIFY.md` for the checks only the server can do.
+1. Part C (release): CI now also runs `tests/live/verify-auth.sh` exactly as `VERIFY.md` step 8
+   tells Michael to. When CI is green, tag `v0.1.0.0` (the release job builds the zip, creates
+   the GitHub release and adds it to `manifest.json`), then hand over `VERIFY.md`.
 
 ## Open questions
 
