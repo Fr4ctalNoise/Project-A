@@ -1,0 +1,394 @@
+[07:35:09.231] [INF] [4] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Setting cache path: /cache
+[07:35:09.398] [INF] [10] Jellyfin.Server.ServerSetupApp.SetupServer: Kestrel is listening on 0.0.0.0
+[07:35:09.425] [INF] [10] Main: Jellyfin version: 12.4.0
+[07:35:09.428] [INF] [10] Main: Environment Variables: ["[JELLYFIN_CONFIG_DIR, /config/config]", "[JELLYFIN_LOG_DIR, /config/log]", "[JELLYFIN_DATA_DIR, /config]", "[JELLYFIN_CACHE_DIR, /cache]", "[JELLYFIN_FFMPEG, /usr/lib/jellyfin-ffmpeg/ffmpeg]", "[JELLYFIN_WEB_DIR, /jellyfin/jellyfin-web]"]
+[07:35:09.430] [INF] [10] Main: Arguments: ["/jellyfin/jellyfin.dll"]
+[07:35:09.430] [INF] [10] Main: Operating system: Debian GNU/Linux 13 (trixie)
+[07:35:09.430] [INF] [10] Main: Architecture: X64
+[07:35:09.431] [INF] [10] Main: 64-Bit Process: True
+[07:35:09.431] [INF] [10] Main: User Interactive: True
+[07:35:09.431] [INF] [10] Main: Processor count: 4
+[07:35:09.431] [INF] [10] Main: Program data path: /config
+[07:35:09.431] [INF] [10] Main: Log directory path: /config/log
+[07:35:09.431] [INF] [10] Main: Config directory path: /config/config
+[07:35:09.431] [INF] [10] Main: Cache path: /cache
+[07:35:09.431] [INF] [10] Main: Temp directory path: /tmp/jellyfin
+[07:35:09.432] [INF] [10] Main: Web resources path: /jellyfin/jellyfin-web
+[07:35:09.432] [INF] [10] Main: Application directory: /jellyfin/
+[07:35:09.435] [INF] [10] Jellyfin.Server.Startup: Storage path `/config/data` (Fixed) successfully checked with 83GiB free which is over the minimum of 2GiB.
+[07:35:09.436] [INF] [10] Jellyfin.Server.Startup: Storage path `/cache` (Fixed) successfully checked with 83GiB free which is over the minimum of 2GiB.
+[07:35:09.436] [INF] [10] Jellyfin.Server.Startup: Storage path `/config` (Fixed) successfully checked with 83GiB free which is over the minimum of 2GiB.
+[07:35:09.464] [INF] [10] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Setting cache path: /cache
+[07:35:09.519] [INF] [10] Jellyfin.Database.Providers.Sqlite.SqliteDatabaseProvider: SQLite connection string: Data Source=/config/data/jellyfin.db;Cache=Private;Default Timeout=60;Pooling=True
+[07:35:09.525] [INF] [10] Jellyfin.Database.Providers.Sqlite.SqliteDatabaseProvider: SQLITE connection pragma command set to: 
+PRAGMA locking_mode=NORMAL;
+PRAGMA journal_size_limit=134217728;
+PRAGMA synchronous=1;
+PRAGMA temp_store=2;
+
+[07:35:09.527] [INF] [10] Jellyfin.Database.Implementations.Locking.NoLockBehavior: The database locking mode has been set to: NoLock.
+[07:35:09.559] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Initialise Migration service.
+[07:35:09.560] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: System initialization detected. Seed data. Startup mode is: MediaServer
+[07:35:10.617] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration 4124c2cd-e939-4ffb-9be9-9b311c413638-DisableTranscodingThrottling.
+[07:35:10.621] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration ef103419-8451-40d8-9f34-d1a8e93a1679-CreateUserLoggingConfigFile.
+[07:35:10.622] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration 3793eb59-bc8c-456c-8b9f-bd5a62a42978-MigrateActivityLogDb.
+[07:35:10.622] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration acbe17b7-8435-4a83-8b64-6fcf162cb9bd-RemoveDuplicateExtras.
+[07:35:10.623] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration 5c4b82a2-f053-4009-bd05-b6fcad82f14c-MigrateUserDb.
+[07:35:10.623] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration 06387815-c3cc-421f-a888-fb5f9992bea8-MigrateDisplayPreferencesDb.
+[07:35:10.623] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration a81f75e0-8f43-416f-a5e8-516ccab4d8cc-RemoveDownloadImagesInAdvance.
+[07:35:10.623] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration 5bd72f41-e6f3-4f60-90aa-09869abe0e22-MigrateAuthenticationDb.
+[07:35:10.624] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration 615dfa9e-2497-4dbb-a472-61938b752c5b-FixPlaylistOwner.
+[07:35:10.624] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration cf6fabc2-9fbe-4933-84a5-ffe52ef22a58-FixAudioData.
+[07:35:10.624] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-MigrateLibraryDbCompatibilityCheck.
+[07:35:10.624] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-MigrateLibraryDb.
+[07:35:10.625] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-MoveExtractedFiles.
+[07:35:10.625] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-RefreshInternalDateModified.
+[07:35:10.625] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-MigrateKeyframeData.
+[07:35:10.625] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-MigrateLibraryUserData.
+[07:35:10.625] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-FixDates.
+[07:35:10.626] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-ReseedFolderFlag.
+[07:35:10.626] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-CleanMusicArtist.
+[07:35:10.626] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-MigrateLinkedChildren.
+[07:35:10.626] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-CleanupOrphanedExtras.
+[07:35:10.627] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-FixIncorrectOwnerIdRelationships.
+[07:35:10.627] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-FixLibrarySubtitleDownloadLanguages.
+[07:35:10.627] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-MergeDuplicateMusicArtists.
+[07:35:10.627] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-MergeDuplicatePeople.
+[07:35:10.627] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-CleanupOrphanedExternalData.
+[07:35:10.628] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-RefreshCleanNamesAndValues.
+[07:35:10.628] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-RefreshForcedSortNames.
+[07:35:10.628] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-RestorePlaylistChildrenFromMetadata.
+[07:35:10.628] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-RecomputeSeriesPresentationKey.
+[07:35:10.629] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-ConsolidateLocalizedUserViews.
+[07:35:10.629] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-EnableLocalSimilarityProviders.
+[07:35:10.629] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-RepairAlternateVersionLinks.
+[07:35:10.629] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-StripEmbeddedLinkedChildren.
+[07:35:10.629] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-HarmonizeConflictingUserData.
+[07:35:10.630] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-MigrateRatingLevels.
+[07:35:10.630] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-UpdateNormalizedUsername.
+[07:35:10.630] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-DisableLegacyAuthorization.
+[07:35:10.630] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration null-FixNullEncoderPreset.
+[07:35:10.631] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration 9b354818-94d5-4b68-ac49-e35cb85f9d84-CreateNetworkConfiguration.
+[07:35:10.631] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration a8e61960-7726-4450-8f3d-82c12daabbcb-MigrateEncodingOptions.
+[07:35:10.631] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration a6dcacf4-c057-4ef9-80d3-61cef9ddb4f0-MigrateMusicBrainzTimeout.
+[07:35:10.631] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration 4fb5c950-1991-11ee-9b4b-0800200c9a66-MigrateNetworkConfiguration.
+[07:35:10.631] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Seed migration e73b777d-cd5c-4e71-957a-b86b3660b7cf-RenameEnableGroupingIntoCollections.
+[07:35:10.637] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: Migration system initialisation completed.
+[07:35:10.652] [INF] [10] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Setting cache path: /cache
+[07:35:10.705] [INF] [10] Emby.Server.Implementations.ApplicationHost: Loading assemblies
+[07:35:10.726] [INF] [10] Emby.Server.Implementations.Plugins.PluginManager: Loaded assembly Jellyfin.Plugin.JellyfinEnhanced, Version=12.14.0.0, Culture=neutral, PublicKeyToken=null from /config/plugins/Jellyfin Enhanced_12.14.0.0/Jellyfin.Plugin.JellyfinEnhanced.dll
+[07:35:10.727] [INF] [10] Emby.Server.Implementations.Plugins.PluginManager: Loaded assembly Jellyfin.Plugin.ProjectA, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null from /config/plugins/Project A_0.1.0.0/Jellyfin.Plugin.ProjectA.dll
+[07:35:10.757] [INF] [10] Jellyfin.Networking.Manager.NetworkManager: Defined LAN subnets: ["127.0.0.0/8", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+[07:35:10.757] [INF] [10] Jellyfin.Networking.Manager.NetworkManager: Defined LAN exclusions: []
+[07:35:10.759] [INF] [10] Jellyfin.Networking.Manager.NetworkManager: Used LAN subnets: ["127.0.0.0/8", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+[07:35:10.761] [INF] [10] Jellyfin.Networking.Manager.NetworkManager: Filtered interface addresses: ["127.0.0.1", "172.17.0.2"]
+[07:35:10.761] [INF] [10] Jellyfin.Networking.Manager.NetworkManager: Bind Addresses ["0.0.0.0"]
+[07:35:10.761] [INF] [10] Jellyfin.Networking.Manager.NetworkManager: Remote IP filter is Allowlist
+[07:35:10.761] [INF] [10] Jellyfin.Networking.Manager.NetworkManager: Filtered subnets: []
+[07:35:10.941] [INF] [10] Jellyfin.Database.Providers.Sqlite.SqliteDatabaseProvider: SQLite connection string: Data Source=/config/data/jellyfin.db;Cache=Private;Default Timeout=60;Pooling=True
+[07:35:10.941] [INF] [10] Jellyfin.Database.Providers.Sqlite.SqliteDatabaseProvider: SQLITE connection pragma command set to: 
+PRAGMA locking_mode=NORMAL;
+PRAGMA journal_size_limit=134217728;
+PRAGMA synchronous=1;
+PRAGMA temp_store=2;
+
+[07:35:10.941] [INF] [10] Jellyfin.Database.Implementations.Locking.NoLockBehavior: The database locking mode has been set to: NoLock.
+[07:35:10.989] [INF] [10] Main: Prepare system for possible migrations
+[07:35:11.027] [INF] [10] Main: A migration will attempt to modify the jellyfin.db, will attempt to backup the file now.
+[07:35:11.031] [INF] [10] Main: Jellyfin database has been backed up as 20261028073511
+[07:35:11.034] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: There are 56 migrations for stage CoreInitialisation.
+[07:35:11.036] [INF] [10] InternalDatabaseMigration: Perform migration 20200514181226_AddActivityLog
+[07:35:11.074] [INF] [10] InternalDatabaseMigration: Migration 20200514181226_AddActivityLog was successfully applied
+[07:35:11.075] [INF] [10] InternalDatabaseMigration: Perform migration 20200613202153_AddUsers
+[07:35:11.104] [INF] [10] InternalDatabaseMigration: Migration 20200613202153_AddUsers was successfully applied
+[07:35:11.105] [INF] [10] InternalDatabaseMigration: Perform migration 20200728005145_AddDisplayPreferences
+[07:35:11.125] [INF] [10] InternalDatabaseMigration: Migration 20200728005145_AddDisplayPreferences was successfully applied
+[07:35:11.126] [INF] [10] InternalDatabaseMigration: Perform migration 20200905220533_FixDisplayPreferencesIndex
+[07:35:11.135] [INF] [10] InternalDatabaseMigration: Migration 20200905220533_FixDisplayPreferencesIndex was successfully applied
+[07:35:11.136] [INF] [10] InternalDatabaseMigration: Perform migration 20201004171403_AddMaxActiveSessions
+[07:35:11.150] [INF] [10] InternalDatabaseMigration: Migration 20201004171403_AddMaxActiveSessions was successfully applied
+[07:35:11.151] [INF] [10] InternalDatabaseMigration: Perform migration 20201204223655_AddCustomDisplayPreferences
+[07:35:11.173] [INF] [10] InternalDatabaseMigration: Migration 20201204223655_AddCustomDisplayPreferences was successfully applied
+[07:35:11.174] [INF] [10] InternalDatabaseMigration: Perform migration 20210320181425_AddIndexesAndCollations
+[07:35:11.195] [WRN] [10] Microsoft.EntityFrameworkCore.Migrations: An operation of type 'SqlOperation' will be attempted while a rebuild of table 'ImageInfos' is pending. The database may not be in an expected state. Review the SQL generated by this migration to help diagnose any failures. Consider moving these operations to a subsequent migration.
+[07:35:11.196] [WRN] [10] Microsoft.EntityFrameworkCore.Migrations: An operation of type 'SqlOperation' will be attempted while a rebuild of table 'ImageInfos' is pending. The database may not be in an expected state. Review the SQL generated by this migration to help diagnose any failures. Consider moving these operations to a subsequent migration.
+[07:35:11.198] [WRN] [10] Microsoft.EntityFrameworkCore.Migrations: An operation of type 'SqlOperation' will be attempted while a rebuild of table 'Permissions' is pending. The database may not be in an expected state. Review the SQL generated by this migration to help diagnose any failures. Consider moving these operations to a subsequent migration.
+[07:35:11.198] [WRN] [10] Microsoft.EntityFrameworkCore.Migrations: An operation of type 'SqlOperation' will be attempted while a rebuild of table 'Permissions' is pending. The database may not be in an expected state. Review the SQL generated by this migration to help diagnose any failures. Consider moving these operations to a subsequent migration.
+[07:35:11.198] [WRN] [10] Microsoft.EntityFrameworkCore.Migrations: An operation of type 'SqlOperation' will be attempted while a rebuild of table 'Preferences' is pending. The database may not be in an expected state. Review the SQL generated by this migration to help diagnose any failures. Consider moving these operations to a subsequent migration.
+[07:35:11.199] [WRN] [10] Microsoft.EntityFrameworkCore.Migrations: An operation of type 'SqlOperation' will be attempted while a rebuild of table 'Preferences' is pending. The database may not be in an expected state. Review the SQL generated by this migration to help diagnose any failures. Consider moving these operations to a subsequent migration.
+[07:35:11.199] [WRN] [10] Microsoft.EntityFrameworkCore.Migrations: An operation of type 'SqlOperation' will be attempted while a rebuild of table 'Users' is pending. The database may not be in an expected state. Review the SQL generated by this migration to help diagnose any failures. Consider moving these operations to a subsequent migration.
+[07:35:11.199] [WRN] [10] Microsoft.EntityFrameworkCore.Migrations: An operation of type 'SqlOperation' will be attempted while a rebuild of table 'Users' is pending. The database may not be in an expected state. Review the SQL generated by this migration to help diagnose any failures. Consider moving these operations to a subsequent migration.
+[07:35:11.206] [INF] [10] InternalDatabaseMigration: Migration 20210320181425_AddIndexesAndCollations was successfully applied
+[07:35:11.207] [INF] [10] InternalDatabaseMigration: Perform migration 20210407110544_NullableCustomPrefValue
+[07:35:11.222] [INF] [10] InternalDatabaseMigration: Migration 20210407110544_NullableCustomPrefValue was successfully applied
+[07:35:11.224] [INF] [10] InternalDatabaseMigration: Perform migration 20210814002109_AddDevices
+[07:35:11.239] [INF] [10] InternalDatabaseMigration: Migration 20210814002109_AddDevices was successfully applied
+[07:35:11.240] [INF] [10] InternalDatabaseMigration: Perform migration 20221022080052_AddIndexActivityLogsDateCreated
+[07:35:11.251] [INF] [10] InternalDatabaseMigration: Migration 20221022080052_AddIndexActivityLogsDateCreated was successfully applied
+[07:35:11.252] [INF] [10] InternalDatabaseMigration: Perform migration 20230526173516_RemoveEasyPassword
+[07:35:11.271] [INF] [10] InternalDatabaseMigration: Migration 20230526173516_RemoveEasyPassword was successfully applied
+[07:35:11.272] [INF] [10] InternalDatabaseMigration: Perform migration 20230626233818_AddTrickplayInfos
+[07:35:11.286] [INF] [10] InternalDatabaseMigration: Migration 20230626233818_AddTrickplayInfos was successfully applied
+[07:35:11.287] [INF] [10] InternalDatabaseMigration: Perform migration 20230923170422_UserCastReceiver
+[07:35:11.305] [INF] [10] InternalDatabaseMigration: Migration 20230923170422_UserCastReceiver was successfully applied
+[07:35:11.306] [INF] [10] InternalDatabaseMigration: Perform migration 20240729140605_AddMediaSegments
+[07:35:11.319] [INF] [10] InternalDatabaseMigration: Migration 20240729140605_AddMediaSegments was successfully applied
+[07:35:11.320] [INF] [10] InternalDatabaseMigration: Perform migration 20240928082930_MarkSegmentProviderIdNonNullable
+[07:35:11.338] [INF] [10] InternalDatabaseMigration: Migration 20240928082930_MarkSegmentProviderIdNonNullable was successfully applied
+[07:35:11.339] [INF] [10] InternalDatabaseMigration: Perform migration 20241020103111_LibraryDbMigration
+[07:35:11.388] [INF] [10] InternalDatabaseMigration: Migration 20241020103111_LibraryDbMigration was successfully applied
+[07:35:11.389] [INF] [10] InternalDatabaseMigration: Perform migration 20241111131257_AddedCustomDataKey
+[07:35:11.413] [INF] [10] InternalDatabaseMigration: Migration 20241111131257_AddedCustomDataKey was successfully applied
+[07:35:11.415] [INF] [10] InternalDatabaseMigration: Perform migration 20241111135439_AddedCustomDataKeyKey
+[07:35:11.456] [INF] [10] InternalDatabaseMigration: Migration 20241111135439_AddedCustomDataKeyKey was successfully applied
+[07:35:11.458] [INF] [10] InternalDatabaseMigration: Perform migration 20241112152323_FixAncestorIdConfig
+[07:35:11.497] [INF] [10] InternalDatabaseMigration: Migration 20241112152323_FixAncestorIdConfig was successfully applied
+[07:35:11.499] [INF] [10] InternalDatabaseMigration: Perform migration 20241112232041_FixMediaStreams
+[07:35:11.543] [INF] [10] InternalDatabaseMigration: Migration 20241112232041_FixMediaStreams was successfully applied
+[07:35:11.544] [INF] [10] InternalDatabaseMigration: Perform migration 20241112234144_FixMediaStreams2
+[07:35:11.600] [INF] [10] InternalDatabaseMigration: Migration 20241112234144_FixMediaStreams2 was successfully applied
+[07:35:11.602] [INF] [10] InternalDatabaseMigration: Perform migration 20241113133548_EnforceUniqueItemValue
+[07:35:11.626] [INF] [10] InternalDatabaseMigration: Migration 20241113133548_EnforceUniqueItemValue was successfully applied
+[07:35:11.627] [INF] [10] InternalDatabaseMigration: Perform migration 20250202021306_FixedCollation
+[07:35:11.668] [INF] [10] InternalDatabaseMigration: Migration 20250202021306_FixedCollation was successfully applied
+[07:35:11.669] [INF] [10] InternalDatabaseMigration: Perform migration 20250204092455_MakeStartEndDateNullable
+[07:35:11.712] [INF] [10] InternalDatabaseMigration: Migration 20250204092455_MakeStartEndDateNullable was successfully applied
+[07:35:11.714] [INF] [10] InternalDatabaseMigration: Perform migration 20250214031148_ChannelIdGuid
+[07:35:11.738] [INF] [10] InternalDatabaseMigration: Migration 20250214031148_ChannelIdGuid was successfully applied
+[07:35:11.740] [INF] [10] InternalDatabaseMigration: Perform migration 20250326065026_AddInheritedParentalRatingSubValue
+[07:35:11.768] [INF] [10] InternalDatabaseMigration: Migration 20250326065026_AddInheritedParentalRatingSubValue was successfully applied
+[07:35:11.770] [INF] [10] InternalDatabaseMigration: Perform migration 20250327101120_AddKeyframeData
+[07:35:11.801] [INF] [10] InternalDatabaseMigration: Migration 20250327101120_AddKeyframeData was successfully applied
+[07:35:11.803] [INF] [10] InternalDatabaseMigration: Perform migration 20250327171413_AddHdr10PlusFlag
+[07:35:11.834] [INF] [10] InternalDatabaseMigration: Migration 20250327171413_AddHdr10PlusFlag was successfully applied
+[07:35:11.836] [INF] [10] InternalDatabaseMigration: Perform migration 20250331182844_FixAttachmentMigration
+[07:35:11.878] [INF] [10] InternalDatabaseMigration: Migration 20250331182844_FixAttachmentMigration was successfully applied
+[07:35:11.879] [INF] [10] InternalDatabaseMigration: Perform migration 20250401142247_FixAncestors
+[07:35:11.903] [INF] [10] InternalDatabaseMigration: Migration 20250401142247_FixAncestors was successfully applied
+[07:35:11.905] [INF] [10] InternalDatabaseMigration: Perform migration 20250405075612_FixItemValuesIndices
+[07:35:11.930] [INF] [10] InternalDatabaseMigration: Migration 20250405075612_FixItemValuesIndices was successfully applied
+[07:35:11.931] [INF] [10] InternalDatabaseMigration: Perform migration 20250609115616_DetachUserDataInsteadOfDelete
+[07:35:11.981] [INF] [10] InternalDatabaseMigration: Migration 20250609115616_DetachUserDataInsteadOfDelete was successfully applied
+[07:35:11.982] [INF] [10] InternalDatabaseMigration: Perform migration 20250622170802_BaseItemImageInfoDateModifiedNullable
+[07:35:12.025] [INF] [10] InternalDatabaseMigration: Migration 20250622170802_BaseItemImageInfoDateModifiedNullable was successfully applied
+[07:35:12.026] [INF] [10] InternalDatabaseMigration: Perform migration 20250714044826_ResetJournalMode
+[07:35:12.051] [INF] [10] InternalDatabaseMigration: Migration 20250714044826_ResetJournalMode was successfully applied
+[07:35:12.052] [INF] [10] InternalDatabaseMigration: Perform migration 20250913211637_AddProperParentChildRelationBaseItemWithCascade
+[07:35:12.102] [INF] [10] InternalDatabaseMigration: Migration 20250913211637_AddProperParentChildRelationBaseItemWithCascade was successfully applied
+[07:35:12.104] [INF] [10] InternalDatabaseMigration: Perform migration 20250925203415_ExtendPeopleMapKey
+[07:35:12.146] [INF] [10] InternalDatabaseMigration: Migration 20250925203415_ExtendPeopleMapKey was successfully applied
+[07:35:12.147] [INF] [10] InternalDatabaseMigration: Perform migration 20260113102337_AddLinkedChildrenTable
+[07:35:12.174] [INF] [10] InternalDatabaseMigration: Migration 20260113102337_AddLinkedChildrenTable was successfully applied
+[07:35:12.176] [INF] [10] InternalDatabaseMigration: Perform migration 20260113203012_ChangeOwnerIdToGuid
+[07:35:12.232] [INF] [10] InternalDatabaseMigration: Migration 20260113203012_ChangeOwnerIdToGuid was successfully applied
+[07:35:12.233] [INF] [10] InternalDatabaseMigration: Perform migration 20260113233000_AddForeignKeyToOwnerId
+[07:35:12.274] [WRN] [10] Microsoft.EntityFrameworkCore.Migrations: An operation of type 'SqlOperation' will be attempted while a rebuild of table 'BaseItems' is pending. The database may not be in an expected state. Review the SQL generated by this migration to help diagnose any failures. Consider moving these operations to a subsequent migration.
+[07:35:12.274] [WRN] [10] Microsoft.EntityFrameworkCore.Migrations: An operation of type 'UpdateDataOperation' will be attempted while a rebuild of table 'BaseItems' is pending. The database may not be in an expected state. Review the SQL generated by this migration to help diagnose any failures. Consider moving these operations to a subsequent migration.
+[07:35:12.284] [INF] [10] InternalDatabaseMigration: Migration 20260113233000_AddForeignKeyToOwnerId was successfully applied
+[07:35:12.286] [INF] [10] InternalDatabaseMigration: Perform migration 20260113233500_DropExtraIdsColumn
+[07:35:12.337] [INF] [10] InternalDatabaseMigration: Migration 20260113233500_DropExtraIdsColumn was successfully applied
+[07:35:12.339] [INF] [10] InternalDatabaseMigration: Perform migration 20260116114245_AddLatestItemsDateCreatedIndexes
+[07:35:12.365] [INF] [10] InternalDatabaseMigration: Migration 20260116114245_AddLatestItemsDateCreatedIndexes was successfully applied
+[07:35:12.367] [INF] [10] InternalDatabaseMigration: Perform migration 20260118182305_AddIndicesToImageInfo
+[07:35:12.393] [INF] [10] InternalDatabaseMigration: Migration 20260118182305_AddIndicesToImageInfo was successfully applied
+[07:35:12.395] [INF] [10] InternalDatabaseMigration: Perform migration 20260130232147_AddBaseItemNameIndex
+[07:35:12.422] [INF] [10] InternalDatabaseMigration: Migration 20260130232147_AddBaseItemNameIndex was successfully applied
+[07:35:12.424] [INF] [10] InternalDatabaseMigration: Perform migration 20260206224832_IndexOptimizations
+[07:35:12.451] [INF] [10] InternalDatabaseMigration: Migration 20260206224832_IndexOptimizations was successfully applied
+[07:35:12.452] [INF] [10] InternalDatabaseMigration: Perform migration 20260215201634_ChangePrimaryVersionIdToGuid
+[07:35:12.479] [INF] [10] InternalDatabaseMigration: Migration 20260215201634_ChangePrimaryVersionIdToGuid was successfully applied
+[07:35:12.481] [INF] [10] InternalDatabaseMigration: Perform migration 20260308123920_AddTypeCleanNameIndex
+[07:35:12.507] [INF] [10] InternalDatabaseMigration: Migration 20260308123920_AddTypeCleanNameIndex was successfully applied
+[07:35:12.508] [INF] [10] InternalDatabaseMigration: Perform migration 20260504075755_AddPartialIndexForItemCounts
+[07:35:12.535] [INF] [10] InternalDatabaseMigration: Migration 20260504075755_AddPartialIndexForItemCounts was successfully applied
+[07:35:12.537] [INF] [10] InternalDatabaseMigration: Perform migration 20260522092303_AddNormalizedUsername
+[07:35:12.564] [INF] [10] InternalDatabaseMigration: Migration 20260522092303_AddNormalizedUsername was successfully applied
+[07:35:12.565] [INF] [10] InternalDatabaseMigration: Perform migration 20260524120336_AddUniqueNormalizedUsernameIndex
+[07:35:12.592] [INF] [10] InternalDatabaseMigration: Migration 20260524120336_AddUniqueNormalizedUsernameIndex was successfully applied
+[07:35:12.593] [INF] [10] InternalDatabaseMigration: Perform migration 20260723111547_AllowDuplicatePlaylistChildren
+[07:35:12.640] [INF] [10] InternalDatabaseMigration: Migration 20260723111547_AllowDuplicatePlaylistChildren was successfully applied
+[07:35:12.642] [INF] [10] InternalDatabaseMigration: Perform migration 20260724185102_AddPrimaryVersionIdIndex
+[07:35:12.668] [INF] [10] InternalDatabaseMigration: Migration 20260724185102_AddPrimaryVersionIdIndex was successfully applied
+[07:35:12.670] [INF] [10] InternalDatabaseMigration: Perform migration 20260728170000_AddPeopleNameLowerIndex
+[07:35:12.696] [INF] [10] InternalDatabaseMigration: Migration 20260728170000_AddPeopleNameLowerIndex was successfully applied
+[07:35:12.697] [INF] [10] InternalDatabaseMigration: Perform migration 20260728182152_AddPeopleItemMapCoveringIndex
+[07:35:12.724] [INF] [10] InternalDatabaseMigration: Migration 20260728182152_AddPeopleItemMapCoveringIndex was successfully applied
+[07:35:12.725] [INF] [10] InternalDatabaseMigration: Perform migration 20260812050902_AddMediaStreamFilterIndex
+[07:35:12.751] [INF] [10] InternalDatabaseMigration: Migration 20260812050902_AddMediaStreamFilterIndex was successfully applied
+[07:35:12.753] [INF] [10] InternalDatabaseMigration: Perform migration 20260815063607_RemoveOrphanedUserPermissionsAndPreferences
+[07:35:12.803] [INF] [10] InternalDatabaseMigration: Migration 20260815063607_RemoveOrphanedUserPermissionsAndPreferences was successfully applied
+[07:35:12.805] [INF] [10] InternalDatabaseMigration: Perform migration 20261002210711_MakeOwnerIdIndexesPartial
+[07:35:12.832] [INF] [10] InternalDatabaseMigration: Migration 20261002210711_MakeOwnerIdIndexesPartial was successfully applied
+[07:35:12.935] [INF] [10] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Saving system configuration
+[07:35:12.936] [INF] [10] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Setting cache path: /cache
+[07:35:12.972] [INF] [10] Jellyfin.Plugin.JellyfinEnhanced: Jellyfin Enhanced v12.14.0.0 initialized. Plugin logs will be written to: /config/log/JellyfinEnhanced_2026-10-28.log
+[07:35:13.113] [INF] [10] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: Jellyfin Enhanced 12.14.0.0
+[07:35:13.121] [INF] [10] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: Project A 0.1.0.0
+[07:35:13.121] [INF] [10] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: TMDb 12.4.0.0
+[07:35:13.122] [INF] [10] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: Studio Images 12.4.0.0
+[07:35:13.122] [INF] [10] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: OMDb 12.4.0.0
+[07:35:13.133] [INF] [10] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: MusicBrainz 12.4.0.0
+[07:35:13.134] [INF] [10] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: ListenBrainz Similarity Provider 12.4.0.0
+[07:35:13.134] [INF] [10] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: AudioDB 12.4.0.0
+[07:35:13.176] [INF] [10] Emby.Server.Implementations.Library.Search.SearchManager: Registered 0 external search providers: . Fallback providers: Database (priority 100)
+[07:35:13.178] [INF] [10] Jellyfin.Server.Migrations.JellyfinMigrationService: There are 5 migrations for stage AppInitialisation.
+[07:35:13.178] [INF] [10] InternalCodeMigration: Perform migration 20250420090000_AddDefaultPluginRepository
+[07:35:13.180] [INF] [10] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Saving system configuration
+[07:35:13.181] [INF] [10] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Setting cache path: /cache
+[07:35:13.182] [INF] [10] InternalCodeMigration: Migration 20250420090000_AddDefaultPluginRepository was successfully applied
+[07:35:13.184] [INF] [10] InternalCodeMigration: Perform migration 20250420110000_ReaddDefaultPluginRepository
+[07:35:13.184] [INF] [10] InternalCodeMigration: Migration 20250420110000_ReaddDefaultPluginRepository was successfully applied
+[07:35:13.186] [INF] [10] InternalCodeMigration: Perform migration 20250420160000_AddDefaultCastReceivers
+[07:35:13.187] [INF] [10] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Saving system configuration
+[07:35:13.187] [INF] [10] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Setting cache path: /cache
+[07:35:13.188] [INF] [10] InternalCodeMigration: Migration 20250420160000_AddDefaultCastReceivers was successfully applied
+[07:35:13.190] [INF] [10] InternalCodeMigration: Perform migration 20250420170000_UpdateDefaultPluginRepository
+[07:35:13.190] [INF] [10] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Saving system configuration
+[07:35:13.190] [INF] [10] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Setting cache path: /cache
+[07:35:13.191] [INF] [10] InternalCodeMigration: Migration 20250420170000_UpdateDefaultPluginRepository was successfully applied
+[07:35:13.193] [INF] [10] InternalCodeMigration: Perform migration 20250420230000_MoveTrickplayFiles
+[07:35:13.683] [INF] [10] Jellyfin.Server.Migrations.Routines.MoveTrickplayFiles: Checked: 5000 - Moved: 0 - Time: 00:00:00.4890271
+[07:35:13.683] [INF] [10] Jellyfin.Server.Migrations.Routines.MoveTrickplayFiles: Moved 0 items in 00:00:00.4894801
+[07:35:13.684] [INF] [10] InternalCodeMigration: Migration 20250420230000_MoveTrickplayFiles was successfully applied
+[07:35:13.686] [INF] [10] Main: Attempt to cleanup JellyfinDb backup.
+[07:35:13.687] [INF] [10] Main: Migrations have been applied, optimizing the database... This might take a while
+[07:35:13.716] [INF] [10] Jellyfin.Database.Providers.Sqlite.SqliteDatabaseProvider: Not analyzing jellyfin.db, the library holds no items yet
+[07:35:13.718] [INF] [10] Jellyfin.Database.Providers.Sqlite.SqliteDatabaseProvider: jellyfin.db optimized successfully!
+[07:35:13.756] [INF] [11] Main: Kestrel is listening on 0.0.0.0
+[07:35:14.830] [INF] [11] Emby.Server.Implementations.ApplicationHost: Running startup tasks
+[07:35:14.896] [INF] [11] Jellyfin.Plugin.JellyfinEnhanced: [MDBList] No cache file found, starting empty
+[07:35:14.918] [INF] [11] Emby.Server.Implementations.ScheduledTasks.TaskManager: Daily trigger for Refresh Tag Cache set to fire at 2026-10-29 03:00:00.000 +00:00, which is 19:24:45.0814090 from now.
+[07:35:14.919] [INF] [11] Emby.Server.Implementations.ScheduledTasks.TaskManager: Daily trigger for Sync Watchlist from Jellyfin to Seerr set to fire at 2026-10-29 03:30:00.000 +00:00, which is 19:54:45.0803954 from now.
+[07:35:14.920] [INF] [11] Emby.Server.Implementations.ScheduledTasks.TaskManager: Daily trigger for Sync Watchlist from Seerr to Jellyfin set to fire at 2026-10-29 03:00:00.000 +00:00, which is 19:24:45.0795809 from now.
+[07:35:14.924] [INF] [11] Emby.Server.Implementations.ScheduledTasks.TaskManager: Daily trigger for Generate Trickplay Images set to fire at 2026-10-29 03:00:00.000 +00:00, which is 19:24:45.0753656 from now.
+[07:35:14.926] [INF] [11] Emby.Server.Implementations.ScheduledTasks.TaskManager: Daily trigger for Extract Chapter Images set to fire at 2026-10-29 02:00:00.000 +00:00, which is 18:24:45.0733188 from now.
+[07:35:14.952] [INF] [11] MediaBrowser.MediaEncoding.Encoder.MediaEncoder: Found ffmpeg version 8.1.3
+[07:35:14.992] [INF] [11] MediaBrowser.MediaEncoding.Encoder.MediaEncoder: Available decoders: ["libdav1d", "av1", "av1_cuvid", "av1_qsv", "h264", "h264_qsv", "h264_cuvid", "hevc", "hevc_qsv", "hevc_cuvid", "mpeg2video", "mpeg2_qsv", "mpeg2_cuvid", "mpeg4", "mpeg4_cuvid", "msmpeg4", "vc1_qsv", "vc1_cuvid", "vp8", "libvpx", "vp8_cuvid", "vp8_qsv", "vp9", "libvpx-vp9", "vp9_cuvid", "vp9_qsv", "aac", "ac3", "ac4", "dca", "flac", "mp3", "truehd"]
+[07:35:15.011] [INF] [11] MediaBrowser.MediaEncoding.Encoder.MediaEncoder: Available encoders: ["libsvtav1", "av1_nvenc", "av1_qsv", "av1_amf", "av1_vaapi", "libx264", "h264_amf", "h264_nvenc", "h264_qsv", "h264_v4l2m2m", "h264_vaapi", "libx265", "hevc_amf", "hevc_nvenc", "hevc_qsv", "hevc_vaapi", "mjpeg_qsv", "mjpeg_vaapi", "aac", "libfdk_aac", "ac3", "alac", "dca", "flac", "libmp3lame", "libopus", "truehd", "libvorbis", "srt"]
+[07:35:15.041] [INF] [11] MediaBrowser.MediaEncoding.Encoder.MediaEncoder: Available filters: ["bwdif_cuda", "bwdif_opencl", "deinterlace_qsv", "deinterlace_vaapi", "flip_vulkan", "hwupload_cuda", "hwupload_vaapi", "libplacebo", "overlay_opencl", "overlay_qsv", "overlay_vaapi", "overlay_vulkan", "overlay_cuda", "procamp_vaapi", "scale_cuda", "scale_opencl", "scale_qsv", "scale_vaapi", "scale_vulkan", "tonemapx", "tonemap_cuda", "tonemap_opencl", "tonemap_vaapi", "transpose_cuda", "transpose_opencl", "transpose_vaapi", "transpose_vulkan", "vpp_qsv", "yadif_cuda", "yadif_opencl", "zscale", "alphasrc"]
+[07:35:15.270] [INF] [11] MediaBrowser.MediaEncoding.Encoder.MediaEncoder: Available hwaccel types: ["cuda", "vaapi", "qsv", "drm", "opencl", "vulkan", "amf"]
+[07:35:16.879] [INF] [11] MediaBrowser.MediaEncoding.Encoder.MediaEncoder: FFmpeg: /usr/lib/jellyfin-ffmpeg/ffmpeg
+[07:35:16.880] [INF] [11] Emby.Server.Implementations.ApplicationHost: ServerId: 93f5e165522442bf989bd2100e223419
+[07:35:16.880] [INF] [11] Emby.Server.Implementations.ApplicationHost: Core startup complete
+[07:35:16.880] [INF] [11] Main: Startup complete 0:00:07.850317
+[07:35:17.792] [INF] [6] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Saving system configuration
+[07:35:17.794] [INF] [6] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Setting cache path: /cache
+[07:35:17.810] [WRN] [10] Jellyfin.Server.Implementations.Users.UserManager: No users, creating one with username root
+[07:35:17.925] [INF] [20] Jellyfin.Plugin.JellyfinEnhanced: [CDN] Refreshing local CDN asset cache…
+[07:35:17.926] [INF] [4] Jellyfin.Plugin.JellyfinEnhanced: Jellyfin Enhanced Startup Task run successfully.
+[07:35:17.927] [INF] [16] Jellyfin.Plugin.JellyfinEnhanced: [Clear Translation Cache] Translation cache clear signal set at 2026-10-28T07:35:17.9240000+00:00. All clients will clear their translation cache on next page load.
+[07:35:17.929] [INF] [4] Jellyfin.Plugin.JellyfinEnhanced: Client script will be injected at request time by the injection middleware.
+[07:35:17.932] [INF] [16] Emby.Server.Implementations.ScheduledTasks.TaskManager: Refresh Translation Cache Completed after 0 minute(s) and 0 seconds
+[07:35:17.937] [INF] [6] Emby.Server.Implementations.ScheduledTasks.TaskManager: Clean Transcode Directory Completed after 0 minute(s) and 0 seconds
+[07:35:18.077] [WRN] [10] Microsoft.EntityFrameworkCore.Query: The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+[07:35:18.077] [INF] [4] Jellyfin.Plugin.JellyfinEnhanced: [WhatsNew] 107 new setting(s) pending in 12.14.0.0 (vs. last-acknowledged baseline 12.2.0.0): qualityTagsPreferredAudioLanguage, qualityTagsAudioLanguageFromUser, languageTagsPriority, languageTagsPriorityStrict, languageTagsMergeRegions, ratingTagsOnMovies, ratingTagsOnSeries, ratingTagsOnSeasons, ratingTagsOnEpisodes, ratingTagsOnContinueWatching, ratingTagsOnNextUp, ageRatingTagsEnabled, ageRatingTagsPosition, tagCacheExcludeLibraries, nativePosterTagsEnabled, nativePosterTagsWebClientNames, tagStylesEnabled, tagStyleTarget, tagStyleResetAll, spoilerBlurTrickplay, spoilerAutoEnableOnLibraryAdd, spoilerAutoEnableSeries, spoilerAutoEnableMovies, spoilerApplyExistingSkipStarted, spoilerApplyExistingBtn, spoilerAdvancedMode, spoilerNextEpisodeStripTitle, spoilerNextEpisodeStripOverview, spoilerNextEpisodeStripRatings, spoilerNextEpisodeStripImage, spoilerCurrentSeasonStripTitle, spoilerCurrentSeasonStripOverview, spoilerCurrentSeasonStripRatings, randomScopeCurrentContainer, audioLanguageTagSyncEnabled, audioLanguageTagPrefix, audioLanguageTagShowAsLinks, doesTheDogDieEnabled, doesTheDogDieApiKey, mdblistRatingsEnabled, mdblistApiKey, checkMdblistStatusBtn, mdblistRatingsShowOnItemDetails, mdblistRatingsFetchEnabled, mdblistFetchReserve, mdblistRatingsAutoSyncEnabled, mdblistCommunityRatingSource, mdblistCommunityRatingFallbackSource, mdblistCriticRatingSource, mdblistCriticRatingFallbackSource, mdblistRatingsOverwriteExisting, mdblistRatingsShowPercentSymbol, showPlaybackRatingBadge, DefaultSubtitleTextEffect, activityFeedEnabled, activityFeedShowWatched, activityFeedShowFavorited, activityFeedShowReviewed, activityFeedOwnOnlyForNonAdmins, activityFeedShowActiveStreams, activityFeedUseNativeTab, activityFeedUsePluginPages, activityFeedUseCustomTabs, activityFeedAutoCreateCustomTab, catchUpEnabled, catchUpLogEnabled, catchUpUseNativeTab, catchUpUsePluginPages, catchUpUseCustomTabs, catchUpAutoCreateCustomTab, jellyseerrSearchExcludeLibraryItems, jellyseerrSingleSeasonRequestOnly, jellyseerrAvailablePosterLinksToJellyfin, importSonarrFromSeerr, importRadarrFromSeerr, shokoUrl, shokoApiKey, shokoShowEpisodes, shokoShowSpecials, shokoShowCredits, shokoShowTrailers, shokoShowParodies, shokoShowOther, shokoUrlMappings, validateShokoMappingsBtn, ElsewhereSeasonProviders, showAnilistReviews, reviewTranslationEnabled, reviewTranslationUrl, reviewTranslationApiKey, mirrorReviewRatingsToJellyfin, analyticsEnabled, analyticsShareFeatureFlags, analyticsShareUsageCounts, analyticsShareDataSizes, analyticsReportIntervalDays, analyticsPreviewBtn, maintenanceModeDurationMinutes, maintenanceModeRemindOnPlayback, maintenanceScheduleEnabled, maintenanceScheduleStart, maintenanceScheduleEnd, maintenanceScheduleMessage, maintenanceScheduleNotificationMessage, mmSchedAction_accounts, mmSchedAction_remote, rebuildTagCacheBtn
+[07:35:18.090] [INF] [4] Jellyfin.Plugin.JellyfinEnhanced: [Auto-Season-Request] Auto-request monitoring is disabled in configuration - not subscribing to playback events
+[07:35:18.091] [INF] [4] Jellyfin.Plugin.JellyfinEnhanced: [Auto-Movie-Request] Auto-Movie-Request monitoring is disabled in configuration - not subscribing to playback events
+[07:35:18.092] [INF] [4] Jellyfin.Plugin.JellyfinEnhanced: [Watchlist] Watchlist monitoring is disabled in configuration - not subscribing to library events
+[07:35:18.092] [INF] [4] Jellyfin.Plugin.JellyfinEnhanced: [SeerrScan] Subscribed to library ItemAdded events
+[07:35:18.102] [INF] [4] Jellyfin.Plugin.JellyfinEnhanced: [TagCache] No cache file found, starting empty
+[07:35:18.103] [INF] [4] Jellyfin.Plugin.JellyfinEnhanced: [TagCacheMonitor] Event subscriptions active
+[07:35:18.103] [INF] [4] Jellyfin.Plugin.JellyfinEnhanced: [TagCache] No cache on disk; queuing the tag cache build.
+[07:35:18.104] [INF] [4] Jellyfin.Plugin.JellyfinEnhanced: Jellyfin Enhanced Startup Task completed successfully.
+[07:35:18.105] [INF] [11] Jellyfin.Plugin.JellyfinEnhanced: [TagCacheMonitor] Event subscriptions active
+[07:35:18.110] [INF] [4] Emby.Server.Implementations.ScheduledTasks.TaskManager: Jellyfin Enhanced Startup Completed after 0 minute(s) and 0 seconds
+[07:35:18.139] [INF] [11] Jellyfin.Plugin.JellyfinEnhanced: [TagCache] Cache is empty; running full build
+[07:35:18.147] [INF] [11] Jellyfin.Plugin.JellyfinEnhanced: [TagCache] Starting full cache build...
+[07:35:18.188] [INF] [11] Jellyfin.Plugin.JellyfinEnhanced: [TagCache] Found 0 taggable items
+[07:35:18.192] [INF] [11] Jellyfin.Plugin.JellyfinEnhanced: [TagCache] Full cache build complete: 0 entries in 0.0s
+[07:35:18.206] [INF] [11] Jellyfin.Plugin.JellyfinEnhanced: [TagCache] Saved 0 entries to disk
+[07:35:18.207] [INF] [11] Emby.Server.Implementations.ScheduledTasks.TaskManager: Refresh Tag Cache Completed after 0 minute(s) and 0 seconds
+[07:35:18.334] [INF] [11] Emby.Server.Implementations.ScheduledTasks.TaskManager: Update Plugins Completed after 0 minute(s) and 0 seconds
+[07:35:18.585] [INF] [21] Jellyfin.Networking.Manager.NetworkManager: Defined LAN subnets: ["127.0.0.0/8", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+[07:35:18.585] [INF] [21] Jellyfin.Networking.Manager.NetworkManager: Defined LAN exclusions: []
+[07:35:18.585] [INF] [21] Jellyfin.Networking.Manager.NetworkManager: Used LAN subnets: ["127.0.0.0/8", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+[07:35:18.586] [INF] [21] Jellyfin.Networking.Manager.NetworkManager: Filtered interface addresses: ["127.0.0.1", "172.17.0.2"]
+[07:35:18.586] [INF] [21] Jellyfin.Networking.Manager.NetworkManager: Bind Addresses ["0.0.0.0"]
+[07:35:18.586] [INF] [21] Jellyfin.Networking.Manager.NetworkManager: Remote IP filter is Allowlist
+[07:35:18.586] [INF] [21] Jellyfin.Networking.Manager.NetworkManager: Filtered subnets: []
+[07:35:18.589] [INF] [11] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Saving system configuration
+[07:35:18.589] [INF] [11] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Setting cache path: /cache
+[07:35:18.594] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Validating media library
+[07:35:18.887] [INF] [23] Jellyfin.Server.Implementations.Users.UserManager: Authentication request for ci-admin has succeeded.
+[07:35:18.888] [INF] [23] Emby.Server.Implementations.Session.SessionManager: Current/Max sessions for user ci-admin: 0/0
+[07:35:18.891] [INF] [23] Emby.Server.Implementations.Session.SessionManager: Creating new access token for user 53575560-1b5b-4fbb-8dfb-3e38b0d962ba
+[07:35:18.914] [WRN] [10] MediaBrowser.Controller.Entities.BaseItem: Library folder /config/data/playlists is inaccessible or empty, skipping
+[07:35:18.951] [WRN] [10] MediaBrowser.Controller.Entities.BaseItem: Library folder /config/data/playlists is inaccessible or empty, skipping
+[07:35:18.954] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Running 9 post-scan task(s)
+[07:35:18.955] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Running post-scan task 1/9: SplashscreenPostScanTask
+[07:35:18.985] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Post-scan task SplashscreenPostScanTask completed after 0 minute(s) and 0 seconds
+[07:35:18.985] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Running post-scan task 2/9: ArtistsPostScanTask
+[07:35:19.038] [WRN] [21] Jellyfin.Plugin.JellyfinEnhanced: [CDN] Failed to refresh known asset 'award-logos/oscar'.
+[07:35:19.053] [INF] [10] Emby.Server.Implementations.Library.Validators.ArtistsValidator: Refreshed metadata for 0 new artists out of 0 total
+[07:35:19.122] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Post-scan task ArtistsPostScanTask completed after 0 minute(s) and 0 seconds
+[07:35:19.122] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Running post-scan task 3/9: CollectionPosterVerifyPostScanTask
+[07:35:19.123] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Post-scan task CollectionPosterVerifyPostScanTask completed after 0 minute(s) and 0 seconds
+[07:35:19.123] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Running post-scan task 4/9: CollectionPostScanTask
+[07:35:19.127] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Post-scan task CollectionPostScanTask completed after 0 minute(s) and 0 seconds
+[07:35:19.127] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Running post-scan task 5/9: GenresPostScanTask
+[07:35:19.200] [INF] [10] Emby.Server.Implementations.Library.Validators.GenresValidator: Refreshed metadata for 0 new genres out of 0 total
+[07:35:19.266] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Post-scan task GenresPostScanTask completed after 0 minute(s) and 0 seconds
+[07:35:19.266] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Running post-scan task 6/9: MusicGenresPostScanTask
+[07:35:19.275] [INF] [10] Emby.Server.Implementations.Library.Validators.MusicGenresValidator: Refreshed metadata for 0 new music genres out of 0 total
+[07:35:19.275] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Post-scan task MusicGenresPostScanTask completed after 0 minute(s) and 0 seconds
+[07:35:19.275] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Running post-scan task 7/9: StudiosPostScanTask
+[07:35:19.298] [INF] [10] Emby.Server.Implementations.Library.Validators.StudiosValidator: Refreshed metadata for 0 new studios out of 0 total
+[07:35:19.361] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Post-scan task StudiosPostScanTask completed after 0 minute(s) and 0 seconds
+[07:35:19.361] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Running post-scan task 8/9: CleanDatabaseScheduledTask
+[07:35:19.451] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Post-scan task CleanDatabaseScheduledTask completed after 0 minute(s) and 0 seconds
+[07:35:19.451] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Running post-scan task 9/9: RefreshDatabaseStatisticsPostScanTask
+[07:35:19.454] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: Post-scan task RefreshDatabaseStatisticsPostScanTask completed after 0 minute(s) and 0 seconds
+[07:35:19.454] [INF] [10] Emby.Server.Implementations.Library.LibraryManager: All post-scan tasks completed after 0 minute(s) and 0 seconds
+[07:35:19.462] [INF] [10] Emby.Server.Implementations.ScheduledTasks.TaskManager: Scan Media Library Completed after 0 minute(s) and 0 seconds
+[07:35:19.664] [INF] [22] Jellyfin.Server.Implementations.Users.UserManager: Authentication request for ci-alice has succeeded.
+[07:35:19.666] [INF] [22] Emby.Server.Implementations.Session.SessionManager: Current/Max sessions for user ci-alice: 0/0
+[07:35:19.666] [INF] [22] Emby.Server.Implementations.Session.SessionManager: Creating new access token for user 858cc318-2312-41a3-a1af-c07ed48baeea
+[07:35:19.965] [INF] [20] Jellyfin.Server.Implementations.Users.UserManager: Authentication request for ci-disabled has succeeded.
+[07:35:19.966] [INF] [20] Emby.Server.Implementations.Session.SessionManager: Current/Max sessions for user ci-disabled: 0/0
+[07:35:19.966] [INF] [20] Emby.Server.Implementations.Session.SessionManager: Creating new access token for user ec7b92d7-ae29-4e74-96dd-4d621a5f31f6
+[07:35:20.238] [INF] [22] Jellyfin.Server.Implementations.Users.UserManager: Authentication request for ci-deleted has succeeded.
+[07:35:20.239] [INF] [22] Emby.Server.Implementations.Session.SessionManager: Current/Max sessions for user ci-deleted: 0/0
+[07:35:20.239] [INF] [22] Emby.Server.Implementations.Session.SessionManager: Creating new access token for user 6fa4dc7d-dd65-41c1-94ce-4829783f4667
+[07:35:20.321] [INF] [22] Emby.Server.Implementations.Session.SessionManager: Logging out access token 2fdd958e0dc0497884992f1968ac83a3
+[07:35:20.413] [INF] [4] Emby.Server.Implementations.Session.SessionManager: Logging out access token c84a384f1f8d46d6bca68adb730e56d3
+[07:35:20.631] [WRN] [22] MediaBrowser.Controller.Entities.BaseItem: Library folder /media/movies is inaccessible or empty, skipping
+[07:35:20.631] [WRN] [22] MediaBrowser.Controller.Entities.BaseItem: Library folder /config/data/playlists is inaccessible or empty, skipping
+[07:35:21.830] [WRN] [4] MediaBrowser.Controller.Entities.BaseItem: Library folder /media/shows is inaccessible or empty, skipping
+[07:35:21.830] [WRN] [4] MediaBrowser.Controller.Entities.BaseItem: Library folder /media/movies is inaccessible or empty, skipping
+[07:35:21.830] [WRN] [4] MediaBrowser.Controller.Entities.BaseItem: Library folder /config/data/playlists is inaccessible or empty, skipping
+[07:35:22.913] [WRN] [10] MediaBrowser.Controller.Entities.BaseItem: Library folder /media/anime-series is inaccessible or empty, skipping
+[07:35:22.914] [WRN] [10] MediaBrowser.Controller.Entities.BaseItem: Library folder /media/shows is inaccessible or empty, skipping
+[07:35:22.914] [WRN] [10] MediaBrowser.Controller.Entities.BaseItem: Library folder /media/movies is inaccessible or empty, skipping
+[07:35:22.914] [WRN] [10] MediaBrowser.Controller.Entities.BaseItem: Library folder /config/data/playlists is inaccessible or empty, skipping
+[07:35:24.009] [WRN] [10] MediaBrowser.Controller.Entities.BaseItem: Library folder /media/anime-series is inaccessible or empty, skipping
+[07:35:24.009] [WRN] [10] MediaBrowser.Controller.Entities.BaseItem: Library folder /media/anime-movies is inaccessible or empty, skipping
+[07:35:24.009] [WRN] [10] MediaBrowser.Controller.Entities.BaseItem: Library folder /media/shows is inaccessible or empty, skipping
+[07:35:24.009] [WRN] [10] MediaBrowser.Controller.Entities.BaseItem: Library folder /media/movies is inaccessible or empty, skipping
+[07:35:24.009] [WRN] [10] MediaBrowser.Controller.Entities.BaseItem: Library folder /config/data/playlists is inaccessible or empty, skipping
+[07:35:25.202] [INF] [22] Jellyfin.Plugin.ProjectA.Web.ScriptInjectionStartupFilter: Project A: added its script to the web page (request-time injection).
+[07:35:25.206] [INF] [22] Jellyfin.Plugin.JellyfinEnhanced: Jellyfin Enhanced: injected the client script via request-time middleware (IStartupFilter).
+[07:35:25.234] [INF] [22] Jellyfin.Api.Auth.CustomAuthenticationHandler: CustomAuthentication was not authenticated. Failure message: Invalid token.
+[07:35:25.238] [INF] [22] Jellyfin.Api.Auth.CustomAuthenticationHandler: CustomAuthentication was not authenticated. Failure message: Invalid token.
+[07:35:25.260] [INF] [4] Jellyfin.Api.Auth.CustomAuthenticationHandler: AuthenticationScheme: CustomAuthentication was challenged.
+[07:35:25.262] [INF] [22] Jellyfin.Api.Auth.CustomAuthenticationHandler: CustomAuthentication was not authenticated. Failure message: Invalid token.
+[07:35:25.262] [INF] [22] Jellyfin.Api.Auth.CustomAuthenticationHandler: CustomAuthentication was not authenticated. Failure message: Invalid token.
+[07:35:25.263] [INF] [22] Jellyfin.Api.Auth.CustomAuthenticationHandler: AuthenticationScheme: CustomAuthentication was challenged.
+[07:35:25.264] [INF] [20] Jellyfin.Api.Auth.CustomAuthenticationHandler: CustomAuthentication was not authenticated. Failure message: Invalid token.
+[07:35:25.264] [INF] [20] Jellyfin.Api.Auth.CustomAuthenticationHandler: CustomAuthentication was not authenticated. Failure message: Invalid token.
+[07:35:25.264] [INF] [20] Jellyfin.Api.Auth.CustomAuthenticationHandler: AuthenticationScheme: CustomAuthentication was challenged.
+[07:35:25.278] [INF] [10] Jellyfin.Plugin.ProjectA.Data.SocialStore: Project A: database ready at /config/plugins/configurations/ProjectA/social.db (schema 1)
+[07:35:25.818] [INF] [22] Jellyfin.Server.Implementations.Users.UserManager: Authentication request for ci-alice has succeeded.
+[07:35:25.818] [INF] [22] Emby.Server.Implementations.Session.SessionManager: Current/Max sessions for user ci-alice: 1/0
+[07:35:25.818] [INF] [22] Emby.Server.Implementations.Session.SessionManager: Creating new access token for user 858cc318-2312-41a3-a1af-c07ed48baeea
+[07:35:26.030] [INF] [10] Jellyfin.Server.Implementations.Users.UserManager: Authentication request for ci-script-disabled has succeeded.
+[07:35:26.030] [INF] [10] Emby.Server.Implementations.Session.SessionManager: Current/Max sessions for user ci-script-disabled: 0/0
+[07:35:26.030] [INF] [10] Emby.Server.Implementations.Session.SessionManager: Creating new access token for user 583789c6-0355-4bce-b428-15e6c26f85f7
+[07:35:26.094] [INF] [22] Emby.Server.Implementations.Session.SessionManager: Logging out access token 1aa29be05ed74484b9c82319c9cb599a
+[07:35:26.235] [INF] [10] Jellyfin.Api.Auth.CustomAuthenticationHandler: AuthenticationScheme: CustomAuthentication was challenged.
+[07:35:26.305] [INF] [22] Jellyfin.Api.Auth.CustomAuthenticationHandler: CustomAuthentication was not authenticated. Failure message: Invalid token.
+[07:35:26.305] [INF] [22] Jellyfin.Api.Auth.CustomAuthenticationHandler: CustomAuthentication was not authenticated. Failure message: Invalid token.
+[07:35:26.305] [INF] [22] Jellyfin.Api.Auth.CustomAuthenticationHandler: AuthenticationScheme: CustomAuthentication was challenged.
+[07:35:26.599] [INF] [21] Emby.Server.Implementations.Session.SessionManager: Logging out access token 6b93d95961b647bc97fd43f2fbee6be9
+[07:35:26.661] [INF] [20] Jellyfin.Api.Auth.CustomAuthenticationHandler: CustomAuthentication was not authenticated. Failure message: Invalid token.
+[07:35:26.662] [INF] [20] Jellyfin.Api.Auth.CustomAuthenticationHandler: CustomAuthentication was not authenticated. Failure message: Invalid token.
+[07:35:26.662] [INF] [20] Jellyfin.Api.Auth.CustomAuthenticationHandler: AuthenticationScheme: CustomAuthentication was challenged.
