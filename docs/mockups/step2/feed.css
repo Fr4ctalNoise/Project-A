@@ -41,8 +41,10 @@
   letter-spacing: var(--t-label-spacing, 0); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .projectA-when { font-size: 0.82em; color: var(--t-text-soft, rgb(255 255 255 / 0.6)); }
-.projectA-post-delete { color: var(--t-text-soft, inherit); opacity: 0.75; }
-.projectA-post-delete:hover { color: rgb(var(--t-bad-rgb, 244 67 54)); opacity: 1; }
+/* "More options" (⋯): actions such as Delete live in its menu, so they can't be hit by accident.
+   Shown only when the viewer has an action (CanDelete), never as a dead button. */
+.projectA-post-menu { color: var(--t-text-soft, inherit); opacity: 0.75; }
+.projectA-post-menu:hover, .projectA-post-menu[aria-expanded="true"] { color: var(--t-text, inherit); opacity: 1; }
 
 /* Rendered markdown: user text is isolated so right-to-left text can't flip the layout. */
 .projectA-body { unicode-bidi: isolate; overflow-wrap: anywhere; line-height: 1.55; }

@@ -40,7 +40,8 @@ later). "Show more" fold for long posts: approved. Paging: load automatically wh
 instead of a "Load more" button (part 3: an IntersectionObserver near the end of the list; the
 button stays only as a fallback if a load fails, and the end of the feed says "You're all caught
 up"). Watched, review and image posts get their own mockups with steps 4, 5 and 7, matching the
-design doc's full-feed mockup.
+design doc's full-feed mockup. Delete sits behind a "⋯" (More options) button, not a bin icon,
+so it can't be hit by accident; the open menu and the confirmation are drawn in 2c.
 
 
 - `step2/feed.html`, `step2/empty.html`: the proposed page markup (what part 3 will build with
