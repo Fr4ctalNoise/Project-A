@@ -1,6 +1,6 @@
 {
-  "passed": 14,
-  "failed": 1,
+  "passed": 15,
+  "failed": 0,
   "results": [
     {
       "check": "signed out: no Activity Feed button on the login page",
@@ -50,11 +50,11 @@
     {
       "check": "choosing it opens #/social with the placeholder page",
       "ok": true,
-      "detail": "{\"hash\":\"#/social\",\"visible\":true,\"othersVisible\":1,\"inMain\":true}"
+      "detail": "{\"hash\":\"#/social\",\"visible\":true,\"othersVisible\":0,\"inMain\":true}"
     },
     {
       "check": "the previous page is hidden while ours shows",
-      "ok": false,
+      "ok": true,
       "detail": ""
     },
     {

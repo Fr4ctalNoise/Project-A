@@ -7,11 +7,11 @@ PASS button label and icon
 PASS full width: button visible (not folded)
 PASS narrowing the window: the button folds into More  (folded at 1000 px)
 PASS More menu lists "Activity Feed"  (Random item, Activity Feed)
-PASS choosing it opens #/social with the placeholder page  ({"hash":"#/social","visible":true,"othersVisible":1,"inMain":true})
-FAIL the previous page is hidden while ours shows
+PASS choosing it opens #/social with the placeholder page  ({"hash":"#/social","visible":true,"othersVisible":0,"inMain":true})
+PASS the previous page is hidden while ours shows
 PASS the page sits in Jellyfin's page area
 PASS leaving restores Jellyfin's page  ({"ours":true,"home":true})
 PASS no problems reported by the script  ([])
 PASS no page errors or Project A console warnings
 
-14 passed, 1 failed
+15 passed, 0 failed
