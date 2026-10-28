@@ -1,0 +1,21 @@
+{
+  "passed": 2,
+  "failed": 1,
+  "results": [
+    {
+      "check": "signed out: no Activity Feed button on the login page",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "signed out: #/social shows no Project A page",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "UI test ran to completion",
+      "ok": false,
+      "detail": "Node is either not clickable or not an Element"
+    }
+  ]
+}
