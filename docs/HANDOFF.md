@@ -56,7 +56,13 @@ Split into three parts (sized 2026-10-28):
     12 and 13 (design doc + BACKLOG.md). Delete is behind a ⋯ menu (decided).
   - **2c:** error/limit messages, delete confirmation, admin vs user view.
   - **2d:** Michael's review and changes.
-- **Part 3:** the page, browser tests, release 0.2.0.0.
+- **Part 3:** the page, browser tests, release 0.2.0.0. Starts with **3a, page foundation**
+  (`docs/ARCHITECTURE.md`, agreed 2026-10-28): move server files into `Core/` + `Features/Posts/`;
+  `DisabledFeatures` switch + `GET /Social/Config`; `ContractVersion` in health; page core
+  (`boot, api, dom, markdown, router, header, strings, registry`) + modules joined by `order.txt`;
+  styles served at `GET /Social/styles` with `:where()` zero specificity and `--pa-*` settings;
+  `data-pa-layout`; DOM events. Tests: removing a module leaves the rest working.
+  Then 3b: feed, composer, status posts, ⋯ menu with delete, automatic paging.
 
 Not in step 2 (per design doc): editing (step 10), mute (step 3), images (step 7).
 
