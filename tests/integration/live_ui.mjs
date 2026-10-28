@@ -50,17 +50,28 @@ try {
 
     // Sign in through the real form.
     await page.goto(`${creds.base}/web/#/login`, { waitUntil: 'networkidle2' });
-    // Jellyfin keeps earlier pages in the document (hidden), so a second copy of the
-    // login page may exist: always act on the visible one.
-    const V = '.page:not(.hide) ';
-    await page.waitForSelector(`${V}.manualLoginForm, ${V}.btnManual`, { timeout: 60000 });
-    if (await page.$eval(`${V}.manualLoginForm`, (f) => f.classList.contains('hide')).catch(() => true)) {
-        await page.click(`${V}.btnManual`);
-    }
-    await page.waitForSelector(`${V}#txtManualName`, { visible: true });
-    await page.type(`${V}#txtManualName`, creds.user);
-    await page.type(`${V}#txtManualPassword`, creds.password);
-    await page.$eval(`${V}.manualLoginForm`, (f) => f.requestSubmit());
+    // Jellyfin keeps earlier pages in the document (hidden), and may show either the user
+    // list or the manual form first. Work only with what is actually visible.
+    const ready = await page.waitForFunction(() => {
+        const visible = (el) => !!el && el.offsetParent !== null && getComputedStyle(el).visibility !== 'hidden';
+        const name = [...document.querySelectorAll('#txtManualName')].find(visible);
+        if (name) return 'form';
+        const manual = [...document.querySelectorAll('.btnManual')].find(visible);
+        if (manual) { manual.click(); }
+        return false;
+    }, { timeout: 60000, polling: 500 }).then(() => true, () => false);
+    if (!check('login form shown', ready)) throw new Error('no visible login form');
+    await page.evaluate((user, password) => {
+        const visible = (el) => !!el && el.offsetParent !== null;
+        const set = (sel, value) => {
+            const el = [...document.querySelectorAll(sel)].find(visible);
+            el.focus(); el.value = value; el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }));
+            return el;
+        };
+        const name = set('#txtManualName', user);
+        set('#txtManualPassword', password);
+        name.closest('form').requestSubmit();
+    }, creds.user, creds.password);
 
     const appeared = await page.waitForSelector('#projectA-feed-button', { timeout: 60000 }).then(() => true, () => false);
     check('signed in: Activity Feed button appears', appeared);
