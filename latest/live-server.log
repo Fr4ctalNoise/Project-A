@@ -39,5 +39,8 @@ PASS emergency switch: page served without our tag
 PASS emergency switch: Jellyfin Enhanced unaffected
 PASS emergency switch: shown in health
 PASS emergency switch off again: tag back
+PASS verify-auth.sh (VERIFY.md step 8) exits cleanly  (exit 0)
+PASS verify-auth.sh reports what VERIFY.md promises  (Result: 5 passed, 0 failed.)
+PASS verify-auth.sh output holds no password, token or key
 
-41 passed, 0 failed
+44 passed, 0 failed

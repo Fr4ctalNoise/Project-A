@@ -1,0 +1,34 @@
+
+> test
+> node --test --test-concurrency=1 --test-reporter=spec "*.test.mjs"
+
+✔ with Jellyfin Enhanced, the button joins its group and shows at full width (1993.227527ms)
+✔ narrow window: the button folds into More and is listed there as "Activity Feed" (1775.785648ms)
+✔ clicking the button shows the placeholder page and hides the current page (1531.850887ms)
+✔ leaving the page by Jellyfin navigation (pushState, no event) restores the previous page (1808.653162ms)
+✔ the location watcher only runs while the page is showing (2091.661332ms)
+✔ only #/social and #/social?… are our route (3865.165745ms)
+✔ without Jellyfin Enhanced, the button goes into the header's own button box (1202.158777ms)
+✔ signed out: no button, and #/social does not show the page (1520.532871ms)
+✔ signing out while on the page removes the page and the button (1551.621924ms)
+✔ switching user: the button comes back for the new user (1543.283714ms)
+✔ Jellyfin Enhanced loading after Project A: the button moves into its group (2066.848874ms)
+✔ script tag injected three times: runs once (one observer, two listeners), one button (1198.768419ms)
+✔ a Jellyfin Enhanced change that breaks getTray: fallback placement, one warning, no errors (1200.06552ms)
+✔ never puts the button inside another plugin's link or button (1199.334139ms)
+✔ a burst of 2,000 DOM changes costs at most a pass per frame, with no tray calls once placed (1216.530242ms)
+✔ the script exposes nothing but a frozen version/problems object (1201.027858ms)
+✔ Jellyfin router: the button opens our page without the router reacting (1533.564794ms)
+✔ Jellyfin router: a direct visit to #/social shows only our page, not "Page not found" (1399.61322ms)
+✔ Jellyfin router: typing #/social after load shows only our page (1633.318102ms)
+✔ Jellyfin router: leaving restores Jellyfin's page and leaves nothing we hid hidden (2049.877001ms)
+✔ switching user while on the page: the previous user's page is removed, not reused (1638.738854ms)
+✔ hostile URLs never become markup or script (2924.834132ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 38359.286129

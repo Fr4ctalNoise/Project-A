@@ -1,5 +1,5 @@
 {
-  "passed": 41,
+  "passed": 44,
   "failed": 0,
   "results": [
     {
@@ -204,6 +204,21 @@
     },
     {
       "check": "emergency switch off again: tag back",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "verify-auth.sh (VERIFY.md step 8) exits cleanly",
+      "ok": true,
+      "detail": "exit 0"
+    },
+    {
+      "check": "verify-auth.sh reports what VERIFY.md promises",
+      "ok": true,
+      "detail": "Result: 5 passed, 0 failed."
+    },
+    {
+      "check": "verify-auth.sh output holds no password, token or key",
       "ok": true,
       "detail": ""
     }
