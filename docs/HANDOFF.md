@@ -27,12 +27,15 @@ The current state of the work, kept up to date with every commit. Read this firs
 
 Split into three parts (sized 2026-10-28):
 - **Part 1, server side** (no visuals, CI tests all of it):
-  - **1a (pushed, waiting on CI):** schema v2 (`social_posts`, upgrade from v1 in place) and
+  - **1a (done, CI green on `6309e12`):** schema v2 (`social_posts`, upgrade from v1 in place) and
     `Data/PostStore.cs` (create with a 10-a-minute limit in one write transaction, feed newest
     first filtered by allowed authors in SQL, soft delete). Tests: `PostStoreTests.cs`.
-  - **1b:** `POST /Social/Posts`, `DELETE /Social/Posts/{id}` (author or admin), `GET /Social/Feed`
+  - **1b (pushed, waiting on CI):** `POST /Social/Posts`, `DELETE /Social/Posts/{id}` (author or admin), `GET /Social/Feed`
     (`before`, `limit`); user directory (hidden/disabled/deleted authors left out for non-admins);
-    input validation; endpoint list uses a sample id (0) so the sign-in tests create nothing.
+    input validation (`Api/PostInput.cs`); database errors become a fixed 503
+    (`Api/DatabaseUnavailableFilter.cs`). The endpoint list now uses sample ids (0) and a 6th
+    column (`allowed`: `200` or `any`), so the sign-in tests create and delete nothing.
+    **At release:** VERIFY.md step 8's expected line becomes `Result: 17 passed, 0 failed.`
   - **1c:** live checks on real Jellyfin 12.4 in CI.
 - **Part 2:** mockup of feed + composer for Michael's review.
 - **Part 3:** the page, browser tests, release 0.2.0.0.

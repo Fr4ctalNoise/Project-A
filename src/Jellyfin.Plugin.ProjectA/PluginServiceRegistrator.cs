@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (c) 2026 Fr4ctalNoise and Project A contributors.
 
+using System;
 using Jellyfin.Plugin.ProjectA.Data;
+using Jellyfin.Plugin.ProjectA.Users;
 using Jellyfin.Plugin.ProjectA.Web;
 using MediaBrowser.Controller;
 using MediaBrowser.Controller.Plugins;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Jellyfin.Plugin.ProjectA;
 
@@ -19,6 +22,8 @@ public sealed class PluginServiceRegistrator : IPluginServiceRegistrator
         serviceCollection.AddSingleton<InjectionStatus>();
         serviceCollection.AddSingleton<SocialStore>();
         serviceCollection.AddSingleton<PostStore>();
+        serviceCollection.AddSingleton<IUserDirectory, JellyfinUserDirectory>();
+        serviceCollection.TryAddSingleton(TimeProvider.System); // the server may already register one
         serviceCollection.AddSingleton<IStartupFilter, ScriptInjectionStartupFilter>();
     }
 }

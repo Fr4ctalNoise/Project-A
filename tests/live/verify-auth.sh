@@ -95,7 +95,11 @@ check() {  # check LABEL EXPECTED-REGEX ACTUAL
     else failed=$((failed+1)); printf '  FAIL  %-46s got %s, expected %s\n' "$1" "$3" "$2"; fi
 }
 
-while IFS=$'\t' read -r method path anonymous allowkey adminonly; do
+# allowed() EXPECTED ACTUAL: "200" must match exactly; "any" passes anything the gate let
+# through (not 401/403, not a 5xx server error).
+allowed_re() { if [ "$1" = "any" ]; then echo '(200|201|204|400|404|405|409|415|422|429)'; else echo "$1"; fi; }
+
+while IFS=$'\t' read -r method path anonymous allowkey adminonly allowed; do
     case "$method" in ''|'#'*) continue ;; esac
     if [ "$anonymous" = "yes" ]; then
         check "$method $path, no token" "200" "$(printf '\n' | status "$method" "$path")"
@@ -103,9 +107,10 @@ while IFS=$'\t' read -r method path anonymous allowkey adminonly; do
     fi
     check "$method $path, no token" "401" "$(printf '\n' | status "$method" "$path")"
     check "$method $path, disabled user" "401|403" "$(printf '%s\n' "$DIS_TOKEN" | status "$method" "$path")"
-    if [ "$allowkey" = "yes" ]; then exp=200; else exp=403; fi
+    ok=$(allowed_re "${allowed:-200}")
+    if [ "$allowkey" = "yes" ]; then exp=$ok; else exp=403; fi
     check "$method $path, API key" "$exp" "$(printf '%s\n' "$API_KEY" | status "$method" "$path")"
-    if [ "$adminonly" = "yes" ]; then exp=403; else exp=200; fi
+    if [ "$adminonly" = "yes" ]; then exp=403; else exp=$ok; fi
     check "$method $path, ordinary user" "$exp" "$(printf '%s\n' "$USER_TOKEN" | status "$method" "$path")"
 done < "$ENDPOINTS"
 

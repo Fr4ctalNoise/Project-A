@@ -1,4 +1,10 @@
 # Project A endpoints, read by verify-auth.sh. Kept in step with the code by EndpointAccessTests.
-# method	path	anonymous	allowApiKey	adminOnly
-GET	/Social/script	yes	no	no
-GET	/Social/Health	no	yes	yes
+# Paths use sample ids (0) that match no real post, so the test reads, creates and deletes nothing.
+# allowed: what a caller the gate lets through gets back: 200, or "any" status except 401/403/5xx
+# (a sample id gives 404, an empty POST 400 or 415).
+# method	path	anonymous	allowApiKey	adminOnly	allowed
+DELETE	/Social/Posts/0	no	no	no	any
+GET	/Social/Feed	no	no	no	200
+GET	/Social/Health	no	yes	yes	200
+GET	/Social/script	yes	no	no	200
+POST	/Social/Posts	no	no	no	any

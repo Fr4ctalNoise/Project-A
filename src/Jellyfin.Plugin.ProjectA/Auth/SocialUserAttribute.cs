@@ -51,6 +51,9 @@ public sealed class SocialUserFilter : IAsyncAuthorizationFilter
     /// <summary>Key under which the checked caller's user id is stored in <c>HttpContext.Items</c>.</summary>
     public const string UserIdItemKey = "ProjectA.UserId";
 
+    /// <summary>Key under which whether that user is an administrator is stored in <c>HttpContext.Items</c>.</summary>
+    public const string UserIsAdministratorItemKey = "ProjectA.UserIsAdministrator";
+
     private readonly IAuthorizationContext _authorizationContext;
     private readonly IUserManager _userManager;
     private readonly SocialEndpointRules _rules;
@@ -89,6 +92,7 @@ public sealed class SocialUserFilter : IAsyncAuthorizationFilter
         if (user is not null)
         {
             context.HttpContext.Items[UserIdItemKey] = user.Id;
+            context.HttpContext.Items[UserIsAdministratorItemKey] = caller.IsAdministrator;
         }
     }
 }

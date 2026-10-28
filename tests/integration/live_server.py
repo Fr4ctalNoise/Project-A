@@ -174,6 +174,18 @@ def wait_ready(srv, seconds=180):
     return None
 
 
+def passed(ep, status):
+    """A caller the gate let through: exactly 200, or for endpoints with sample ids / bodies,
+    anything except 401, 403 and server errors (see EndpointAccessTests.Endpoint)."""
+    if ep.get("AnyStatusWhenAllowed"):
+        return status not in (401, 403) and status < 500
+    return status == 200
+
+
+def allowed_label(ep):
+    return "not 401/403/5xx" if ep.get("AnyStatusWhenAllowed") else "200"
+
+
 def run_checks(srv, args, config, out):
     info = wait_ready(srv)
     if not check("server started", info is not None, info.get("Version") if info else "no answer in 180 s"):
@@ -263,11 +275,11 @@ def run_checks(srv, args, config, out):
             elif who in ("disabled user", "deleted user"):
                 ok, expect = s in (401, 403), "401 or 403"
             elif who == "API key":
-                ok, expect = (s == 200) if ep["AllowApiKey"] else (s == 403), "200" if ep["AllowApiKey"] else "403"
+                ok, expect = (passed(ep, s), allowed_label(ep)) if ep["AllowApiKey"] else (s == 403, "403")
             elif who == "user":
-                ok, expect = (s == 403) if ep["AdminOnly"] else (s == 200), "403" if ep["AdminOnly"] else "200"
+                ok, expect = (s == 403, "403") if ep["AdminOnly"] else (passed(ep, s), allowed_label(ep))
             else:
-                ok, expect = s == 200, "200"
+                ok, expect = passed(ep, s), allowed_label(ep)
             check(f"{ep['Method']} {ep['Path']} as {who} -> {expect}", ok, f"got {s}")
 
     s, headers, body = srv.call("GET", "/Social/script", raw=True)
@@ -352,7 +364,10 @@ def run_verify_auth_script(srv, admin, user_name, user_pw, api_key, out):
 
     result = next((l.strip() for l in text.splitlines() if l.startswith("Result:")), "no result line")
     check("verify-auth.sh (VERIFY.md step 8) exits cleanly", proc.returncode == 0, f"exit {proc.returncode}")
-    check("verify-auth.sh reports what VERIFY.md promises", result == "Result: 5 passed, 0 failed.", result)
+    # One check per anonymous endpoint, four (no token, disabled, API key, user) for the rest.
+    rows = [l.split("\t") for l in endpoints.read_text(encoding="utf-8").splitlines() if l and not l.startswith("#")]
+    expected = sum(1 if r[2] == "yes" else 4 for r in rows)
+    check("verify-auth.sh reports what VERIFY.md promises", result == f"Result: {expected} passed, 0 failed.", f"{result} (expected {expected})")
     check("verify-auth.sh output holds no password, token or key",
           not any(secret in text for secret in (user_pw, throwaway_pw, api_key)))
 

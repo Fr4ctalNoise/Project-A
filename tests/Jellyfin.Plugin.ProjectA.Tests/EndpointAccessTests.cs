@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Text.Json;
 using Jellyfin.Plugin.ProjectA.Auth;
 using Microsoft.AspNetCore.Authorization;
@@ -30,7 +31,17 @@ public class EndpointAccessTests
     /// <summary>The only endpoints that accept API keys. Adding one needs a security review.</summary>
     private static readonly HashSet<string> ApiKeyAllowList = ["SocialController.GetHealth"];
 
-    public sealed record Endpoint(string Name, string Method, string Path, bool Anonymous, bool AllowApiKey, bool AdminOnly);
+    /// <summary>One endpoint as the access tests call it.</summary>
+    /// <param name="Path">A concrete path: route values are replaced by a sample that never matches
+    /// real data (id 0, the empty Guid), so the sign-in tests read, create and delete nothing.</param>
+    /// <param name="AnyStatusWhenAllowed">For a caller the gate lets through, any answer except
+    /// 401, 403 or a server error counts as "allowed": a sample id gives 404 and an empty POST body
+    /// 400 or 415. False means exactly 200 (a GET with no route values).</param>
+    public sealed record Endpoint(string Name, string Method, string Path, bool Anonymous, bool AllowApiKey, bool AdminOnly, bool AnyStatusWhenAllowed);
+
+    /// <summary>Replaces each {name} or {name:constraint} with a sample value that can't exist.</summary>
+    public static string SamplePath(string template) =>
+        Regex.Replace(template, @"\{(?<name>[A-Za-z]+)(:(?<c>[a-z]+))?\}", m => m.Groups["c"].Value == "guid" ? Guid.Empty.ToString() : "0");
 
     public static IReadOnlyList<Endpoint> Discover()
     {
@@ -52,14 +63,16 @@ public class EndpointAccessTests
                 {
                     foreach (var method in verb.HttpMethods)
                     {
-                        var path = "/" + string.Join('/', new[] { prefix, verb.Template }.Where(s => !string.IsNullOrEmpty(s)));
+                        var template = "/" + string.Join('/', new[] { prefix, verb.Template }.Where(s => !string.IsNullOrEmpty(s)));
+                        var path = SamplePath(template);
                         result.Add(new Endpoint(
                             $"{controller.Name}.{action.Name}",
                             method,
                             path,
                             action.GetCustomAttribute<AllowAnonymousAttribute>() is not null,
                             social?.AllowApiKey ?? false,
-                            social?.RequireAdministrator ?? false));
+                            social?.RequireAdministrator ?? false,
+                            AnyStatusWhenAllowed: method != "GET" || path != template));
                     }
                 }
             }
@@ -70,6 +83,18 @@ public class EndpointAccessTests
 
     [Fact]
     public void Endpoints_are_found() => Assert.NotEmpty(Discover());
+
+    [Theory]
+    [InlineData("/Social/Posts/{id:long}", "/Social/Posts/0")]
+    [InlineData("/Social/Admin/Mute/{userId:guid}", "/Social/Admin/Mute/00000000-0000-0000-0000-000000000000")]
+    [InlineData("/Social/Likes/{kind}/{id}", "/Social/Likes/0/0")]
+    [InlineData("/Social/Feed", "/Social/Feed")]
+    public void Route_values_become_samples_that_match_no_real_data(string template, string expected) =>
+        Assert.Equal(expected, SamplePath(template));
+
+    [Fact]
+    public void Every_sample_path_is_concrete() =>
+        Assert.All(Discover(), e => Assert.DoesNotContain("{", e.Path, StringComparison.Ordinal));
 
     [Fact]
     public void Every_endpoint_requires_sign_in_and_the_social_check_unless_on_the_anonymous_allow_list()
@@ -133,7 +158,7 @@ public class EndpointAccessTests
         Assert.NotNull(dir);
         static string YesNo(bool b) => b ? "yes" : "no";
         var expected = Discover()
-            .Select(e => $"{e.Method}\t{e.Path}\t{YesNo(e.Anonymous)}\t{YesNo(e.AllowApiKey)}\t{YesNo(e.AdminOnly)}")
+            .Select(e => $"{e.Method}\t{e.Path}\t{YesNo(e.Anonymous)}\t{YesNo(e.AllowApiKey)}\t{YesNo(e.AdminOnly)}\t{(e.AnyStatusWhenAllowed ? "any" : "200")}")
             .OrderBy(l => l, StringComparer.Ordinal)
             .ToList();
         var actual = File.ReadAllLines(Path.Combine(dir.FullName, "tests", "live", "endpoints.tsv"))
