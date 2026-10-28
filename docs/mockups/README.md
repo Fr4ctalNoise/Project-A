@@ -57,7 +57,15 @@ Variant 2 (Michael, 2026-10-28): no box around the picture, fitted whole (`objec
 so cut-out figures with transparent backgrounds aren't trimmed; name with tags on the top row,
 time under it: `step2/feed-portrait2.*`, `step2/step2-feed-portrait2-desktop.png`
 (`avatar-cutout.svg` is an original transparent-background drawing). Transparency survives only
-if the page asks Jellyfin for PNG or WebP, never JPEG. Open: who sets tags (see HANDOFF).
+if the page asks Jellyfin for PNG or WebP, never JPEG. Tags: only admins set them (decided); tags, roles and achievements are later steps (BACKLOG.md).
+No picture: a faint silhouette (`avatar-none.svg`, drawn as a CSS mask so its colour comes from the theme).
+
+**Theming contract (author column):** sizes and colours are `--pa-*` variables (`--pa-feed-width`,
+`--pa-avatar-width/height/radius/fit`, `--pa-silhouette-colour/opacity`, `--pa-tag-*`, `--pa-role-*`)
+defaulting to the theme's `--t-*` settings. Stable hooks: `.projectA-post`, `.projectA-side`,
+`.projectA-avatar(--none)`, `.projectA-namerow`, `.projectA-author`, `.projectA-tag(--role)`,
+`data-pa-tag`, `data-pa-role`. Project Themes overrides variables, not selectors. See the end of
+`step2/feed-portrait2.css`.
 Jellyfin caps every `form` at 54em, so the composer sets `max-width: none` (needed in part 3).
 
 

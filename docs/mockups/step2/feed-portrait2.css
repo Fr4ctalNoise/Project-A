@@ -110,3 +110,37 @@ img.projectA-avatar { object-fit: cover; object-position: center top; display: b
 }
 .projectA-tag--role { background: rgb(var(--t-accent-rgb, 0 164 220) / 0.18); border-color: var(--t-accent, #00a4dc); }
 .layout-mobile .projectA-post--side .projectA-side .projectA-avatar { border-radius: 50%; }
+
+/* ---------------------------------------------------------------------------------------
+   THEMING CONTRACT (for Project Themes and custom CSS). Every size and colour of the author
+   column is a --pa-* variable that defaults to the theme's --t-* settings, so a theme changes
+   the look by setting variables, without matching Project A's selectors. Stable hooks:
+   .projectA-post, .projectA-side, .projectA-avatar(--none), .projectA-namerow, .projectA-author,
+   .projectA-tag plus data-pa-tag="<slug>" and data-pa-role="<role>" for per-tag styling.
+   --------------------------------------------------------------------------------------- */
+:root {
+  --pa-feed-width: 880px;
+  --pa-avatar-width: 150px;
+  --pa-avatar-height: 200px;
+  --pa-avatar-radius: 0;
+  --pa-avatar-fit: contain;                 /* contain = whole picture; cover = fill and crop */
+  --pa-silhouette-colour: var(--t-text-soft, rgb(255 255 255 / 0.5));
+  --pa-silhouette-opacity: 0.35;
+  --pa-tag-bg: var(--t-chip-bg, rgb(255 255 255 / 0.08));
+  --pa-tag-border: var(--t-chip-border, rgb(255 255 255 / 0.2));
+  --pa-tag-text: var(--t-chip-text, inherit);
+  --pa-role-bg: rgb(var(--t-accent-rgb, 0 164 220) / 0.18);
+  --pa-role-border: var(--t-accent, #00a4dc);
+}
+.projectA-feed:has(.projectA-post--side) { max-width: var(--pa-feed-width); }
+.projectA-post--side { grid-template-columns: var(--pa-avatar-width) minmax(0, 1fr); }
+.projectA-post--side .projectA-side .projectA-avatar { width: var(--pa-avatar-width); height: var(--pa-avatar-height); border-radius: var(--pa-avatar-radius); }
+.projectA-post--side img.projectA-avatar { object-fit: var(--pa-avatar-fit); }
+.projectA-tag { background: var(--pa-tag-bg); border-color: var(--pa-tag-border); color: var(--pa-tag-text); }
+.projectA-tag--role { background: var(--pa-role-bg); border-color: var(--pa-role-border); }
+
+/* No profile picture: a faint silhouette in the theme's colour (a mask, so colour comes from CSS). */
+.projectA-avatar--none {
+  background: var(--pa-silhouette-colour) !important; opacity: var(--pa-silhouette-opacity);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20150%20200%22%3E%3Ccircle%20cx%3D%2275%22%20cy%3D%2272%22%20r%3D%2234%22/%3E%3Cpath%20d%3D%22M14%20200%20C14%20140%2040%20116%2075%20116%20C110%20116%20136%20140%20136%20200%20Z%22/%3E%3C/svg%3E") center bottom / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20150%20200%22%3E%3Ccircle%20cx%3D%2275%22%20cy%3D%2272%22%20r%3D%2234%22/%3E%3Cpath%20d%3D%22M14%20200%20C14%20140%2040%20116%2075%20116%20C110%20116%20136%20140%20136%20200%20Z%22/%3E%3C/svg%3E") center bottom / contain no-repeat;
+}

@@ -51,7 +51,9 @@ Split into three parts (sized 2026-10-28):
   - **2b (done, reviewed):** 760 px and Show more approved; paging becomes automatic on scroll (see `docs/mockups/README.md`). Feed mockup (composer, text posts, delete, load more, empty state) at 1600 px
     and 390 px, from the captured markup/styles + Michael's theme CSS (attached in chat, not in repo).
   - **Open:** layout choice; current favourite is variant 2 (`docs/mockups/step2/feed-portrait2.*`:
-    150x200 portrait, no box, name + tags on top). Also open: who sets user tags. Delete is behind a ⋯ menu (decided).
+    150x200 portrait, no box, silhouette when no picture, name + tags on top, `--pa-*` theming
+    variables). Tags: admins only; tags/roles and achievements added as low-priority later steps
+    12 and 13 (design doc + BACKLOG.md). Delete is behind a ⋯ menu (decided).
   - **2c:** error/limit messages, delete confirmation, admin vs user view.
   - **2d:** Michael's review and changes.
 - **Part 3:** the page, browser tests, release 0.2.0.0.

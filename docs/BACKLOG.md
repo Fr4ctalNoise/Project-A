@@ -28,3 +28,32 @@ Injector script plus custom CSS with a small, separate Project A module.
 **Needed before starting:** the current JavaScript Injector script and its CSS.
 Check them for API keys, tokens or webhook URLs before sharing; the invite link
 itself is public and fine to share.
+
+## Tags and roles (design doc "Later", item 12)
+
+**Added:** 2026-10-28 · **Priority:** low · **When:** after step 2 at the earliest.
+
+- Short labels beside a user's name on their posts (for example "Movie night host").
+- **Only admins set tags**, from Project A's admin page. Roles (Admin first; more later) show
+  the same way, in the accent colour (`.projectA-tag--role`, `data-pa-role`).
+- New table `social_user_tags` (schema upgrade); the feed sends each author's tags with their
+  posts (`PostView.Author.Tags`). Tag text checked like post text, short length limit.
+- Later: tags awarded automatically by achievements.
+
+## Achievements (design doc "Later", item 13)
+
+**Added:** 2026-10-28 · **Priority:** low · **When:** after tags.
+
+- Milestones earned from activity (posts written, episodes watched, ...), shown as badges in the
+  author column and able to grant tags.
+- Rules live in one module, so an achievement is added or removed without touching the feed.
+- `licenses/AchievementBadges-MIT.txt` is already in the repo if that project's ideas are reused.
+
+## How these plug in (applies to both, and to anything else in the author column)
+
+- **Modular:** each feature is its own module that adds items to the name row or the author
+  column through one small registry in the page script; switching a module off removes its
+  items and nothing else. The server side follows the same rule (each adds its own fields).
+- **Themeable:** sizes and colours are `--pa-*` CSS variables defaulting to the theme's `--t-*`
+  settings; stable classes plus `data-pa-tag` / `data-pa-role` hooks. Project Themes and custom
+  CSS restyle by setting variables. Contract written down in `docs/mockups/README.md`.
