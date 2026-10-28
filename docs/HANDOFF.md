@@ -3,7 +3,7 @@
 The current state of the work, kept up to date with every commit. Read this first
 (see `docs/PRINCIPLES.md`, session rules).
 
-**Updated:** 2026-10-28 01:25 MDT
+**Updated:** 2026-10-28 01:30 MDT
 
 ## Where things stand
 
@@ -15,12 +15,12 @@ The current state of the work, kept up to date with every commit. Read this firs
   "Page not found" page visible underneath. **Fixed** (button uses pushState; other pages stay
   hidden while ours shows), with three browser tests that reproduce it. **CI fully green** on
   `629d15a` (all six stages; real-browser UI test 15/15).
+- Part B done: hostile-URL test, and a user-switch test that found and fixed a real issue (the
+  previous user's page was reused). CI fully green on `f7975dd`; browser tests 22/22.
 
 ## Next step
 
-1. Confirm CI is green for the user-switch fix (Part B): new tests for hostile URLs and for the
-   previous user's page being removed on a user switch (which found and fixed a real issue).
-2. Release 0.1.0.0 and hand over `VERIFY.md` for the checks only the server can do.
+1. Release 0.1.0.0 and hand over `VERIFY.md` for the checks only the server can do.
 
 ## Open questions
 
