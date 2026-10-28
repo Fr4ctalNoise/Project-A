@@ -31,11 +31,12 @@ The current state of the work, kept up to date with every commit. Read this firs
 
 ## Pending small items
 
-- Update the design doc to match what was verified: header tray API row
-  (`JE.headerActions.getTray`), disabled-user wording (Jellyfin refuses them itself), health
-  endpoint (admin and API key only), build step 1 marked done.
+- Design doc updated 2026-10-28 (header tray API, disabled-user wording, health endpoint, step 1
+  done).
 - Michael's call: pin the Jellyfin image to a version tag instead of `:latest`.
 
 ## Open questions
 
-- None.
+- Michael asked (2026-10-28): (a) a GitHub repo for je-review-notifier with an Unraid template
+  (image built by Actions to GHCR); (b) a seasonal theme plugin as a separate repo/plugin rather
+  than part of Project A. Recommended both; waiting for his go-ahead.
