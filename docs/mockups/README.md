@@ -47,6 +47,13 @@ No all-post-types preview (Michael: explored when each step arrives).
 **Variant under consideration:** a forum-style side column (big profile picture with the name
 under it, post on the right): `step2/feed-side.html`, `step2/feed-side.css`,
 `step2/step2-feed-side-desktop.png`. Desktop only; phones keep the compact head row.
+Portrait version at Michael's reference size (150 x 200, feed widened to 880 px):
+`step2/feed-portrait.*`, `step2/step2-feed-portrait-desktop.png`; its two avatars are original
+drawings made for the mockup (`avatar-cat.svg`, `avatar-ghost.svg`).
+Jellyfin 12 stores profile pictures as uploaded (no resize, no crop, no size limit in
+`ImageController.PostUserImage` beyond the server's request cap), and can serve a resized copy,
+so the page asks for about 300 x 400 (sharp on high-DPI) and crops to fill with `object-fit`.
+Jellyfin caps every `form` at 54em, so the composer sets `max-width: none` (needed in part 3).
 
 
 - `step2/feed.html`, `step2/empty.html`: the proposed page markup (what part 3 will build with
