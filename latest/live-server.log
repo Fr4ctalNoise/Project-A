@@ -6,6 +6,10 @@ PASS admin signed in
 PASS disabled a user (token taken while enabled)  (204)
 PASS deleted a user (token taken before deletion)  (204)
 PASS API key created
+PASS library 'Movies' created  (204)
+PASS library 'Shows' created  (204)
+PASS library 'Anime Series' created  (204)
+PASS library 'Anime Movies' created  (204)
 PASS Project A loaded and Active  ({"Name": "Project A", "Version": "0.1.0.0", "Status": "Active"})
 PASS Jellyfin Enhanced loaded and Active  ({"Version": "12.14.0.0", "Status": "Active"})
 PASS server's SQLite libraries recorded (information)  ("SQLitePCLRaw.bundle_e_sqlite3/2.1.13" "SQLitePCLRaw.core/2.1.13" "SQLitePCLRaw.lib.e_sqlite3/2.1.13")
@@ -36,4 +40,4 @@ PASS emergency switch: Jellyfin Enhanced unaffected
 PASS emergency switch: shown in health
 PASS emergency switch off again: tag back
 
-37 passed, 0 failed
+41 passed, 0 failed

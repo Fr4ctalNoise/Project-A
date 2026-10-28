@@ -1,5 +1,5 @@
 {
-  "passed": 37,
+  "passed": 41,
   "failed": 0,
   "results": [
     {
@@ -41,6 +41,26 @@
       "check": "API key created",
       "ok": true,
       "detail": ""
+    },
+    {
+      "check": "library 'Movies' created",
+      "ok": true,
+      "detail": "204"
+    },
+    {
+      "check": "library 'Shows' created",
+      "ok": true,
+      "detail": "204"
+    },
+    {
+      "check": "library 'Anime Series' created",
+      "ok": true,
+      "detail": "204"
+    },
+    {
+      "check": "library 'Anime Movies' created",
+      "ok": true,
+      "detail": "204"
     },
     {
       "check": "Project A loaded and Active",

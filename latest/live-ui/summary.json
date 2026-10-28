@@ -1,6 +1,6 @@
 {
-  "passed": 7,
-  "failed": 2,
+  "passed": 14,
+  "failed": 1,
   "results": [
     {
       "check": "signed out: no Activity Feed button on the login page",
@@ -38,14 +38,44 @@
       "detail": ""
     },
     {
-      "check": "narrow: button folds into More",
+      "check": "narrowing the window: the button folds into More",
+      "ok": true,
+      "detail": "folded at 1000 px"
+    },
+    {
+      "check": "More menu lists \"Activity Feed\"",
+      "ok": true,
+      "detail": "Random item, Activity Feed"
+    },
+    {
+      "check": "choosing it opens #/social with the placeholder page",
+      "ok": true,
+      "detail": "{\"hash\":\"#/social\",\"visible\":true,\"othersVisible\":1,\"inMain\":true}"
+    },
+    {
+      "check": "the previous page is hidden while ours shows",
       "ok": false,
       "detail": ""
     },
     {
-      "check": "UI test ran to completion",
-      "ok": false,
-      "detail": "Node is either not clickable or not an Element"
+      "check": "the page sits in Jellyfin's page area",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "leaving restores Jellyfin's page",
+      "ok": true,
+      "detail": "{\"ours\":true,\"home\":true}"
+    },
+    {
+      "check": "no problems reported by the script",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "no page errors or Project A console warnings",
+      "ok": true,
+      "detail": ""
     }
   ]
 }
