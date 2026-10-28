@@ -196,12 +196,20 @@ public sealed class SocialStoreTests : IDisposable
         Assert.True(store.CheckHealth().Ok);
     }
 
+    /// <summary>
+    /// Regression: concurrent checks (the notifier bot and an admin at once) overwrote each
+    /// other's probe between write and read-back and reported a false "readback_mismatch".
+    /// Several rounds of many parallel checks make the race reproduce reliably.
+    /// </summary>
     [Fact]
     public async Task Concurrent_health_checks_all_succeed()
     {
         var store = Store();
-        var results = await Task.WhenAll(Enumerable.Range(0, 40).Select(_ => Task.Run(store.CheckHealth)));
-        Assert.All(results, r => Assert.True(r.Ok, r.Problem));
+        for (var round = 0; round < 5; round++)
+        {
+            var results = await Task.WhenAll(Enumerable.Range(0, 100).Select(_ => Task.Run(store.CheckHealth)));
+            Assert.All(results, r => Assert.True(r.Ok, r.Problem));
+        }
     }
 
     [Theory]
