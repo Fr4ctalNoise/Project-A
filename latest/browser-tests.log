@@ -2,27 +2,31 @@
 > test
 > node --test --test-concurrency=1 --test-reporter=spec "*.test.mjs"
 
-✔ with Jellyfin Enhanced, the button joins its group and shows at full width (20120.00753ms)
-✔ narrow window: the button folds into More and is listed there as "Activity Feed" (2112.247639ms)
-✔ clicking the button shows the placeholder page and hides the current page (1569.04343ms)
-✔ leaving the page by Jellyfin navigation (pushState, no event) restores the previous page (1847.591301ms)
-✔ the location watcher only runs while the page is showing (2118.770135ms)
-✔ only #/social and #/social?… are our route (3882.798512ms)
-✔ without Jellyfin Enhanced, the button goes into the header's own button box (1249.145823ms)
-✔ signed out: no button, and #/social does not show the page (1540.18176ms)
-✔ signing out while on the page removes the page and the button (1569.375228ms)
-✔ switching user: the button comes back for the new user (1540.464693ms)
-✔ Jellyfin Enhanced loading after Project A: the button moves into its group (2082.23013ms)
-✔ script tag injected three times: runs once (one observer, two listeners), one button (1217.310255ms)
-✔ a Jellyfin Enhanced change that breaks getTray: fallback placement, one warning, no errors (1217.012936ms)
-✔ never puts the button inside another plugin's link or button (1216.074951ms)
-✔ a burst of 2,000 DOM changes costs at most a pass per frame, with no tray calls once placed (1231.673289ms)
-✔ the script exposes nothing but a frozen version/problems object (1240.846478ms)
-ℹ tests 16
+✔ with Jellyfin Enhanced, the button joins its group and shows at full width (9096.405091ms)
+✔ narrow window: the button folds into More and is listed there as "Activity Feed" (1895.143066ms)
+✔ clicking the button shows the placeholder page and hides the current page (1565.001081ms)
+✔ leaving the page by Jellyfin navigation (pushState, no event) restores the previous page (1861.173182ms)
+✔ the location watcher only runs while the page is showing (2118.295181ms)
+✔ only #/social and #/social?… are our route (3883.570788ms)
+✔ without Jellyfin Enhanced, the button goes into the header's own button box (1216.29222ms)
+✔ signed out: no button, and #/social does not show the page (1543.454545ms)
+✔ signing out while on the page removes the page and the button (1566.492594ms)
+✔ switching user: the button comes back for the new user (1539.515278ms)
+✔ Jellyfin Enhanced loading after Project A: the button moves into its group (2081.835468ms)
+✔ script tag injected three times: runs once (one observer, two listeners), one button (1219.145451ms)
+✔ a Jellyfin Enhanced change that breaks getTray: fallback placement, one warning, no errors (1215.720568ms)
+✔ never puts the button inside another plugin's link or button (1216.643906ms)
+✔ a burst of 2,000 DOM changes costs at most a pass per frame, with no tray calls once placed (1231.026903ms)
+✔ the script exposes nothing but a frozen version/problems object (1218.030333ms)
+✔ Jellyfin router: the button opens our page without the router reacting (1567.730235ms)
+✔ Jellyfin router: a direct visit to #/social shows only our page, not "Page not found" (1415.363866ms)
+✔ Jellyfin router: typing #/social after load shows only our page (1650.132173ms)
+✔ Jellyfin router: leaving restores Jellyfin's page and leaves nothing we hid hidden (2049.824255ms)
+ℹ tests 20
 ℹ suites 0
-ℹ pass 16
+ℹ pass 20
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 46266.142019
+ℹ duration_ms 41443.765941

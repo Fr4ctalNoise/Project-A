@@ -3,4 +3,4 @@ unit=success
 browser=success
 package=success
 live=success
-ui=failure
+ui=success
