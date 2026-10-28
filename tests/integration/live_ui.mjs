@@ -85,11 +85,17 @@ try {
     check('full width: button visible (not folded)', place && !place.overflowed);
     await shot(page, '1-header-wide', { x: 0, y: 0, width: 1600, height: 80 });
 
-    await page.setViewport({ width: 560, height: 900 });
-    await wait(1500);
-    const folded = await page.$eval('#projectA-feed-button', (b) => b.classList.contains('je-header-overflowed'));
-    check('narrow: button folds into More', folded);
-    await shot(page, '2-header-narrow', { x: 0, y: 0, width: 560, height: 80 });
+    // Narrow the window step by step (desktop layout, above the ~900 px point where Jellyfin
+    // moves library links into its menu) until Jellyfin Enhanced folds its buttons into More.
+    let foldWidth = 0;
+    for (const w of [1400, 1300, 1200, 1100, 1050, 1000, 960, 920]) {
+        await page.setViewport({ width: w, height: 900 });
+        await wait(1200);
+        if (await page.$eval('#projectA-feed-button', (b) => b.classList.contains('je-header-overflowed'))) { foldWidth = w; break; }
+    }
+    check('narrowing the window: the button folds into More', foldWidth > 0, foldWidth ? `folded at ${foldWidth} px` : 'never folded');
+    if (!foldWidth) throw new Error('header never crowded enough to fold');
+    await shot(page, '2-header-narrow', { x: 0, y: 0, width: foldWidth, height: 80 });
     await page.click('#je-header-launcher');
     await wait(800);
     const labels = await page.$$eval('#je-header-launcher-panel .je-launcher-action:not([hidden]) .je-launcher-label', (els) => els.map((e) => e.textContent));

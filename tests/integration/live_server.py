@@ -27,6 +27,7 @@ import sys
 import tempfile
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 import zipfile
 
@@ -118,6 +119,9 @@ def main():
         z.extractall(ours)
     install_jellyfin_enhanced(plugins)
     cache.mkdir()
+    media = work / "media"
+    for d in ("movies", "shows", "anime-series", "anime-movies"):
+        (media / d).mkdir(parents=True)
     os.chmod(work, 0o777)
     for p in work.rglob("*"):
         os.chmod(p, 0o777 if p.is_dir() else 0o666)
@@ -134,7 +138,7 @@ def main():
     image_id = docker("image", "inspect", "--format", "{{index .RepoDigests 0}}", image).stdout.strip()
     check("image identity recorded", True, image_id)
     docker("run", "-d", "--name", name, "-p", f"127.0.0.1:{args.port}:8096",
-           "-v", f"{config}:/config", "-v", f"{cache}:/cache", image)
+           "-v", f"{config}:/config", "-v", f"{cache}:/cache", "-v", f"{media}:/media:ro", image)
 
     srv = Server(f"http://127.0.0.1:{args.port}")
     try:
@@ -212,6 +216,14 @@ def run_checks(srv, args, config, out):
     _, _, keys = srv.call("GET", "/Auth/Keys", token=admin)
     api_key = next((k["AccessToken"] for k in keys["Items"] if k.get("AppName") == "ProjectA-CI"), None)
     check("API key created", api_key is not None)
+
+    # Four empty libraries, so the header has library links and gets crowded like a real
+    # server's (the UI test needs Jellyfin Enhanced to fold its buttons into More).
+    for lib, kind in (("Movies", "movies"), ("Shows", "tvshows"), ("Anime Series", "tvshows"), ("Anime Movies", "movies")):
+        folder = lib.lower().replace(" ", "-")
+        s, _, _ = srv.call("POST", f"/Library/VirtualFolders?name={urllib.parse.quote(lib)}&collectionType={kind}&refreshLibrary=false",
+                           token=admin, body={"LibraryOptions": {"PathInfos": [{"Path": f"/media/{folder}"}]}})
+        check(f"library '{lib}' created", s in (200, 204), str(s))
 
     # The plugin loaded.
     _, _, plugins = srv.call("GET", "/Plugins", token=admin)
