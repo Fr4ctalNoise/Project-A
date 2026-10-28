@@ -1,0 +1,52 @@
+<!-- SPDX-License-Identifier: GPL-3.0-only
+     Mockup VARIANT (step 2): forum-style side column with a large profile picture. Invented names; avatars are Jellyfin's
+     own default (the "person" icon). Bodies show what markdown-it + DOMPurify would produce. -->
+<div class="verticalSection projectA-feed">
+  <h2 class="sectionTitle sectionTitle-cards">Activity Feed</h2>
+
+  <form class="projectA-panel projectA-composer">
+    <textarea is="emby-textarea" class="emby-textarea" rows="3" maxlength="4000" placeholder="Share something with the server&#8230; markdown works"></textarea>
+    <div class="projectA-composer-bar">
+      <span class="projectA-hint"><code>**bold**</code> <code>*italic*</code> <code>[link](https://&#8230;)</code> <code>&gt; quote</code></span>
+      <span class="projectA-count">0 / 4000</span>
+      <button is="emby-button" type="submit" class="raised button-submit emby-button" disabled><span>Post</span></button>
+    </div>
+  </form>
+
+  <div class="projectA-posts">
+    <article class="projectA-panel projectA-post projectA-post--side">
+      <aside class="projectA-side"><span class="projectA-avatar material-icons" aria-hidden="true">person</span><span class="projectA-author">Mika</span></aside>
+      <div class="projectA-main">
+      <div class="projectA-post-top"><time class="projectA-when">5 min ago</time><button is="paper-icon-button-light" class="paper-icon-button-light projectA-post-menu" title="More options" aria-haspopup="menu"><span class="material-icons" aria-hidden="true">more_horiz</span></button></div>
+      <div class="projectA-body"><p>Movie night in the theatre room on <strong>Friday at 8</strong>. Bring snacks 🎃</p></div>
+    </div>
+    </article>
+
+    <article class="projectA-panel projectA-post projectA-post--side">
+      <aside class="projectA-side"><span class="projectA-avatar material-icons" aria-hidden="true">person</span><span class="projectA-author">Rowan</span></aside>
+      <div class="projectA-main">
+      <div class="projectA-post-top"><time class="projectA-when">2 h ago</time></div>
+      <div class="projectA-body"><p>My rewatch list for October:</p><ul><li><em>something slow and creepy</em></li><li><strong>the new season everyone is talking about</strong></li><li>one comfort show to recover</li></ul><p>Taking requests, or see <a href="https://example.com" target="_blank" rel="noopener noreferrer">my list</a>.</p></div>
+    </div>
+    </article>
+
+    <article class="projectA-panel projectA-post projectA-post--side">
+      <aside class="projectA-side"><span class="projectA-avatar material-icons" aria-hidden="true">person</span><span class="projectA-author">Sam</span></aside>
+      <div class="projectA-main">
+      <div class="projectA-post-top"><time class="projectA-when">Yesterday</time></div>
+      <div class="projectA-body projectA-collapsed"><p>Long one, sorry. I finally sorted out the subtitles problem on the living room TV. The short version: the app was picking the forced track because the default flag was set on the wrong stream, so every episode started with signs-only subtitles and nothing else.</p><p>If yours does the same, open the episode, choose the subtitle menu, and pick the full track once; the server remembers the choice per series after that. Took me three evenings to work out, so hopefully this saves someone the trouble.</p><p>Also: the new intro skipping is great.</p></div>
+      <button class="projectA-more-text" type="button">Show more</button>
+    </div>
+    </article>
+
+    <article class="projectA-panel projectA-post projectA-post--side">
+      <aside class="projectA-side"><span class="projectA-avatar material-icons" aria-hidden="true">person</span><span class="projectA-author">Rowan</span></aside>
+      <div class="projectA-main">
+      <div class="projectA-post-top"><time class="projectA-when">Oct 24</time></div>
+      <div class="projectA-body"><blockquote><p>Don't forget to rate what you watch</p></blockquote><p>Tip: press <code>Ctrl+F5</code> if the feed button doesn't show after an update.</p></div>
+    </div>
+    </article>
+  </div>
+
+  <button is="emby-button" type="button" class="raised emby-button projectA-load"><span>Load more</span></button>
+</div>

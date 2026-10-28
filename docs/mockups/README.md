@@ -42,6 +42,11 @@ button stays only as a fallback if a load fails, and the end of the feed says "Y
 up"). Watched, review and image posts get their own mockups with steps 4, 5 and 7, matching the
 design doc's full-feed mockup. Delete sits behind a "⋯" (More options) button, not a bin icon,
 so it can't be hit by accident; the open menu and the confirmation are drawn in 2c.
+No all-post-types preview (Michael: explored when each step arrives).
+
+**Variant under consideration:** a forum-style side column (big profile picture with the name
+under it, post on the right): `step2/feed-side.html`, `step2/feed-side.css`,
+`step2/step2-feed-side-desktop.png`. Desktop only; phones keep the compact head row.
 
 
 - `step2/feed.html`, `step2/empty.html`: the proposed page markup (what part 3 will build with

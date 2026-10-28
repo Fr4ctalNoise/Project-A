@@ -50,6 +50,8 @@ Split into three parts (sized 2026-10-28):
     the real page DOM (`latest/live-ui/capture-social-page.html`).
   - **2b (done, reviewed):** 760 px and Show more approved; paging becomes automatic on scroll (see `docs/mockups/README.md`). Feed mockup (composer, text posts, delete, load more, empty state) at 1600 px
     and 390 px, from the captured markup/styles + Michael's theme CSS (attached in chat, not in repo).
+  - **Open:** Michael choosing between the compact head row and the side-column variant
+    (`docs/mockups/step2/feed-side.*`). Delete is behind a ⋯ menu (decided).
   - **2c:** error/limit messages, delete confirmation, admin vs user view.
   - **2d:** Michael's review and changes.
 - **Part 3:** the page, browser tests, release 0.2.0.0.
