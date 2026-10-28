@@ -1,6 +1,0 @@
-build=success
-unit=success
-browser=cancelled
-package=skipped
-live=skipped
-ui=skipped

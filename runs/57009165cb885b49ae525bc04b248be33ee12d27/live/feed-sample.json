@@ -1,0 +1,35 @@
+{
+  "Posts": [
+    {
+      "Id": 12,
+      "AuthorId": "150d7dd14d2340e68a0d4732d435dc15",
+      "AuthorName": "ci-alice",
+      "AuthorHasImage": false,
+      "Kind": "status",
+      "Body": "burst 7",
+      "CreatedAt": "2026-10-28T09:19:34.512+00:00",
+      "CanDelete": false
+    },
+    {
+      "Id": 11,
+      "AuthorId": "150d7dd14d2340e68a0d4732d435dc15",
+      "AuthorName": "ci-alice",
+      "AuthorHasImage": false,
+      "Kind": "status",
+      "Body": "burst 6",
+      "CreatedAt": "2026-10-28T09:19:34.496+00:00",
+      "CanDelete": false
+    },
+    {
+      "Id": 10,
+      "AuthorId": "150d7dd14d2340e68a0d4732d435dc15",
+      "AuthorName": "ci-alice",
+      "AuthorHasImage": false,
+      "Kind": "status",
+      "Body": "burst 5",
+      "CreatedAt": "2026-10-28T09:19:34.48+00:00",
+      "CanDelete": false
+    }
+  ],
+  "NextBefore": 10
+}
