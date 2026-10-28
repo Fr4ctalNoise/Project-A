@@ -1,0 +1,17 @@
+PASS signed out: no Activity Feed button on the login page
+PASS signed out: #/social shows no Project A page
+PASS login form shown
+PASS signed in: Activity Feed button appears
+PASS button is inside Jellyfin Enhanced's group  ({"parent":"je-header-buttons-group","overflowed":false,"label":"Activity Feed","icon":"dynamic_feed"})
+PASS button label and icon
+PASS full width: button visible (not folded)
+PASS narrowing the window: the button folds into More  (folded at 1000 px)
+PASS More menu lists "Activity Feed"  (Random item, Activity Feed)
+PASS choosing it opens #/social with the placeholder page  ({"hash":"#/social","visible":true,"othersVisible":0,"inMain":true})
+PASS the previous page is hidden while ours shows
+PASS the page sits in Jellyfin's page area
+PASS leaving restores Jellyfin's page  ({"ours":true,"home":true})
+PASS no problems reported by the script  ([])
+PASS no page errors or Project A console warnings
+
+15 passed, 0 failed
