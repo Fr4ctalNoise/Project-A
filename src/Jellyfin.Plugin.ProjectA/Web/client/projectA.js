@@ -35,6 +35,10 @@
         locationTimer: null,
         locationSignature: '',
         frame: 0,
+        // The user the page was built for. A page never outlives its user: on sign-out or a
+        // user switch it is thrown away (discardPage), so one person's feed can never stay on
+        // screen for the next.
+        pageUser: null,
     };
 
     // ---------------------------------------------------------------- session
@@ -217,6 +221,7 @@
         state.pageVisible = true;
         startLocationWatcher();
         const page = createPage();
+        state.pageUser = currentUserId();
 
         const active = document.querySelector('.mainAnimatedPage:not(.hide):not(#' + PAGE_ID + ')');
         if (active) {
@@ -268,6 +273,16 @@
         stopLocationWatcher();
     }
 
+    /** Hides the page if showing, restores Jellyfin's page, and removes ours from the DOM. */
+    function discardPage() {
+        hidePage();
+        const page = document.getElementById(PAGE_ID);
+        if (page) {
+            page.remove();
+        }
+        state.pageUser = null;
+    }
+
     function handleNavigation() {
         if (isOurRoute() && currentUserId()) {
             showPage();
@@ -316,13 +331,11 @@
         state.frame = 0;
         try {
             syncButton();
-            if (!currentUserId() && state.pageVisible) {
-                hidePage();
-                const page = document.getElementById(PAGE_ID);
-                if (page) {
-                    page.remove();
-                }
-            } else if (isOurRoute() && !state.pageVisible) {
+            const userId = currentUserId();
+            if (state.pageUser !== null && state.pageUser !== userId) {
+                discardPage(); // signed out, or a different user signed in
+            }
+            if (userId && isOurRoute() && !state.pageVisible) {
                 showPage();
             }
             keepOtherPagesHidden();

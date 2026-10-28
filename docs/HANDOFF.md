@@ -3,7 +3,7 @@
 The current state of the work, kept up to date with every commit. Read this first
 (see `docs/PRINCIPLES.md`, session rules).
 
-**Updated:** 2026-10-28 01:35 MDT
+**Updated:** 2026-10-28 01:25 MDT
 
 ## Where things stand
 
@@ -18,11 +18,10 @@ The current state of the work, kept up to date with every commit. Read this firs
 
 ## Next step
 
-1. Add the extra browser test cases from the second version (kept outside the repo): hostile URLs
-   in the hash, switching user tears down the page, the script loaded twice gives one button.
+1. Confirm CI is green for the user-switch fix (Part B): new tests for hostile URLs and for the
+   previous user's page being removed on a user switch (which found and fixed a real issue).
 2. Release 0.1.0.0 and hand over `VERIFY.md` for the checks only the server can do.
 
 ## Open questions
 
-- The stale `wip/ui-test-fix` branch on GitHub (already merged into main) can be deleted on
-  GitHub; deleting branches isn't permitted from the build workspace.
+- None.

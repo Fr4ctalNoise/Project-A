@@ -285,3 +285,52 @@ test('Jellyfin router: leaving restores Jellyfin\'s page and leaves nothing we h
     assert.deepEqual(await visiblePages(page), ['indexPage']);
     await page.close();
 });
+
+test('switching user while on the page: the previous user\'s page is removed, not reused', async () => {
+    const { page } = await open(browser, `${server.url}/je.html#/social`);
+    await settle(page, 200);
+    // Mark the page built for user-1; whatever the new user sees must be built fresh.
+    await page.$eval('#projectA-social-page', (p) => { p.dataset.builtFor = 'user-1'; });
+    await page.evaluate(() => {
+        for (const cb of window.__je.userChange) cb();
+        window.__user = 'user-2'; window.__je.userId = 'user-2';
+        document.body.appendChild(document.createElement('span'));
+    });
+    await settle(page, 400);
+    const pagesNow = await page.$$eval('#projectA-social-page', (els) => els.map((p) => ({
+        builtFor: p.dataset.builtFor || null, visible: !p.classList.contains('hide'),
+    })));
+    assert.deepEqual(pagesNow, [{ builtFor: null, visible: true }]);
+    assert.equal(await buttonPlace(page), 'tray');
+    await page.close();
+});
+
+test('hostile URLs never become markup or script', async () => {
+    const { page } = await open(browser, `${server.url}/je.html`);
+    await settle(page, 200);
+    const hostile = [
+        '#/social"><img src=x onerror="window.__pwned=1">',
+        '#/social?<script>window.__pwned=2</script>',
+        '#/social?x=%3Csvg%20onload%3Dwindow.__pwned%3D3%3E',
+        '#/social?javascript:window.__pwned=4',
+        '#/social/../../etc/passwd',
+        '#/SOCIAL',
+        '#/social' + 'A'.repeat(100000),
+    ];
+    for (const hash of hostile) {
+        await page.evaluate((h) => { window.location.hash = h; }, hash);
+        await settle(page, 120);
+    }
+    await settle(page, 400);
+    assert.equal(await page.evaluate(() => window.__pwned), undefined);
+    assert.equal(await page.$$eval('img[src="x"], svg[onload], script:not([src])', (els) =>
+        els.filter((e) => e.closest('#projectA-social-page')).length), 0);
+    // Nothing from the address ever reaches our page's text or the tab title.
+    const text = await page.evaluate(() => {
+        const p = document.getElementById('projectA-social-page');
+        return (p ? p.textContent : '') + ' ' + document.title;
+    });
+    assert.doesNotMatch(text, /pwned|onerror|passwd|AAAA/);
+    assert.deepEqual(await page.evaluate(() => window.ProjectA.problems()), []);
+    await page.close();
+});
