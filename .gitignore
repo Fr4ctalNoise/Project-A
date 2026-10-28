@@ -32,3 +32,7 @@ captures/
 # Python bytecode
 __pycache__/
 *.pyc
+
+# Michael's private working files (theme CSS copy, notes) and personal Claude Code instructions.
+local/
+CLAUDE.local.md

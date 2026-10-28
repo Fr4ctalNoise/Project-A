@@ -3,7 +3,7 @@
 The current state of the work, kept up to date with every commit. Read this first
 (see `docs/PRINCIPLES.md`, session rules).
 
-**Updated:** 2026-10-28 02:25 MDT
+**Updated:** 2026-10-28 14:00 MDT
 
 ## Where things stand
 
@@ -68,11 +68,18 @@ Not in step 2 (per design doc): editing (step 10), mute (step 3), images (step 7
 
 ## Next step
 
-1. Part 2c (after Michael's 2b feedback): error/limit states, delete confirmation, admin vs user. Earlier note on 2b: mockup of the feed and composer, rendered from real captured Jellyfin 12.4 markup and
-   Michael's theme CSS, for his review before any page code. Page notes: render `Body` with
-   markdown-it (html off) + DOMPurify into DOM nodes (the repo test bans innerHTML), author names
-   via textContent, avatars from `/Users/{id}/Images/Primary` only when `AuthorHasImage`.
-2. Michael still has to run `VERIFY.md` for 0.1.0.0 on his server when he can.
+1. **Moving to Claude Code desktop (2026-10-28):** work continues from a local clone of this repo
+   on Michael's computer, on branch `wip/step2-text-posts`. `CLAUDE.md` (repo root) loads this
+   file and `PRINCIPLES.md` automatically. Michael keeps his theme CSS in `local/` (ignored).
+2. **Part 2c:** mockups for error/limit messages, the ⋯ menu open with Delete, the delete
+   confirmation, admin vs ordinary user, in layout variant 2 (`docs/mockups/step2/feed-portrait2.*`).
+   Render with `docs/mockups/render.mjs` (instructions in `docs/mockups/README.md`).
+3. Then 2d (Michael's review, layout confirmed), then part 3a (page foundation) and 3b (feed).
+4. Michael still has to run `VERIFY.md` for 0.1.0.0 on his server when he can.
+
+Page notes for part 3: render `Body` with markdown-it (html off) + DOMPurify into DOM nodes (a
+repo test bans innerHTML), author names via textContent, avatars from `/Users/{id}/Images/Primary`
+(PNG/WebP, about 300x400) only when `AuthorHasImage`, otherwise the silhouette.
 
 ## Pending small items
 
@@ -90,5 +97,6 @@ Not in step 2 (per design doc): editing (step 10), mute (step 3), images (step 7
   in the design doc): own repo + Unraid template, then the 2.3.0 health watch that calls
   `GET /Social/Health`. Plan: https://claude.ai/artifact/HXpzXuQ12K3kDsXRrv951v
 - **Project Themes**: the seasonal theme CSS as its own Jellyfin plugin and repo. Project A uses its
-  variables (`--hw-score`, `data-label`, SCROLL FADE) with fallbacks so it works without it.
+  variables (`--t-*`, `--hw-score`, `data-label`, SCROLL FADE) with fallbacks so it works without it;
+  the full contract is `docs/ARCHITECTURE.md` sections 5 to 7.
   Plan: https://claude.ai/artifact/RzK4fCZtFomGqNK7u4ChWx
