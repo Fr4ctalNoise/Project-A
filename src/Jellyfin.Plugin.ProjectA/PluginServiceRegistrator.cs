@@ -18,6 +18,7 @@ public sealed class PluginServiceRegistrator : IPluginServiceRegistrator
     {
         serviceCollection.AddSingleton<InjectionStatus>();
         serviceCollection.AddSingleton<SocialStore>();
+        serviceCollection.AddSingleton<PostStore>();
         serviceCollection.AddSingleton<IStartupFilter, ScriptInjectionStartupFilter>();
     }
 }

@@ -23,11 +23,26 @@ The current state of the work, kept up to date with every commit. Read this firs
   `7bd5dcd9927073766c6a028d2a9ad938`, matches `manifest.json`) and `project-a_0.1.0.0_source.zip`
   (top-level `src/`). The bot added the `manifest.json` entry in `3a0973b`.
 
+## In progress: step 2, text posts (branch `wip/step2-text-posts`)
+
+Split into three parts (sized 2026-10-28):
+- **Part 1, server side** (no visuals, CI tests all of it):
+  - **1a (pushed, waiting on CI):** schema v2 (`social_posts`, upgrade from v1 in place) and
+    `Data/PostStore.cs` (create with a 10-a-minute limit in one write transaction, feed newest
+    first filtered by allowed authors in SQL, soft delete). Tests: `PostStoreTests.cs`.
+  - **1b:** `POST /Social/Posts`, `DELETE /Social/Posts/{id}` (author or admin), `GET /Social/Feed`
+    (`before`, `limit`); user directory (hidden/disabled/deleted authors left out for non-admins);
+    input validation; endpoint list uses a sample id (0) so the sign-in tests create nothing.
+  - **1c:** live checks on real Jellyfin 12.4 in CI.
+- **Part 2:** mockup of feed + composer for Michael's review.
+- **Part 3:** the page, browser tests, release 0.2.0.0.
+
+Not in step 2 (per design doc): editing (step 10), mute (step 3), images (step 7).
+
 ## Next step
 
-1. Michael installs 0.1.0.0 and runs `VERIFY.md` (walked through in chat 2026-10-28). Waiting on
-   his results; fix anything that fails (bug fixes get a failing test first).
-2. After Michael's VERIFY.md results: build step 2 (text posts) per the design doc.
+1. Finish part 1 on the wip branch (exact next piece: whichever of 1a/1b/1c above isn't marked done).
+2. Michael still has to run `VERIFY.md` for 0.1.0.0 on his server when he can.
 
 ## Pending small items
 

@@ -13,7 +13,8 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    # wip/** too: unfinished work is tested on its branch before it reaches main (PRINCIPLES.md).
+    branches: [main, 'wip/**']
     tags: ['v*']
   pull_request:
   workflow_dispatch:

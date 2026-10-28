@@ -2,6 +2,7 @@
 // Copyright (c) 2026 Fr4ctalNoise and Project A contributors.
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -25,6 +26,8 @@ public sealed record StoreHealth(bool Ok, string? Problem, int SchemaVersion);
 /// <remarks>
 /// <para>Uses the server's own Microsoft.Data.Sqlite (see the project file). Every
 /// operation opens its own short-lived connection, so the class is safe to share.</para>
+/// <para>Feature stores (for example <see cref="PostStore"/>) get connections from
+/// <see cref="OpenReady"/>, so the schema is always current before any query runs.</para>
 /// <para>SQL is parameterised only. A damaged or unreadable file is never deleted or
 /// rewritten: the health check reports it and the file is left for inspection.</para>
 /// <para>Problem codes: <c>not_writable</c> (folder or file read-only, or disk full),
@@ -35,7 +38,39 @@ public sealed record StoreHealth(bool Ok, string? Problem, int SchemaVersion);
 public sealed class SocialStore
 {
     /// <summary>The schema version this build creates and understands.</summary>
-    public const int CurrentSchemaVersion = 1;
+    /// <remarks>History: 1 = the Spike (health probe only); 2 = text posts (social_posts).</remarks>
+    public const int CurrentSchemaVersion = 2;
+
+    /// <summary>
+    /// Upgrades, keyed by the version each one produces. Each runs once, in order, inside the
+    /// same transaction that records the new version, so a failed upgrade leaves the file as it
+    /// was. Never edit a released entry: add a new version instead.
+    /// </summary>
+    /// <remarks>
+    /// <para>Version 2: <c>social_posts</c>. <c>kind</c> already allows all four kinds the design
+    /// doc plans (status, watched, review, recommend), because SQLite can't change a CHECK
+    /// constraint without rebuilding the table. The columns those later kinds need (item,
+    /// episodes, images, review key) arrive with their own build steps as
+    /// <c>ALTER TABLE ... ADD COLUMN</c>, which is cheap.</para>
+    /// <para><c>AUTOINCREMENT</c> means a post id is never reused, so an old link or cursor can
+    /// never point at someone else's later post. <c>ix_social_posts_feed</c> serves the feed
+    /// (newest first, not deleted); <c>ix_social_posts_author_time</c> serves the per-user rate
+    /// limit.</para>
+    /// </remarks>
+    internal static readonly IReadOnlyList<(int Version, string Sql)> Migrations =
+    [
+        (2,
+            "CREATE TABLE social_posts (" +
+            " id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            " author_id TEXT NOT NULL CHECK (length(author_id) = 32)," +
+            " kind TEXT NOT NULL CHECK (kind IN ('status', 'watched', 'review', 'recommend'))," +
+            " body_md TEXT NOT NULL DEFAULT '' CHECK (length(body_md) <= 4000)," +
+            " created_at INTEGER NOT NULL," +
+            " updated_at INTEGER NOT NULL," +
+            " deleted INTEGER NOT NULL DEFAULT 0 CHECK (deleted IN (0, 1)));" +
+            "CREATE INDEX ix_social_posts_feed ON social_posts (deleted, id DESC);" +
+            "CREATE INDEX ix_social_posts_author_time ON social_posts (author_id, created_at);"),
+    ];
 
     /// <summary>The folder name under Jellyfin's plugin configurations path.</summary>
     public const string FolderName = "ProjectA";
@@ -148,13 +183,26 @@ public sealed class SocialStore
         _ => "error",
     };
 
+    /// <summary>
+    /// Opens a connection to an up-to-date database (creating or upgrading it first if
+    /// needed). The caller disposes it. Throws <see cref="SqliteException"/> or
+    /// <see cref="IOException"/> on database problems; endpoints turn those into a fixed
+    /// 503 answer.
+    /// </summary>
+    /// <returns>An open connection.</returns>
+    internal SqliteConnection OpenReady()
+    {
+        EnsureInitialized();
+        return Open();
+    }
+
     private SqliteConnection Open()
     {
         var connection = new SqliteConnection(_connectionString);
         connection.Open();
         using var pragma = connection.CreateCommand();
         // busy_timeout: wait for a lock rather than failing at once. foreign_keys: enforced
-        // relationships for the tables that arrive in later steps.
+        // relationships for tables that reference each other (comments, likes).
         pragma.CommandText = "PRAGMA busy_timeout = 5000; PRAGMA foreign_keys = ON;";
         pragma.ExecuteNonQuery();
         return connection;
@@ -206,7 +254,22 @@ public sealed class SocialStore
                     "CREATE TABLE IF NOT EXISTS health_probe (id INTEGER PRIMARY KEY CHECK (id = 1), checked_at TEXT NOT NULL);";
                 create.ExecuteNonQuery();
 
-                if (found == 0)
+                // A new file starts at version 1 (the tables above), then takes every upgrade.
+                var from = Math.Max(found, 1);
+                foreach (var (version, sql) in Migrations)
+                {
+                    if (version <= from)
+                    {
+                        continue;
+                    }
+
+                    using var migrate = connection.CreateCommand();
+                    migrate.Transaction = transaction;
+                    migrate.CommandText = sql;
+                    migrate.ExecuteNonQuery();
+                }
+
+                if (found != CurrentSchemaVersion)
                 {
                     using var setVersion = connection.CreateCommand();
                     setVersion.Transaction = transaction;
@@ -219,6 +282,11 @@ public sealed class SocialStore
             }
 
             _initialized = true;
+            if (found != 0 && found != CurrentSchemaVersion)
+            {
+                _logger.LogInformation("Project A: database upgraded from schema {From} to {To}", found, CurrentSchemaVersion);
+            }
+
             _logger.LogInformation("Project A: database ready at {Path} (schema {Version})", DatabasePath, CurrentSchemaVersion);
         }
     }
