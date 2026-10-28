@@ -1,4 +1,4 @@
-[08:56:51.883] [INF] [4] Emby.Server.Implementations.Plugins.PluginManager: Loaded assembly Jellyfin.Plugin.ProjectA, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null from /config/plugins/Project A_0.1.0.0/Jellyfin.Plugin.ProjectA.dll
-[08:56:53.589] [INF] [4] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: Project A 0.1.0.0
-[08:57:04.766] [INF] [20] Jellyfin.Plugin.ProjectA.Web.ScriptInjectionStartupFilter: Project A: added its script to the web page (request-time injection).
-[08:57:04.852] [INF] [16] Jellyfin.Plugin.ProjectA.Data.SocialStore: Project A: database ready at /config/plugins/configurations/ProjectA/social.db (schema 2)
+[09:03:19.577] [INF] [7] Emby.Server.Implementations.Plugins.PluginManager: Loaded assembly Jellyfin.Plugin.ProjectA, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null from /config/plugins/Project A_0.1.0.0/Jellyfin.Plugin.ProjectA.dll
+[09:03:21.893] [INF] [7] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: Project A 0.1.0.0
+[09:03:33.991] [INF] [6] Jellyfin.Plugin.ProjectA.Web.ScriptInjectionStartupFilter: Project A: added its script to the web page (request-time injection).
+[09:03:34.077] [INF] [20] Jellyfin.Plugin.ProjectA.Data.SocialStore: Project A: database ready at /config/plugins/configurations/ProjectA/social.db (schema 2)

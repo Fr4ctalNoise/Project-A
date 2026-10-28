@@ -2,32 +2,32 @@
   "Posts": [
     {
       "Id": 12,
-      "AuthorId": "b135bc99ec694cff99d149eecce2efb0",
+      "AuthorId": "476fc51296974fd58619d8d2008c40ea",
       "AuthorName": "ci-alice",
       "AuthorHasImage": false,
       "Kind": "status",
       "Body": "burst 7",
-      "CreatedAt": "2026-10-28T08:57:06.399+00:00",
+      "CreatedAt": "2026-10-28T09:03:36.079+00:00",
       "CanDelete": false
     },
     {
       "Id": 11,
-      "AuthorId": "b135bc99ec694cff99d149eecce2efb0",
+      "AuthorId": "476fc51296974fd58619d8d2008c40ea",
       "AuthorName": "ci-alice",
       "AuthorHasImage": false,
       "Kind": "status",
       "Body": "burst 6",
-      "CreatedAt": "2026-10-28T08:57:06.383+00:00",
+      "CreatedAt": "2026-10-28T09:03:36.059+00:00",
       "CanDelete": false
     },
     {
       "Id": 10,
-      "AuthorId": "b135bc99ec694cff99d149eecce2efb0",
+      "AuthorId": "476fc51296974fd58619d8d2008c40ea",
       "AuthorName": "ci-alice",
       "AuthorHasImage": false,
       "Kind": "status",
       "Body": "burst 5",
-      "CreatedAt": "2026-10-28T08:57:06.367+00:00",
+      "CreatedAt": "2026-10-28T09:03:36.037+00:00",
       "CanDelete": false
     }
   ],
