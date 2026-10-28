@@ -76,7 +76,7 @@ public sealed class PostsController : ControllerBase
             return BadRequest(new ErrorResponse("before_invalid"));
         }
 
-        var authors = _users.VisibleAuthors(isAdmin);
+        var authors = _users.VisibleAuthors(userId, isAdmin);
         var rows = _posts.ListFeed(authors.Keys.ToList(), before, size);
         var posts = rows.Select(r => View(r, authors[r.AuthorId], userId, isAdmin)).ToList();
 
@@ -108,10 +108,8 @@ public sealed class PostsController : ControllerBase
             return BadRequest(new ErrorResponse(error));
         }
 
-        // The author must still be visible to themselves (a hidden account can post, but its
-        // posts only show to admins). Look the name up the same way the feed does.
-        var everyone = _users.VisibleAuthors(viewerIsAdministrator: true);
-        if (!everyone.TryGetValue(userId, out var author))
+        var author = _users.Find(userId);
+        if (author is null)
         {
             return Unauthorized(); // the account vanished between the gate and here
         }

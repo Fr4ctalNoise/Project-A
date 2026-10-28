@@ -242,19 +242,40 @@ public sealed class PostsControllerTests : IDisposable
     }
 
     [Fact]
-    public void Posts_by_hidden_and_disabled_users_show_only_to_admins_and_deleted_users_to_no_one()
+    public void Who_shows_in_the_feed_with_the_hidden_users_setting_off_and_on()
     {
         var visible = Create(Alice, "visible");
-        var hidden = Create(Hidden, "hidden");
+        var hidden = Create(Hidden, "hidden from the login screen");
         var disabled = _posts.CreateStatus(Disabled, "posted before being disabled", _clock.Now).Id;
         _users.Add(Deleted, "deleted");
         var deleted = Create(Deleted, "posted before being deleted");
         _users.Remove(Deleted);
 
-        Assert.Equal(new[] { visible }, Feed(Bob).Posts.Select(p => p.Id));
-        Assert.Equal(new[] { visible }, Feed(Hidden).Posts.Select(p => p.Id)); // hidden users don't see their own either
+        // Default (setting off): login-screen-hidden users show; disabled ones only to admins.
+        Assert.Equal(new[] { hidden, visible }, Feed(Bob).Posts.Select(p => p.Id));
         Assert.Equal(new[] { disabled, hidden, visible }, Feed(Admin, admin: true).Posts.Select(p => p.Id));
+
+        // Setting on: hidden users' posts leave ordinary users' feeds, but not their own.
+        _users.HideHidden = true;
+        Assert.Equal(new[] { visible }, Feed(Bob).Posts.Select(p => p.Id));
+        Assert.Equal(new[] { hidden, visible }, Feed(Hidden).Posts.Select(p => p.Id));
+        Assert.Equal(new[] { disabled, hidden, visible }, Feed(Admin, admin: true).Posts.Select(p => p.Id));
+
+        // A deleted account's posts show to no one.
         Assert.DoesNotContain(Feed(Admin, admin: true).Posts, p => p.Id == deleted);
+    }
+
+    /// <summary>
+    /// Reproduces the bug the live test found (CI run 40654889256): Jellyfin hides new users
+    /// from the login screen by default, and the first version left such a user's own post out
+    /// of their own feed straight after posting it.
+    /// </summary>
+    [Fact]
+    public void Authors_always_see_their_own_posts()
+    {
+        _users.HideHidden = true;
+        var id = Create(Hidden, "my own post");
+        Assert.Equal(new[] { id }, Feed(Hidden).Posts.Select(p => p.Id));
     }
 
     [Fact]
@@ -409,18 +430,23 @@ public sealed class PostsControllerTests : IDisposable
         public override DateTimeOffset GetUtcNow() => Now;
     }
 
+    /// <summary>A user list in memory, applying the real <see cref="AuthorVisibility"/> rule.</summary>
     private sealed class FakeUsers : IUserDirectory
     {
         private readonly Dictionary<Guid, (AuthorInfo Info, bool Hidden, bool Disabled)> _all = [];
+
+        public bool HideHidden { get; set; }
 
         public void Add(Guid id, string name, bool hasImage = false, bool hidden = false, bool disabled = false) =>
             _all[id] = (new AuthorInfo(id, name, hasImage), hidden, disabled);
 
         public void Remove(Guid id) => _all.Remove(id);
 
-        public IReadOnlyDictionary<Guid, AuthorInfo> VisibleAuthors(bool viewerIsAdministrator) =>
+        public IReadOnlyDictionary<Guid, AuthorInfo> VisibleAuthors(Guid viewerId, bool viewerIsAdministrator) =>
             _all.Values
-                .Where(u => viewerIsAdministrator || (!u.Hidden && !u.Disabled))
+                .Where(u => AuthorVisibility.CanSee(u.Info.Id, u.Disabled, u.Hidden, viewerId, viewerIsAdministrator, HideHidden))
                 .ToDictionary(u => u.Info.Id, u => u.Info);
+
+        public AuthorInfo? Find(Guid userId) => _all.TryGetValue(userId, out var u) ? u.Info : null;
     }
 }

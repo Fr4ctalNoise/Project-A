@@ -6,7 +6,7 @@
             <form id="projectAConfigForm">
                 <div class="verticalSection">
                     <h2 class="sectionTitle">Project A</h2>
-                    <p>The social feed is in development. This page will gain settings as features arrive.</p>
+                    <p>The social feed is in development. This page gains settings as features arrive.</p>
                 </div>
 
                 <div class="checkboxContainer checkboxContainer-withDescription">
@@ -17,6 +17,17 @@
                     <div class="fieldDescription checkboxFieldDescription">
                         Emergency switch. Jellyfin's web page is served without Project A's script, so its button and page disappear.
                         Takes effect on the next page load (press Ctrl+F5).
+                    </div>
+                </div>
+
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label class="emby-checkbox-label">
+                        <input id="hidePostsFromHiddenUsers" name="hidePostsFromHiddenUsers" type="checkbox" is="emby-checkbox" />
+                        <span>Hide posts by users hidden from the login screen</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">
+                        Off by default, because Jellyfin hides new users from the login screen unless you untick it for them.
+                        Administrators and the author still see these posts. Disabled users' posts are always hidden from everyone but administrators.
                     </div>
                 </div>
 
@@ -39,6 +50,7 @@
                 Dashboard.showLoadingMsg();
                 ApiClient.getPluginConfiguration(pluginId).then(function (config) {
                     page.querySelector('#disableScriptInjection').checked = config.DisableScriptInjection === true;
+                    page.querySelector('#hidePostsFromHiddenUsers').checked = config.HidePostsFromHiddenUsers === true;
                     Dashboard.hideLoadingMsg();
                 });
             });
@@ -48,6 +60,7 @@
                 Dashboard.showLoadingMsg();
                 ApiClient.getPluginConfiguration(pluginId).then(function (config) {
                     config.DisableScriptInjection = page.querySelector('#disableScriptInjection').checked;
+                    config.HidePostsFromHiddenUsers = page.querySelector('#hidePostsFromHiddenUsers').checked;
                     ApiClient.updatePluginConfiguration(pluginId, config).then(function (result) {
                         Dashboard.processPluginConfigurationUpdateResult(result);
                     });

@@ -16,4 +16,13 @@ public sealed class PluginConfiguration : BasePluginConfiguration
     /// Project A's button and page disappear, while the server side keeps running.
     /// </summary>
     public bool DisableScriptInjection { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether posts by users hidden from the login screen are
+    /// left out of the feed for everyone except administrators and the author.
+    /// Off by default: Jellyfin hides every new user from the login screen unless told
+    /// otherwise, so "hidden" usually says nothing about whether someone wants to be seen
+    /// (decided 2026-10-28; Jellyfin Enhanced's equivalent setting is on by default).
+    /// </summary>
+    public bool HidePostsFromHiddenUsers { get; set; }
 }

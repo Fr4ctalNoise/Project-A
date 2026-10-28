@@ -397,17 +397,34 @@ def run_post_checks(srv, admin, alice, alice_id, new_user, out):
     s, page = feed(admin)
     check("posts: none of the refused requests stored anything", ids(page) == [first], f"{ids(page)}")
 
-    # Who shows in the feed: hidden and disabled authors only to admins.
+    # Who shows in the feed. Jellyfin hides every new user from the login screen by default
+    # (ci-alice included), so make ci-alice explicitly visible and ci-hidden explicitly hidden.
+    check("posts: ci-alice not hidden, ci-hidden hidden (policy set)",
+          set_policy(alice_id, IsHidden=False))
     hidden, hidden_id, _ = new_user("ci-hidden")
-    s, _, h = post(hidden, "posted by a hidden user")
+    set_policy(hidden_id, IsHidden=True)
+    s, _, h = post(hidden, "posted by a user hidden from the login screen")
     carol, carol_id, _ = new_user("ci-carol")
     s2, _, c = post(carol, "posted before being disabled")
     check("posts: hidden and soon-disabled users can post", s == 201 and s2 == 201, f"{s} {s2}")
-    check("posts: set ci-hidden hidden and ci-carol disabled", set_policy(hidden_id, IsHidden=True) and set_policy(carol_id, IsDisabled=True))
+    check("posts: ci-carol disabled", set_policy(carol_id, IsDisabled=True))
     s, page = feed(bob)
-    check("posts: hidden and disabled authors left out for ordinary users", ids(page) == [first], f"{ids(page)}")
+    check("posts: setting off (default): login-screen-hidden authors show, disabled ones don't", ids(page) == [h["id"], first], f"{ids(page)}")
     s, page = feed(admin)
-    check("posts: admins still see them", ids(page) == [c["id"], h["id"], first], f"{ids(page)}")
+    check("posts: admins see everyone, disabled authors included", ids(page) == [c["id"], h["id"], first], f"{ids(page)}")
+
+    s, _, conf = srv.call("GET", f"/Plugins/{PLUGIN_GUID}/Configuration", token=admin)
+    conf["HidePostsFromHiddenUsers"] = True
+    s, _, _ = srv.call("POST", f"/Plugins/{PLUGIN_GUID}/Configuration", token=admin, body=conf)
+    check("posts: 'hide posts by hidden users' setting saved", s in (200, 204), str(s))
+    s, page = feed(bob)
+    check("posts: setting on: hidden authors left out for ordinary users", ids(page) == [first], f"{ids(page)}")
+    s, page = feed(hidden)
+    check("posts: setting on: a hidden author still sees their own post", ids(page) == [h["id"], first], f"{ids(page)}")
+    s, page = feed(admin)
+    check("posts: setting on: admins still see everyone", ids(page) == [c["id"], h["id"], first], f"{ids(page)}")
+    conf["HidePostsFromHiddenUsers"] = False
+    srv.call("POST", f"/Plugins/{PLUGIN_GUID}/Configuration", token=admin, body=conf)
 
     # Paging through the real API.
     s, p1 = feed(admin, limit=2)
