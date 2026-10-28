@@ -50,14 +50,17 @@ try {
 
     // Sign in through the real form.
     await page.goto(`${creds.base}/web/#/login`, { waitUntil: 'networkidle2' });
-    await page.waitForSelector('.btnManual, .manualLoginForm', { timeout: 60000 });
-    if (await page.$eval('.manualLoginForm', (f) => f.classList.contains('hide')).catch(() => true)) {
-        await page.click('.btnManual');
+    // Jellyfin keeps earlier pages in the document (hidden), so a second copy of the
+    // login page may exist: always act on the visible one.
+    const V = '.page:not(.hide) ';
+    await page.waitForSelector(`${V}.manualLoginForm, ${V}.btnManual`, { timeout: 60000 });
+    if (await page.$eval(`${V}.manualLoginForm`, (f) => f.classList.contains('hide')).catch(() => true)) {
+        await page.click(`${V}.btnManual`);
     }
-    await page.waitForSelector('#txtManualName', { visible: true });
-    await page.type('#txtManualName', creds.user);
-    await page.type('#txtManualPassword', creds.password);
-    await page.$eval('.manualLoginForm', (f) => f.requestSubmit());
+    await page.waitForSelector(`${V}#txtManualName`, { visible: true });
+    await page.type(`${V}#txtManualName`, creds.user);
+    await page.type(`${V}#txtManualPassword`, creds.password);
+    await page.$eval(`${V}.manualLoginForm`, (f) => f.requestSubmit());
 
     const appeared = await page.waitForSelector('#projectA-feed-button', { timeout: 60000 }).then(() => true, () => false);
     check('signed in: Activity Feed button appears', appeared);

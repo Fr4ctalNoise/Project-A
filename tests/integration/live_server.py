@@ -222,7 +222,7 @@ def run_checks(srv, args, config, out):
 
     # Record the SQLite native library the server ships (Project A uses the server's copy).
     deps = docker("exec", "projecta-live", "sh", "-c",
-                  "grep -o -E '\"SQLitePCLRaw\\.(lib\\.e_sqlite3|core|bundle_e_sqlite3)/[0-9.]+\"' /usr/lib/jellyfin/bin/jellyfin.deps.json | sort -u",
+                  "f=$(find / -xdev -name 'jellyfin.deps.json' 2>/dev/null | head -1); grep -o -E '\"SQLitePCLRaw\\.(lib\\.e_sqlite3|core|bundle_e_sqlite3)/[0-9.]+\"' \"$f\" | sort -u",
                   check_ok=False).stdout.split()
     check("server's SQLite libraries recorded (information)", True, " ".join(deps) or "not found")
 
