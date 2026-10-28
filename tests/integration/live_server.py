@@ -220,6 +220,12 @@ def run_checks(srv, args, config, out):
     je = next((p for p in plugins if p.get("Name") == "Jellyfin Enhanced"), None)
     check("Jellyfin Enhanced loaded and Active", je is not None and je.get("Status") == "Active", json.dumps(je and {k: je.get(k) for k in ("Version", "Status")}))
 
+    # Record the SQLite native library the server ships (Project A uses the server's copy).
+    deps = docker("exec", "projecta-live", "sh", "-c",
+                  "grep -o -E '\"SQLitePCLRaw\\.(lib\\.e_sqlite3|core|bundle_e_sqlite3)/[0-9.]+\"' /usr/lib/jellyfin/bin/jellyfin.deps.json | sort -u",
+                  check_ok=False).stdout.split()
+    check("server's SQLite libraries recorded (information)", True, " ".join(deps) or "not found")
+
     # Injection into the real built page, alongside Jellyfin Enhanced.
     s, headers, page = srv.call("GET", "/web/", raw=True)
     html = page.decode("utf-8", "replace")

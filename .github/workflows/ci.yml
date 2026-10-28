@@ -19,6 +19,12 @@ on:
 permissions:
   contents: read
 
+# Explicit bash = bash -eo pipefail. Without it a failing command piped into tee would
+# still count as success (this happened in the first runs).
+defaults:
+  run:
+    shell: bash
+
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true

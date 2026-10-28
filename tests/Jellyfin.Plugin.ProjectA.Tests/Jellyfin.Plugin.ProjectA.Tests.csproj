@@ -18,6 +18,10 @@
     <PackageReference Include="Jellyfin.Controller" Version="$(JellyfinPackageVersion)" />
     <PackageReference Include="Jellyfin.Model" Version="$(JellyfinPackageVersion)" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="$(SqlitePackageVersion)" />
+    <!-- Microsoft.Data.Sqlite 10.0.0 brings SQLitePCLRaw 2.1.11, which has a known high-severity
+         vulnerability (GHSA-2m69-gcr7-jv3q); 2.1.12 is unaffected. Tests only: the plugin itself
+         ships no SQLite and uses the server's. -->
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.12" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="10.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
     <PackageReference Include="xunit" Version="2.*" />
