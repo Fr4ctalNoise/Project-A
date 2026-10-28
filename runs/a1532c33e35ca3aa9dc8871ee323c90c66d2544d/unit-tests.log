@@ -1,0 +1,94 @@
+  Determining projects to restore...
+  Restored /home/runner/work/Project-A/Project-A/tests/Jellyfin.Plugin.ProjectA.Tests/Jellyfin.Plugin.ProjectA.Tests.csproj (in 914 ms).
+  1 of 2 projects are up-to-date for restore.
+  Jellyfin.Plugin.ProjectA -> /home/runner/work/Project-A/Project-A/src/Jellyfin.Plugin.ProjectA/bin/Release/net10.0/Jellyfin.Plugin.ProjectA.dll
+  Jellyfin.Plugin.ProjectA.Tests -> /home/runner/work/Project-A/Project-A/tests/Jellyfin.Plugin.ProjectA.Tests/bin/Release/net10.0/Jellyfin.Plugin.ProjectA.Tests.dll
+Test run for /home/runner/work/Project-A/Project-A/tests/Jellyfin.Plugin.ProjectA.Tests/bin/Release/net10.0/Jellyfin.Plugin.ProjectA.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.14)
+[xUnit.net 00:00:00.23]   Discovering: Jellyfin.Plugin.ProjectA.Tests
+[xUnit.net 00:00:00.27]   Discovered:  Jellyfin.Plugin.ProjectA.Tests
+[xUnit.net 00:00:00.29]   Starting:    Jellyfin.Plugin.ProjectA.Tests
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Truncated_database_is_reported_not_repaired [243 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Database_uses_wal_journal_mode [28 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.RepositoryTests.Changelog_top_release_matches_the_build_version [2 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.RepositoryTests.Licence_files_listed_in_the_notices_exist [1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.RepositoryTests.Plugin_id_is_the_same_everywhere [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.RepositoryTests.Embedded_script_is_the_source_file [5 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.RepositoryTests.Adapted_files_name_their_source_and_licence [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.RepositoryTests.Embedded_script_never_uses_innerHTML_or_puts_tokens_in_urls [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.RepositoryTests.Every_source_file_declares_its_licence [4 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialAccessTests.Ordinary_enabled_user_is_allowed [2 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialAccessTests.Disabled_administrator_is_refused_too [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialAccessTests.Api_key_is_allowed_on_the_health_check [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialAccessTests.Disabled_user_is_refused_with_403 [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialAccessTests.Status_codes_are_401_and_403_and_allow_has_none [2 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialAccessTests.Ordinary_user_is_refused_on_the_health_check [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialAccessTests.No_token_is_refused_with_401 [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialAccessTests.Token_of_a_deleted_user_is_refused_with_401 [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialAccessTests.Api_key_is_refused_on_normal_endpoints [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialAccessTests.Api_key_is_refused_on_admin_endpoints_that_do_not_accept_keys [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialAccessTests.Administrator_is_allowed_on_the_health_check [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialAccessTests.Safety_properties_hold_for_every_combination [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.EndpointAccessTests.Every_endpoint_requires_sign_in_and_the_social_check_unless_on_the_anonymous_allow_list [370 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.EndpointAccessTests.Endpoint_list_is_written_for_the_live_server_test [54 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.EndpointAccessTests.Server_test_endpoint_list_matches_the_code [1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.EndpointAccessTests.Endpoints_are_found [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.EndpointAccessTests.Only_allow_listed_endpoints_accept_api_keys [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.EndpointAccessTests.Allow_lists_name_real_endpoints [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Head_requests_pass_straight_through [394 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Only_the_web_app_shell_is_handled(path: "/Social/script", expected: False) [1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Only_the_web_app_shell_is_handled(path: "", expected: False) [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Only_the_web_app_shell_is_handled(path: "/web", expected: True) [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Only_the_web_app_shell_is_handled(path: "/webx", expected: False) [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Only_the_web_app_shell_is_handled(path: "/web/index.html", expected: True) [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Only_the_web_app_shell_is_handled(path: "/web/", expected: True) [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Only_the_web_app_shell_is_handled(path: null, expected: False) [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Only_the_web_app_shell_is_handled(path: "/WEB/INDEX.HTML", expected: True) [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Only_the_web_app_shell_is_handled(path: "/web/index.html.bak", expected: False) [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Only_the_web_app_shell_is_handled(path: "/jellyfin/web/index.html", expected: True) [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Only_the_web_app_shell_is_handled(path: "/jellyfin/web/", expected: True) [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Only_the_web_app_shell_is_handled(path: "/web/main.jellyfin.bundle.js", expected: False) [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Running_twice_does_not_inject_twice [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Uses_the_last_body_close_and_ignores_case [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Non_html_and_non_200_responses_pass_through_unchanged(code: 304, type: "text/html") [16 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Non_html_and_non_200_responses_pass_through_unchanged(code: 302, type: "text/html") [15 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Non_html_and_non_200_responses_pass_through_unchanged(code: 500, type: "text/html") [1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Non_html_and_non_200_responses_pass_through_unchanged(code: 200, type: "application/json") [1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.A_hostile_version_string_cannot_break_out_of_the_tag [1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Page_without_body_close_is_left_alone [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Concurrent_health_checks_all_succeed [517 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Problem_codes_never_carry_exception_text [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Database_from_a_newer_project_a_is_refused_and_not_modified [5 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Sqlite_errors_map_to_fixed_codes(code: 5, expected: "locked") [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Sqlite_errors_map_to_fixed_codes(code: 26, expected: "corrupt") [6 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Sqlite_errors_map_to_fixed_codes(code: 11, expected: "corrupt") [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Sqlite_errors_map_to_fixed_codes(code: 8, expected: "not_writable") [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Sqlite_errors_map_to_fixed_codes(code: 6, expected: "locked") [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Sqlite_errors_map_to_fixed_codes(code: 13, expected: "not_writable") [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Sqlite_errors_map_to_fixed_codes(code: 14, expected: "not_writable") [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Sqlite_errors_map_to_fixed_codes(code: 1, expected: "error") [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Restart_reuses_the_existing_file_without_resetting_it [10 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Read_only_folder_is_reported_as_not_writable [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Corrupt_file_is_reported_and_left_byte_for_byte_untouched [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Path_with_spaces_and_non_ascii_characters_works [4 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Huge_page_is_handled [73 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Tag_is_relative_deferred_and_versioned [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Other_paths_are_never_buffered_or_touched [4 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.A_failure_in_the_static_handler_is_rethrown_not_served_half_written [6 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Concurrent_requests_each_get_exactly_one_tag [9 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.A_leftover_on_disk_tag_counts_as_already_injected [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Empty_page_is_left_alone [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Upstream_page_gets_the_tag_once_just_before_body_close [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Index_is_served_with_the_tag_correct_length_and_no_stale_validators [3 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Coexists_with_jellyfin_enhanced_in_either_order [< 1 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.ScriptInjectionTests.Compression_and_range_requests_are_neutralised_before_the_static_handler [2 ms]
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.A_lock_held_past_the_timeout_is_reported_as_locked [5 s]
+[xUnit.net 00:00:06.16]   Finished:    Jellyfin.Plugin.ProjectA.Tests
+  Passed Jellyfin.Plugin.ProjectA.Tests.SocialStoreTests.Fresh_install_creates_the_folder_and_database_and_reports_ok [5 ms]
+Results File: /home/runner/work/Project-A/Project-A/results/unit/unit.trx
+
+Test Run Successful.
+Total tests: 76
+     Passed: 76
+ Total time: 6.5088 Seconds

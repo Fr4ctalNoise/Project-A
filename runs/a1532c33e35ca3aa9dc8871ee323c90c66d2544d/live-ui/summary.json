@@ -1,0 +1,81 @@
+{
+  "passed": 15,
+  "failed": 0,
+  "results": [
+    {
+      "check": "signed out: no Activity Feed button on the login page",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "signed out: #/social shows no Project A page",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "login form shown",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "signed in: Activity Feed button appears",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "button is inside Jellyfin Enhanced's group",
+      "ok": true,
+      "detail": "{\"parent\":\"je-header-buttons-group\",\"overflowed\":false,\"label\":\"Activity Feed\",\"icon\":\"dynamic_feed\"}"
+    },
+    {
+      "check": "button label and icon",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "full width: button visible (not folded)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "narrowing the window: the button folds into More",
+      "ok": true,
+      "detail": "folded at 1000 px"
+    },
+    {
+      "check": "More menu lists \"Activity Feed\"",
+      "ok": true,
+      "detail": "Random item, Activity Feed"
+    },
+    {
+      "check": "choosing it opens #/social with the placeholder page",
+      "ok": true,
+      "detail": "{\"hash\":\"#/social\",\"visible\":true,\"othersVisible\":0,\"inMain\":true}"
+    },
+    {
+      "check": "the previous page is hidden while ours shows",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "the page sits in Jellyfin's page area",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "leaving restores Jellyfin's page",
+      "ok": true,
+      "detail": "{\"ours\":true,\"home\":true}"
+    },
+    {
+      "check": "no problems reported by the script",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "no page errors or Project A console warnings",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
